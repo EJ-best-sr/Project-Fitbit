@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import numpy as np
 
-conn = sqlite3.connect("/Users/elvirabest/Downloads/fitbit_database.db")
+conn = sqlite3.connect("fitbit_database.db")
 
 def plot_heart_rate_and_intensity(user_id):
     user_id = int(user_id)
@@ -37,5 +37,3 @@ def plot_heart_rate_and_intensity(user_id):
     ax.legend()
     plt.tight_layout()
     plt.show()
-
-plot_heart_rate_and_intensity(2022484408.0)
