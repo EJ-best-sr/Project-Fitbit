@@ -1,7 +1,8 @@
 # The plan and task distributions 
 
 ## Important info 
-We decided for now to use the `viridis` color palette for the plots from matplotlib (also available in seaborn). 
+1. We decided for now to use the `viridis` color palette for the plots from matplotlib (also available in seaborn). 
+2. You can check out the `main_example.py` file under `script/part1`. Download it and run it (make sure you have all the files from the `part1` folder downloaded and saved in the same folder as well as the `daily_acivity.csv`. As you can see, everything is in *viridis* color palette so far.
 
 ---
 
