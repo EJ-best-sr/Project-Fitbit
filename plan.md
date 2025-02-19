@@ -1,6 +1,11 @@
 # The plan and task distributions 
 
-## Part 1
+## Important info 
+We decided for now to use the `viridis` color palette for the plots from matplotlib (also available in seaborn). 
+
+---
+
+### Part 1
 
 - [x] load_data(file_path) - elvira
 
@@ -14,13 +19,13 @@
 
 - [x] plot_regression_line(df, user_id) - anastasiya
 
-- [x] some other creative things? - Ha
+- [] some other creative things? - Ha
 
-## Part 2
+### Part 2
 
 - [ ] We need to add discriprions for our functions in the `README.md` file.
 
-## Part 3
+### Part 3
 
 
 
