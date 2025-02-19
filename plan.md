@@ -30,7 +30,7 @@
 
 - [ ] first two bullets - anastasiya
 - [ ] next two - kseniya
-- [ ] next two - elvira
+- [x] next two - elvira
 - [ ] final one - ha
 - [ ] creative part
 
