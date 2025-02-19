@@ -20,13 +20,19 @@
 
 - [x] plot_regression_line(df, user_id) - anastasiya
 
-- [] some other creative things? - Ha
+- [ ] some other creative things? - Ha
 
 ### Part 2
 
 - [ ] We need to add discriprions for our functions in the `README.md` file.
 
 ### Part 3
+
+- [ ] first two bullets - anastasiya
+- [ ] next two - kseniya
+- [ ] next two - elvira
+- [ ] final one - ha
+- [ ] creative part
 
 
 
