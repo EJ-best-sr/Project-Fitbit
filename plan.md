@@ -29,7 +29,7 @@
 ### Part 3
 
 - [ ] first two bullets - anastasiya
-- [ ] next two - kseniya
+- [x] next two - kseniya
 - [x] next two - elvira
 - [ ] final one - ha
 - [ ] creative part
