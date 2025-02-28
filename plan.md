@@ -34,5 +34,25 @@
 - [ ] final one - ha
 - [ ] creative part
 
+### Part 4
+
+- [ ] workout frequency by the day of the week per user - anastasiya
+- [x] calories burnt by one user by day
+- [x] heart rate and intensity for a user
+- [ ] total steps for a user per day function(id, start_date, end_date) - elvira
+- [ ] total distance for a user per day function(id, start_date, end_date) - elvira
+- [ ] activity minutes (3 categories of intensity) for a user per day function(id, start_date, end_date) - anastasiya
+- [ ] total screen time for a user per day function(id, start_date, end_date) - anastasiya
+- [ ] heart rate analysis for one user (RMSSD, SDNN, PNN50) - elvira
+- [ ] 4-hour blocks steps f(user, date) - elvira
+- [ ] sleep numerical analysis for one user: average hours of sleep (take 12 till 12 as for avg it doesnt matter) - kseniya
+- [ ] sleep: plot hours of sleep for a user for the whole time - kseniya
+- [ ] avgs between the users: weight, bmi, total steps per day, total distance per day, calories per day, total activity minutes per day, avg minutes of sleep per day. - ha
+- [ ] weather vs steps/intensity/calories numerical and/or graphical analysis - ha
+
+
+
+
+
 
 
