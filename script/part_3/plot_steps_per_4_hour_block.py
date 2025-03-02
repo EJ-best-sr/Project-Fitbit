@@ -4,9 +4,24 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-connection = sqlite3.connect("fitbit_database.db")
+# Database connection
+connection = sqlite3.connect("data/fitbit_database.db")
 
 def plot_steps_per_4_hour_block():
+    """
+    Plots the average steps taken per 4-hour time block.
+
+    Data is retrieved from an SQLite database table named 'hourly_steps'.
+    The function processes the step data, categorizes it into 4-hour blocks,
+    calculates the average steps taken for each block, and visualizes it
+    using a bar chart.
+
+    Parameters:
+        None
+
+    Returns:
+        None (Displays a matplotlib bar chart)
+    """
     query = "SELECT ActivityHour, StepTotal FROM hourly_steps"
     hourly_steps = pd.read_sql_query(query, connection)
     hourly_steps["ActivityHour"] = pd.to_datetime(hourly_steps["ActivityHour"], format="%m/%d/%Y %I:%M:%S %p", errors="coerce")
