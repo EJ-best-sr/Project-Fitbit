@@ -113,14 +113,3 @@ Retrieves the 'weight_log' table from the database, replaces missing values in t
 
 **Returns:**
 - `pd.DataFrame`: A copy of the 'weight_log' table with updated 'WeightKg' values where NaN values are replaced by the conversion from 'WeightPounds' to 'WeightKg'.
-
-#### `plot_distance_per_user`:
-Visualizes the total distance traveled by each user from a given dataset by creating a bar plot with bins corresponding to the unique users in the database.
-
-**Parameters:**
-- `df` (pd.DataFrame): The Pandas dataframe of the `daily_activity` table. It must include the following columns:
-  - `Id`: Unique identifier for each user.
-  - `TotalDistance`: The total distance traveled by the user.
-
-**Returns:**
-- `None`: Displays a bar plot of total distance per user.
