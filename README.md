@@ -18,4 +18,98 @@ Visualizes the total distance traveled by each user from a given dataset by crea
 **Parameters:**
 - `df`: The Pandas dataframe of the `daily_activity` table. It must include the following columns:
   - `Id`: Unique identifier for each user.
-  - `TotalDistance`: The total distance traveled by the user. 
+  - `TotalDistance`: The total distance traveled by the user.
+
+#### `load_data`:
+Loads activity data from a CSV file and converts the 'ActivityDate' column to datetime format.
+
+**Parameters:**
+- `file_path` (str): The path to the CSV file containing activity data.
+
+**Returns:**
+- `pd.DataFrame`: A DataFrame containing the loaded activity data with 'ActivityDate' as a datetime object.
+
+#### `plot_calories_per_day`:
+Plots the daily calories burnt for a specific user within an optional date range.
+
+**Parameters:**
+- `df` (pd.DataFrame): The DataFrame containing user activity data.
+- `user_id` (int): The ID of the user whose calories will be plotted.
+- `start_date` (str, optional): The start date for filtering data (YYYY-MM-DD format).
+- `end_date` (str, optional): The end date for filtering data (YYYY-MM-DD format).
+
+**Returns:**
+- `None`: Displays a matplotlib line chart.
+
+## Part 3
+
+
+#### `plot_calories_per_4_hour_block`:
+Plots the average calories burnt per 4-hour time block.
+
+**Parameters:**
+- `None`
+
+**Returns:**
+- `None`: Displays a matplotlib bar chart.
+
+#### `visualize_heart_rate_and_intensity`:
+Visualizes heart rate and activity intensity for a given user over 8-hour intervals.
+
+**Parameters:**
+- `user_id` (int): The ID of the user whose heart rate and activity data will be analyzed.
+
+**Returns:**
+- `None`: Displays a matplotlib line chart comparing heart rate and activity intensity.
+
+#### `plot_sleep_per_4_hour_block`:
+Plots the average minutes of sleep per 4-hour time block.
+
+**Parameters:**
+- `None`
+
+**Returns:**
+- `None`: Displays a matplotlib bar chart.
+
+#### `plot_steps_per_4_hour_block`:
+Plots the average steps taken per 4-hour time block.
+
+**Parameters:**
+- `None`
+
+**Returns:**
+- `None`: Displays a matplotlib bar chart.
+
+## Part 4
+
+
+#### `plot_total_distance_per_day`:
+Plots total distance per day for a given user within a specified date range.
+
+**Parameters:**
+- `user_id` (int): The ID of the user.
+- `start_date` (str): The start date in the format 'MM/DD/YYYY'.
+- `end_date` (str): The end date in the format 'MM/DD/YYYY'.
+
+**Returns:**
+- `None`: Displays a bar plot of total distance per day for the user.
+
+#### `plot_total_steps_per_day`:
+Plots total steps per day for a given user within a specified date range.
+
+**Parameters:**
+- `user_id` (int): The ID of the user.
+- `start_date` (str): The start date in the format 'MM/DD/YYYY'.
+- `end_date` (str): The end date in the format 'MM/DD/YYYY'.
+
+**Returns:**
+- `None`: Displays a bar plot of total steps per day for the user.
+
+#### `replace_missing_values_weight_log`:
+Retrieves the 'weight_log' table from the database, replaces missing values in the 'WeightKg' column with the equivalent weight in kilograms based on the 'WeightPounds' column, and returns a copy of the modified data without altering the original database.
+
+**Parameters:**
+- `None`
+
+**Returns:**
+- `pd.DataFrame`: A copy of the 'weight_log' table with updated 'WeightKg' values where NaN values are replaced by the conversion from 'WeightPounds' to 'WeightKg'.
