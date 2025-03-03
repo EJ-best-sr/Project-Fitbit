@@ -113,3 +113,22 @@ Retrieves the 'weight_log' table from the database, replaces missing values in t
 
 **Returns:**
 - `pd.DataFrame`: A copy of the 'weight_log' table with updated 'WeightKg' values where NaN values are replaced by the conversion from 'WeightPounds' to 'WeightKg'.
+
+#### `get_4_hour_sleep_blocks`
+Retrieves and plots the user's sleep data in 4-hour blocks (0-4 AM, 4-8 AM, 8-12 PM, 12-4 PM, etc.) for a specific date.
+
+**Parameters:**
+- `user_id (float)`: The user's ID.
+- `date (str)`: The date in "MM/DD/YYYY" format.
+
+**Returns:**
+- `pandas.DataFrame`: A DataFrame with 4-hour blocks and the total sleep minutes in each block.
+
+#### `heart_rate_analysis`
+Analyzes heart rate variability metrics (RMSSD, SDNN, PNN50) for a given user ID. This function calculates and returns various heart rate statistics based on the user's heart rate data.
+
+**Parameters:**
+- `user_id (int)`: The ID of the user whose heart rate data will be analyzed.
+
+**Returns:**
+- `pandas.DataFrame`: A DataFrame containing the user ID and the calculated heart rate variability metrics (RMSSD, SDNN, PNN50).
