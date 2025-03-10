@@ -42,7 +42,7 @@
 - [ ] total steps for a user per day function(id, start_date, end_date) - elvira
 - [ ] total distance for a user per day function(id, start_date, end_date) - elvira
 - [ ] activity minutes (3 categories of intensity) for a user per day function(id, start_date, end_date) - anastasiya
-- [ ] total screen time for a user per day function(id, start_date, end_date) - anastasiya
+- [ ] sedentary activity for a user per day function(id, start_date, end_date) - anastasiya
 - [ ] heart rate analysis for one user (RMSSD, SDNN, PNN50) - elvira
 - [ ] 4-hour blocks steps f(user, date) - elvira
 - [ ] sleep numerical analysis for one user: average hours of sleep (take 12 till 12 as for avg it doesnt matter) - kseniya
