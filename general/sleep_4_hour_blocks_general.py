@@ -51,16 +51,14 @@ def plot_sleep_per_4_hour_block():
         y="value",
         color="Color",
         color_discrete_map={"darkblue": "darkblue", "lightblue": "lightblue"},
-        labels={"value": "Average Minutes Asleep", "HourBlock": "Time Block"},
-        title="Average Minutes of Sleep per 4-Hour Block"
+        labels={"value": "Average Minutes Asleep", "HourBlock": "Time Block"}
     )
 
     fig.update_layout(
         bargap=0.4,
         showlegend=False,
         xaxis_title='Time Block', 
-        yaxis_title='Average Minutes Asleep',
-        title_x=0.5,
+        yaxis_title='Average Minutes Asleep'
     )
 
     hour_block_order = ["0-4am", "4-8am", "8-12pm", "12-4pm", "4-8pm", "8-0am"]
