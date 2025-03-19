@@ -194,7 +194,10 @@ if st.session_state.page == "General":
             st.subheader("Average Calories Burned per Total Steps")
             fig_bar, fig_box = avg_calories_per_step_bins(db_path)
             st.plotly_chart(fig_bar)
-        
+
+            fig = plot_calories_per_4_hour_block()
+            st.plotly_chart(fig)
+
         with col2:
             st.subheader("Workout Frequency by Day")
             fig = plot_workout_frequency_by_day(data)
@@ -203,6 +206,10 @@ if st.session_state.page == "General":
             st.subheader("Average Calories Burned per Total Steps: Box Plot")
             st.plotly_chart(fig_box)
 
+            fig = plot_sleep_per_4_hour_block()
+            st.plotly_chart(fig)
+
+
         with col3: 
             st.subheader("Box plot: Total Distance per Day of the Week")
             fig = investigate_total_distance_days(conn)
@@ -210,6 +217,9 @@ if st.session_state.page == "General":
 
             st.subheader("BMI Distribution")
             fig = plot_bmi_distribution(db_path)
+            st.plotly_chart(fig)
+
+            fig = plot_steps_per_4_hour_block()
             st.plotly_chart(fig)
 
 
