@@ -48,7 +48,6 @@ def plot_steps_and_distance(data, selected_user, start_date, end_date):
 
     # Update layout for better readability
     fig.update_layout(
-        title=f"Total Steps (Bars) and Total Distance (Line) per Day",
         xaxis_title='Date',
         yaxis_title='Total Steps / Distance (m)',
         barmode='group',
@@ -56,3 +55,4 @@ def plot_steps_and_distance(data, selected_user, start_date, end_date):
     )
     
     return fig
+
