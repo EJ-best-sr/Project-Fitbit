@@ -1,0 +1,11 @@
+streamlit
+pandas
+numpy
+scipy.stats
+matplotlib
+matplotlib.pyplot
+plotly
+plotly.express
+plotly.graph_objects
+statsmodels.api
+sqlite3
