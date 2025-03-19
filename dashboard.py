@@ -195,6 +195,7 @@ if st.session_state.page == "General":
             fig_bar, fig_box = avg_calories_per_step_bins(db_path)
             st.plotly_chart(fig_bar)
 
+            st.subheader("Average Calories Burnt per 4-Hour Block")
             fig = plot_calories_per_4_hour_block()
             st.plotly_chart(fig)
 
@@ -206,6 +207,7 @@ if st.session_state.page == "General":
             st.subheader("Average Calories Burned per Total Steps: Box Plot")
             st.plotly_chart(fig_box)
 
+            st.subheader("Average Minutes of Sleep per 4-Hour Block")
             fig = plot_sleep_per_4_hour_block()
             st.plotly_chart(fig)
 
@@ -219,6 +221,7 @@ if st.session_state.page == "General":
             fig = plot_bmi_distribution(db_path)
             st.plotly_chart(fig)
 
+            st.subheader("Average Steps per 4-Hour Block")
             fig = plot_steps_per_4_hour_block()
             st.plotly_chart(fig)
 
@@ -272,7 +275,7 @@ elif st.session_state.page == "User-Specific":
     st.write(f"Date Range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
 
     # Metrics (numerical summary)
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3, col4, col5, col6 = st.columns(6)
     with col1:
         st.markdown('<div class="metric-box">Average Distance<br><b>{:.2f} km</b></div>'.format(
             user_data['TotalDistance'].mean()), unsafe_allow_html=True)
@@ -285,13 +288,25 @@ elif st.session_state.page == "User-Specific":
     with col4:
         st.markdown('<div class="metric-box">Average Sedentary Minutes<br><b>{} min</b></div>'.format(
             calculate_user_statistics_sedentary(df_sleep_sed, selected_user, start_date, end_date)), unsafe_allow_html=True)
+    with col5:
+        if pd.isna(weight_log_df[weight_log_df.index == selected_user]['WeightKg'].mean()):
+            st.markdown('<div class="metric-box" style="color:red;">No Weight data</div>', unsafe_allow_html=True)
+        else:
+            st.markdown('<div class="metric-box">Average Weight<br><b>{:.1f} kg</b></div>'.format(weight_log_df[weight_log_df.index == selected_user]['WeightKg'].mean()), unsafe_allow_html=True)
+    with col6:
+        if pd.isna(weight_log_df[weight_log_df.index == selected_user]['Height'].mean()):
+            st.markdown('<div class="metric-box" style="color:red;">No Height data</div>', unsafe_allow_html=True)
+        else:
+            st.markdown('<div class="metric-box">Average Height<br><b>{:.2f} m</b></div>'.format(weight_log_df[weight_log_df.index == selected_user]['Height'].mean()), unsafe_allow_html=True)
+    
 
     # Plots
     col1, col2 = st.columns(2) 
 
     with col1:
-        st.subheader("Calories per Day")
-        st.line_chart(user_data.set_index('ActivityDate')['Calories'])
+        st.subheader("Total Steps (Bars) and Total Distance (Line) per Day")
+        fig = plot_steps_and_distance(data, selected_user, start_date, end_date)
+        st.plotly_chart(fig)
 
         st.subheader("Calories vs Steps Regression")
         fig = plot_regression_line(data, selected_user)
@@ -299,6 +314,24 @@ elif st.session_state.page == "User-Specific":
 
 
     with col2:
-        st.subheader("Total Distance per Day")
-        st.bar_chart(user_data.set_index('ActivityDate')['TotalDistance'])
+        st.subheader("Calories Burnt per Day")
+        fig = plot_calories_burnt(data, selected_user, start_date, end_date)
+        st.plotly_chart(fig)
+    
+        rmssd_info = "**RMSSD (Root Mean Square of Successive Differences)**: A measure of variability between heartbeats. Higher values indicate better recovery and adaptability."
+        sdnn_info = "**SDNN (Standard Deviation of NN intervals)**: Measures overall heart rate variability. Higher values indicate good cardiovascular health."
+        pnn50_info = "**PNN50 (Percentage of NN50)**: The percentage of consecutive heartbeats that differ by more than 50 ms. Higher values indicate greater variability."
+
+        result = heart_rate_analysis(selected_user)
+        if result is not None:
+            st.subheader(f"Heart rate analysis")
+            col1, col2, col3 = st.columns([3, 4, 3])
+            col1.metric("RMSSD", f"{result.loc[0, 'User Value']} ms", help=rmssd_info)
+            col2.metric("SDNN", f"{result.loc[1, 'User Value']} ms", help=sdnn_info)
+            col3.metric("PNN50", f"{result.loc[2, 'User Value']} %", help=pnn50_info)
+            st.write("Detailed Metrics:")
+            st.dataframe(result)
+
+        else:
+                    st.write("No heart data found for this user.")
 

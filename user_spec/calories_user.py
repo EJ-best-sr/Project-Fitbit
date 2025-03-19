@@ -29,8 +29,7 @@ def plot_calories_burnt(data, user_id, start_date, end_date):
         daily_calories, 
         x='ActivityDate', 
         y='Calories', 
-        labels={'Calories': 'Calories Burnt', 'ActivityDate': 'Date'},
-        title='Calories Burnt per Day'
+        labels={'Calories': 'Calories Burnt', 'ActivityDate': 'Date'}
     )
 
     fig.update_layout(

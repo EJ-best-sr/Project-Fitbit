@@ -42,8 +42,7 @@ def plot_steps_per_4_hour_block():
         y="StepTotal",
         color="Color",  # Use the color column
         color_discrete_map={"darkblue": "darkblue", "lightblue": "lightblue"},
-        labels={"StepTotal": "Average Steps", "HourBlock": "Time Block"},
-        title="Average Steps per 4-Hour Block"
+        labels={"StepTotal": "Average Steps", "HourBlock": "Time Block"}
     )
 
     # Update layout and appearance
@@ -51,8 +50,7 @@ def plot_steps_per_4_hour_block():
         bargap=0.4,  # Adjust bar gap
         showlegend=False,  # Hide the legend
         xaxis_title='Time Block', 
-        yaxis_title='Average Steps',
-        title_x=0.5,  # Center the title
+        yaxis_title='Average Steps'
     )
 
     # Optional: Ensure the x-axis is ordered correctly
