@@ -109,7 +109,7 @@ else:
 
 
 # Load the dataframes here
-data = load_data('/Users/kseniapiven/DEpython/fitbit/daily_acivity.csv')
+data = load_data('data/daily_acivity.csv')
 data['ActivityDate'] = pd.to_datetime(data['ActivityDate'])
 df_sleep_sed = load_and_process_data(db_path)
 df_sleep = load_and_process_sleepdata(db_path)
