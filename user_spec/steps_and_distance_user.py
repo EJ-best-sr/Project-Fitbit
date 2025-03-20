@@ -46,12 +46,23 @@ def plot_steps_and_distance(data, selected_user, start_date, end_date):
         marker=dict(symbol='circle')
     ))
 
+
     # Update layout for better readability
     fig.update_layout(
         xaxis_title='Date',
         yaxis_title='Total Steps / Distance (m)',
         barmode='group',
-        legend_title="Metrics"
+        legend_title="Metrics",
+        margin=dict(l=0, r=0, t=0, b=0), # update here the margins (especially the top one!)
+        legend=dict( # legend inside of the plot
+            x=0.98,  
+            y=0.92, 
+            xanchor='right',
+            yanchor='top', 
+            bgcolor='rgba(255, 255, 255, 0.5)',
+            bordercolor='rgba(0, 0, 0, 0.5)',
+            borderwidth=0.5
+        )
     )
     
     return fig
