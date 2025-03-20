@@ -8,7 +8,6 @@ import sqlite3
 
 module_dir = '/data' # this should be a directory where daily_acivity.csv is
 sys.path.append(module_dir)
-# db_path = os.path.join(os.path.dirname(__file__), "..", "fitbit_database.db")
 db_path = os.path.normpath("data/fitbit_database.db")
 
 from general import steps_4_hour_blocks_general
@@ -21,7 +20,7 @@ from user_spec.calories_steps_regression import plot_regression_line
 from general.plot_workout_frequency_by_day import plot_workout_frequency_by_day
 from general.sleep_regression_analysis import perform_regression_analysis
 from general.calories_vs_steps import calories_vs_steps_regression
-from user_spec.avg_calories_per_step_bins import avg_calories_per_step_bins
+from general.avg_calories_per_step_bins import avg_calories_per_step_bins
 from general.investigate_total_distance_days import investigate_total_distance_days
 from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
 from general.pie_chart_minutes import plot_activity_distribution
@@ -85,10 +84,55 @@ st.markdown(
         padding-top: 0px;
         margin-top: 0px;
     }
+    .metric-box {
+    padding: 20px;
+    background-color: #f0f2f6;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    }
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%; /* Position above the text */
+        left: 50%;
+        margin-left: -60px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
     </style>
     """,
     unsafe_allow_html=True,
 )
+
+def metric_box(metric_value, metric_label, tooltip_text):
+    return f"""
+    <div class="metric-box">
+        {metric_label}<br>
+        <b>{metric_value:.2f} km</b>
+        <div class="tooltip">(?)
+            <span class="tooltiptext">{tooltip_text}</span>
+        </div>
+    </div>
+    """
 
 
 # Initialize session state for page navigation
@@ -139,8 +183,9 @@ st.markdown(
     unsafe_allow_html=True,
 )    
 
-
+# ---------------------------
 # Page 1: General Information
+# ---------------------------
 if st.session_state.page == "General":
     st.title("Fitbit Data Analytics")
 
@@ -155,25 +200,43 @@ if st.session_state.page == "General":
 
     # Home Sub-page
     if st.session_state.sub_page == "Home":
-        st.title("Fitbit Data Analytics")
 
-        # First row: Metrics in boxes
+        # ----------------------
+        # calculate sample sizes
+        # ----------------------
+        query_hr = "SELECT Id FROM daily_activity"
+        td_num = pd.read_sql_query(query_hr, conn)['Id'].nunique()
+        sl_num = df_sleep['Id'].nunique()
+        sed_num = df_sleep_sed['Id'].nunique()
+        td_info = f"Sample size: {td_num}"
+        sl_info = f"A sleep of less than 3 hours in 24 hours is not taken into the average over all available users in the sample (erroneous data). Sample size: {sl_num}"
+        sed_info = f"Sample size: {sed_num}"
+
+        sl_min, a = calculate_user_statistics_sleep(df_sleep)
+        sed_min, b = calculate_user_statistics_sedentary(df_sleep_sed)
+
+        # Metrics
         st.header("Overall Statistics")
-        col1, col2, col3, col4, col5, col6, col7 = st.columns(7)  # Create 5 columns for metrics
+        col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
         with col1:
-            st.markdown('<div class="metric-box">Total users<br><b>{}</b></div>'.format(data['Id'].nunique()), unsafe_allow_html=True)
+            #st.markdown('<div class="metric-box">Total users<br><b>{}</b></div>'.format(data['Id'].nunique()), unsafe_allow_html=True)
+            st.metric("Number of Users", f"{data['Id'].nunique()}", help= "Total number of unique users in the database.")
         with col2:
-            st.markdown('<div class="metric-box">Average Distance<br><b>{:.2f} km</b></div>'.format(
-                data['TotalDistance'].mean()), unsafe_allow_html=True)
+            # st.markdown('<div class="metric-box">Average Distance<br><b>{:.2f} km</b></div>'.format(
+            #     data['TotalDistance'].mean()), unsafe_allow_html=True)
+            st.metric("Average Distance", f"{data['TotalDistance'].mean():.2f} km", help=td_info)
         with col3:
-            st.markdown('<div class="metric-box">Average Calories<br><b>{:.0f} kcal</b></div>'.format(
-                data['Calories'].mean()), unsafe_allow_html=True)
+            # st.markdown('<div class="metric-box">Average Calories<br><b>{:.0f} kcal</b></div>'.format(
+            #     data['Calories'].mean()), unsafe_allow_html=True)
+            st.metric("Average Calories", f"{data['Calories'].mean():.0f} km", help=td_info)
         with col4:
-            st.markdown('<div class="metric-box">Average Sleep Duration<br><b>{} min</b></div>'.format(
-                calculate_user_statistics_sleep(df_sleep)), unsafe_allow_html=True)
+            # st.markdown('<div class="metric-box">Average Sleep Duration<br><b>{} min</b></div>'.format(
+            #     calculate_user_statistics_sleep(df_sleep)), unsafe_allow_html=True)
+            st.metric("Average Sleep Duration", f"{sl_min} min", help=sl_info)
         with col5:
-            st.markdown('<div class="metric-box">Average Sedentary Minutes<br><b>{} min</b></div>'.format(
-                calculate_user_statistics_sedentary(df_sleep_sed)), unsafe_allow_html=True)
+            # st.markdown('<div class="metric-box">Average Sedentary Minutes<br><b>{} min</b></div>'.format(
+            #     calculate_user_statistics_sedentary(df_sleep_sed)), unsafe_allow_html=True)
+            st.metric("Average Sedentary Minutes", f"{sed_min} min", help=sed_info)
         with col6:
             st.markdown('<div class="metric-box">Average Weight<br><b>{:.1f} kg</b></div>'.format(
                 weight_log_df['WeightKg'].mean()), unsafe_allow_html=True)
@@ -182,7 +245,7 @@ if st.session_state.page == "General":
                 weight_log_df['Height'].mean()), unsafe_allow_html=True)
             
 
-        # Rest of the page content
+        # Plots
         st.header("Overall Graphical Analysis")
         col1, col2, col3 = st.columns(3)
 
@@ -251,10 +314,10 @@ if st.session_state.page == "General":
         st.plotly_chart(fig)
 
 
-
+#---------------------------
 # Page 2: User-Specific Analysis
+# ---------------------------
 elif st.session_state.page == "User-Specific":
-    st.title("User-Specific Analysis")
     
     # User selection
     st.sidebar.header("User Selection")
@@ -271,23 +334,41 @@ elif st.session_state.page == "User-Specific":
     
     user_data = data[(data['Id'] == selected_user) & (data['ActivityDate'] >= start_date) & (data['ActivityDate'] <= end_date)]
     
-    st.subheader(f"Analysis for User: {selected_user}")
+    st.title(f"Analysis for User: {selected_user}")
     st.write(f"Date Range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
 
     # Metrics (numerical summary)
+    st.subheader("Numerical Summary")
     col1, col2, col3, col4, col5, col6 = st.columns(6)
+    # ------
+    # calculate the sample sizes for the given averages
+    # ------
+    td_num = user_data['TotalDistance'].count()
+    sl_min, sl_num = calculate_user_statistics_sleep(df_sleep, selected_user, start_date, end_date)
+    sed_min, sed_num = calculate_user_statistics_sedentary(df_sleep_sed, selected_user, start_date, end_date)
+
+    td_info = f"Number of records: {td_num}"
+    sl_info = f"Number of records: {sl_num}"
+    sed_info = f"Number of records: {sed_num}"
+
     with col1:
-        st.markdown('<div class="metric-box">Average Distance<br><b>{:.2f} km</b></div>'.format(
-            user_data['TotalDistance'].mean()), unsafe_allow_html=True)
+        # st.markdown('<div class="metric-box">Average Distance<br><b>{:.2f} km</b></div>'.format(
+        #     user_data['TotalDistance'].mean()), unsafe_allow_html=True, help=td_info)
+        # st.markdown(metric_box(user_data['TotalDistance'].mean(), "Average Distance", td_info), unsafe_allow_html=True)
+        st.metric("Average Distance", f"{user_data['TotalDistance'].mean():.2f} km", help=td_info)
     with col2:
-        st.markdown('<div class="metric-box">Average Calories<br><b>{:.0f} kcal</b></div>'.format(
-            user_data['Calories'].mean()), unsafe_allow_html=True)
+        # st.markdown('<div class="metric-box">Average Calories<br><b>{:.0f} kcal</b></div>'.format(
+        #     user_data['Calories'].mean()), unsafe_allow_html=True)
+        st.metric("Average Calories", f"{user_data['Calories'].mean():.0f} km", help=td_info)
     with col3:
-        st.markdown('<div class="metric-box">Average Sleep Duration<br><b>{} min</b></div>'.format(
-            calculate_user_statistics_sleep(df_sleep, selected_user, start_date, end_date)), unsafe_allow_html=True)
+        # st.markdown('<div class="metric-box">Average Sleep Duration<br><b>{} min</b></div>'.format(
+        #     calculate_user_statistics_sleep(df_sleep, selected_user, start_date, end_date)), unsafe_allow_html=True)
+        st.metric("Average Sleep Duration", f"{sl_min} min", help=sl_info)
     with col4:
-        st.markdown('<div class="metric-box">Average Sedentary Minutes<br><b>{} min</b></div>'.format(
-            calculate_user_statistics_sedentary(df_sleep_sed, selected_user, start_date, end_date)), unsafe_allow_html=True)
+        # st.markdown('<div class="metric-box">Average Sedentary Minutes<br><b>{} min</b></div>'.format(
+        #     calculate_user_statistics_sedentary(df_sleep_sed, selected_user, start_date, end_date)), unsafe_allow_html=True)
+        st.metric("Average Sedentary Minutes", f"{sed_min} min", help=sed_info)
+
     with col5:
         if pd.isna(weight_log_df[weight_log_df.index == selected_user]['WeightKg'].mean()):
             st.markdown('<div class="metric-box" style="color:red;">No Weight data</div>', unsafe_allow_html=True)
@@ -301,10 +382,11 @@ elif st.session_state.page == "User-Specific":
     
 
     # Plots
+
     col1, col2 = st.columns(2) 
 
     with col1:
-        st.subheader("Total Steps (Bars) and Total Distance (Line) per Day")
+        st.subheader("Total Steps and Total Distance per Day")
         fig = plot_steps_and_distance(data, selected_user, start_date, end_date)
         st.plotly_chart(fig)
 
@@ -333,5 +415,12 @@ elif st.session_state.page == "User-Specific":
             st.dataframe(result)
 
         else:
-                    st.write("No heart data found for this user.")
+            st.write("No heart data found for this user.")
+            query_hr = "SELECT * FROM heart_rate"
+            df_hr = pd.read_sql_query(query_hr, conn)
+            num_users = df_hr['Id'].nunique()
+            st.write(f"Number of users with heart data available: {num_users}")
+
+    st.dataframe(df_sleep.head())
+
 
