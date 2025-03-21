@@ -33,6 +33,9 @@ def investigate_sedentary_minutes_days(conn):
         color_discrete_sequence=px.colors.qualitative.Pastel 
     )
 
+    fig.update_traces(marker_color='steelblue')
+
+
     fig.update_layout(
         template='plotly_white',
         xaxis_title='Day of the Week',
@@ -42,9 +45,5 @@ def investigate_sedentary_minutes_days(conn):
         height=400,  
         margin=dict(l=50, r=50, t=0, b=50),  
     )
-
-    groups = [df[df['DayOfWeek'] == day]['SedentaryMinutes'] for day in day_order]
-    h_stat, p_value = kruskal(*groups)
-    print(f"Kruskal-Wallis H-statistic: {h_stat}, p-value: {p_value}")
 
     return fig
