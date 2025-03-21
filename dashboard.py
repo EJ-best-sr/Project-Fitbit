@@ -423,7 +423,7 @@ elif st.session_state.page == "User-Specific":
         st.plotly_chart(fig)
 
         st.subheader("Very Active, Fairly Active, and Lightly Active Minutes Proportions")
-        fig = plot_activity_distribution(data)
+        fig = plot_activity_distribution(user_data)
         st.plotly_chart(fig)
 
 
