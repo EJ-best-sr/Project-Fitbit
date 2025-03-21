@@ -33,6 +33,8 @@ from general.steps_4_hour_blocks_general import plot_steps_per_4_hour_block
 from general.height_and_weight_metrics import add_height_column
 from general.height_and_weight_metrics import replace_missing_values_weight_log
 from general.distances_kruskal import test_distances
+from general.sedentary_plot_per_day import investigate_sedentary_minutes_days
+from general.sedentary_kruskal import test_sedentary
 #from general.plot_BMI_distribution import plot_bmi_distribution
 # New
 from general.plot_bmi_pie_chart import plot_bmi_pie_chart
@@ -303,6 +305,22 @@ if st.session_state.page == "General":
             # st.subheader("BMI Distribution")
             # fig = plot_bmi_distribution(db_path)
             # st.plotly_chart(fig)
+
+            st.subheader("Box plot: Sedentary Activity per Day of the Week") 
+            with st.expander("Test for significant difference in Sedentary Minutes across different days of the week "):
+                stat, p_value = test_sedentary(conn)
+
+                if stat is None:
+                    st.warning("No data available for analysis.")
+                else:
+                    st.info(f"Kruskal-Wallis Test Result:\n\n- Statistic: {stat:.2f}\n- p-value: {p_value:.4f}")
+
+                    if p_value < 0.05:
+                        st.success("There is a significant difference in sedentary minutes across different days of the week.")
+                    else:
+                        st.warning("No significant difference found in sedentary minutes across different days of the week.")
+            fig = investigate_sedentary_minutes_days(conn)
+            st.plotly_chart(fig)
 
             
 
