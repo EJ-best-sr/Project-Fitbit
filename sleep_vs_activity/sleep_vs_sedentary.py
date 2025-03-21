@@ -236,15 +236,13 @@ def calculate_user_statistics_sedentary(df_merged, user_id=None, start_date=None
         df_filtered = df_filtered[df_filtered['SleepDate'] <= end_date]
 
     # Calculate average sleep minutes and average activity minutes
-    avg_sleep_minutes = df_filtered['TotalSleepDuration'].mean()
     avg_activity_minutes = df_filtered['TotalSedentaryMinutes'].mean()
-
-    # Round the averages to integers
-    avg_sleep_minutes = round(avg_sleep_minutes) if not pd.isna(avg_sleep_minutes) else None
+    num_records = df_filtered['TotalSedentaryMinutes'].count()
     avg_activity_minutes = round(avg_activity_minutes) if not pd.isna(avg_activity_minutes) else None
 
     # Return the results as a dictionary
-    return avg_activity_minutes
+    return avg_activity_minutes, num_records
+    
     
 def calculate_user_statistics_sleep(df_merged, user_id=None, start_date=None, end_date=None):
     """
@@ -279,12 +277,13 @@ def calculate_user_statistics_sleep(df_merged, user_id=None, start_date=None, en
 
     # Calculate average sleep minutes and average activity minutes
     avg_sleep_minutes = df_filtered['TotalSleepDuration'].mean()
+    num_records = df_filtered['TotalSleepDuration'].count()
 
     # Round the averages to integers
     avg_sleep_minutes = round(avg_sleep_minutes) if not pd.isna(avg_sleep_minutes) else None
 
     # Return the results as a dictionary
-    return avg_sleep_minutes
+    return avg_sleep_minutes, num_records
     
 
 # Example usage
