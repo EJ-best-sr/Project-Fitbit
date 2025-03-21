@@ -422,6 +422,10 @@ elif st.session_state.page == "User-Specific":
         fig = plot_regression_line(data, selected_user)
         st.plotly_chart(fig)
 
+        st.subheader("Very Active, Fairly Active, and Lightly Active Minutes Proportions")
+        fig = plot_activity_distribution(data)
+        st.plotly_chart(fig)
+
 
     with col2:
         st.subheader("Calories Burnt per Day")
@@ -449,6 +453,5 @@ elif st.session_state.page == "User-Specific":
             num_users = df_hr['Id'].nunique()
             st.write(f"Number of users with heart data available: {num_users}")
 
-    st.dataframe(df_sleep.head())
 
 
