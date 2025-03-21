@@ -32,14 +32,14 @@ from general.sleep_4_hour_blocks_general import plot_sleep_per_4_hour_block
 from general.steps_4_hour_blocks_general import plot_steps_per_4_hour_block
 from general.height_and_weight_metrics import add_height_column
 from general.height_and_weight_metrics import replace_missing_values_weight_log
-from general.plot_BMI_distribution import plot_bmi_distribution
+#from general.plot_BMI_distribution import plot_bmi_distribution
 # New
 from general.plot_bmi_pie_chart import plot_bmi_pie_chart
 from general.variation_BMI_boxplot import plot_bmi_weight_boxplots
-from general.plot_KDE_BMI_and_weight import plot_kde_bmi_weight
-from general.plot_weight_activity import plot_weight_vs_activity
-from general.plot_weight_vs_factors import plot_weight_vs_factors
-from general.plot_steps_rainy_vs_non_rainy import plot_steps_rainy_vs_nonrainy_function
+# from general.plot_KDE_BMI_and_weight import plot_kde_bmi_weight
+# from general.plot_weight_activity import plot_weight_vs_activity
+# from general.plot_weight_vs_factors import plot_weight_vs_factors
+# from general.plot_steps_rainy_vs_non_rainy import plot_steps_rainy_vs_nonrainy_function
 from general.plot_corr_weather_vs_steps import plot_corr_weather_vs_steps
 
 
@@ -288,9 +288,9 @@ if st.session_state.page == "General":
             fig = investigate_total_distance_days(conn)
             st.plotly_chart(fig)
 
-            st.subheader("BMI Distribution")
-            fig = plot_bmi_distribution(db_path)
-            st.plotly_chart(fig)
+            # st.subheader("BMI Distribution")
+            # fig = plot_bmi_distribution(db_path)
+            # st.plotly_chart(fig)
 
             st.subheader("Average Steps per 4-Hour Block")
             fig = plot_steps_per_4_hour_block()
