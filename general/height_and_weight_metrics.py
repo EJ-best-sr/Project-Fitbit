@@ -20,6 +20,7 @@ def replace_missing_values_weight_log(db_path):
     query = "SELECT * FROM weight_log"
     weight_data = pd.read_sql_query(query, connection).set_index("Id")
     connection.close()
+    weight_data.reset_index(inplace=True)
     weight_data_copy = weight_data.copy()
     weight_data_copy["WeightKg"].fillna(weight_data_copy["WeightPounds"] * 0.45359237, inplace=True)
     return weight_data_copy

@@ -50,13 +50,13 @@ def plot_calories_per_4_hour_block():
         color="Color",  # Use the color column
         color_discrete_map={"darkblue": "darkblue", "lightblue": "lightblue"},
         labels={"Calories": "Average Calories Burnt", "HourBlock": "Time Block"},
-        category_orders={"HourBlock": hour_block_order}  # Set custom order for the x-axis
+        category_orders={"HourBlock": hour_block_order}# Set custom order for the x-axis
     )
 
     fig.update_layout(bargap=0.4, showlegend=False)
 
     return fig
 
-    fig.update_layout(bargap=0.4, showlegend=False)
+    fig.update_layout(bargap=0.4, showlegend=False, margin=dict(l=0, r=0, t=0, b=0))
 
     return fig
