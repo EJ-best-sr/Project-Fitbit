@@ -375,7 +375,7 @@ elif st.session_state.page == "User-Specific":
         #     st.markdown('<div class="metric-box" style="color:red;">No Weight data</div>', unsafe_allow_html=True)
         # else:
         #     st.markdown('<div class="metric-box">Average Weight<br><b>{:.1f} kg</b></div>'.format(weight_log_df[weight_log_df.index == selected_user]['WeightKg'].mean()), unsafe_allow_html=True)
-        last_weight = weight_log_df[weight_log_df.index == selected_user]['WeightKg'].iloc[-1] if not weight_log_df[weight_log_df.index == selected_user].empty else None
+        last_weight = weight_log_df[weight_log_df['Id'] == selected_user]['WeightKg'].iloc[-1] if not weight_log_df[weight_log_df.index == selected_user].empty else None
         if pd.isna(last_weight):
             st.metric("Last Weight", "No data", help="No weight data available for the selected user.")
         else:
@@ -386,7 +386,7 @@ elif st.session_state.page == "User-Specific":
         #     st.markdown('<div class="metric-box" style="color:red;">No Height data</div>', unsafe_allow_html=True)
         # else:
         #     st.markdown('<div class="metric-box">Average Height<br><b>{:.2f} m</b></div>'.format(weight_log_df[weight_log_df.index == selected_user]['Height'].mean()), unsafe_allow_html=True)
-        last_height = weight_log_df[weight_log_df.index == selected_user]['Height'].iloc[-1] if not weight_log_df[weight_log_df.index == selected_user].empty else None
+        last_height = weight_log_df[weight_log_df['Id'] == selected_user]['Height'].iloc[-1] if not weight_log_df[weight_log_df.index == selected_user].empty else None
         if pd.isna(last_height):
             st.metric("Last Height", "No data", help="No height data available for the selected user.")
         else:
