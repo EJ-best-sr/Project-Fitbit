@@ -41,8 +41,8 @@ def plot_active_sedentary_minutes_daily(conn, user_id, start_date, end_date):
         y=df_filtered['TotalActiveMinutes'],
         mode='lines+markers',
         name='Total Active Minutes',
-        line=dict(color="#78b4de"),
-        marker=dict(symbol='circle')
+        line=dict(color="steelblue", width=4),
+        marker=dict(symbol='circle', size=8)
     ))
 
     fig.add_trace(go.Scatter(
@@ -50,8 +50,8 @@ def plot_active_sedentary_minutes_daily(conn, user_id, start_date, end_date):
         y=df_filtered['SedentaryMinutes'],
         mode='lines+markers',
         name='Sedentary Minutes',
-        line=dict(color="#1f77b4"),
-        marker=dict(symbol='circle')
+        line=dict(color="slategray", width=4),
+        marker=dict(symbol='circle', size=8)
     ))
 
     fig.update_layout(
@@ -67,11 +67,12 @@ def plot_active_sedentary_minutes_daily(conn, user_id, start_date, end_date):
             traceorder='normal',
             bgcolor='rgba(255, 255, 255, 0.7)',  
             font=dict(size=12),
+            bordercolor='rgba(0, 0, 0, 0.5)',
             borderwidth=1  
         ),
         template="plotly_white",
         height=600,  
-        margin=dict(l=0, r=0, t=0, b=0)   
+        margin=dict(l=0, r=0, t=0, b=0) 
     )
 
     return fig
