@@ -69,6 +69,10 @@ st.markdown(
     color: #1588ed;
     border: 2px solid #1588ed; 
     }
+    .stExpander > div > div > div > button:hover {
+        color: #1588ed;
+        border: #1588ed;
+    }
     .stColumns > div {
         flex: 1;
     }
