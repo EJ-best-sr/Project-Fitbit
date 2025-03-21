@@ -12,13 +12,13 @@ def plot_activity_distribution(user_data):
     active_minutes = [round(value, 1) for value in active_minutes]
 
     labels = ["Lightly Active", "Very Active", "Fairly Active"]
-    colors = ["#c5e6fc", "#1f77b4", "#78b4de"]
+    colors = ['lightblue', "slategray", "steelblue"]
 
     if sum(active_minutes) == 0:
         st.warning("No activity data found.")
         return None
 
-    font_sizes = [20 if label == "Lightly Active" else 14 for label in labels]
+    font_sizes = [40 if label == "Lightly Active" else 16 for label in labels]
 
     fig = go.Figure(data=[go.Pie(
         labels=labels, 
@@ -39,7 +39,7 @@ def plot_activity_distribution(user_data):
         autosize=False, 
         legend=dict(
             x=0.98,  
-            y=0.70, 
+            y=0.90, 
             xanchor='right',
             yanchor='top', 
             bgcolor='rgba(255, 255, 255, 0.5)',

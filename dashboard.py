@@ -266,9 +266,6 @@ if st.session_state.page == "General":
             fig_bar, fig_box = avg_calories_per_step_bins(db_path)
             st.plotly_chart(fig_bar)
 
-            st.subheader("Average Calories Burnt per 4-Hour Block")
-            fig = plot_calories_per_4_hour_block()
-            st.plotly_chart(fig)
 
         with col2:
             # st.subheader("Workout Frequency by Day")
@@ -278,9 +275,6 @@ if st.session_state.page == "General":
             st.subheader("Average Calories Burned per Total Steps: Box Plot")
             st.plotly_chart(fig_box)
 
-            st.subheader("Average Minutes of Sleep per 4-Hour Block")
-            fig = plot_sleep_per_4_hour_block()
-            st.plotly_chart(fig)
 
 
         with col3: 
@@ -292,9 +286,26 @@ if st.session_state.page == "General":
             # fig = plot_bmi_distribution(db_path)
             # st.plotly_chart(fig)
 
+            
+
+        st.header("4-Hour Block Distributions")
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.subheader("Average Calories Burnt per 4-Hour Block")
+            fig = plot_calories_per_4_hour_block()
+            st.plotly_chart(fig)
+        with col2:
+            st.subheader("Average Minutes of Sleep per 4-Hour Block")
+            fig = plot_sleep_per_4_hour_block()
+            st.plotly_chart(fig)
+        with col3:
             st.subheader("Average Steps per 4-Hour Block")
             fig = plot_steps_per_4_hour_block()
             st.plotly_chart(fig)
+
+
+
 
 
         st.subheader("Sample Data")
