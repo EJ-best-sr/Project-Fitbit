@@ -268,12 +268,12 @@ if st.session_state.page == "General":
 
 
         with col2:
-            # st.subheader("Workout Frequency by Day")
-            # fig = plot_workout_frequency_by_day(data)
-            # st.plotly_chart(fig)
-        
             st.subheader("Average Calories Burned per Total Steps: Box Plot")
             st.plotly_chart(fig_box)
+
+            st.subheader("Very Active, Fairly Active, and Lightly Active Minutes Proportions")
+            fig = plot_activity_distribution(data)
+            st.plotly_chart(fig)
 
 
 
