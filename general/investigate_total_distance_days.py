@@ -4,15 +4,6 @@ import plotly.express as px
 from scipy.stats import kruskal
 
 def investigate_total_distance_days(conn):
-    """
-    Investigate on which days of the week people cover more total distance using the entire database.
-    
-    Parameters:
-    - conn: SQLite database connection
-
-    Returns:
-    - fig: A Plotly figure object containing the box plot.
-    """
     query = """
     SELECT ActivityDate, TotalDistance 
     FROM daily_activity;
@@ -35,11 +26,11 @@ def investigate_total_distance_days(conn):
         x='DayOfWeek',
         y='TotalDistance',
         #title='Distribution of Total Distance per Day of the Week',
-        labels={'DayOfWeek': 'Day of the Week', 'TotalDistance': 'Total Distance'},
-        color='DayOfWeek',  # Color by day of the week
-        category_orders={'DayOfWeek': day_order},  # Ensure correct order of days
-        color_discrete_sequence=px.colors.qualitative.Pastel  # Use a pastel color scheme
+        labels={'DayOfWeek': 'Day of the Week', 'TotalDistance': 'Total Distance'},  
+        category_orders={'DayOfWeek': day_order},    
     )
+
+    fig.update_traces(marker_color='steelblue')
 
     fig.update_layout(
         template='plotly_white',
@@ -50,10 +41,5 @@ def investigate_total_distance_days(conn):
         height=400, 
         margin=dict(l=50, r=50, t=0, b=50),
     )
-
-    # Perform Kruskal-Wallis test to check for significant differences
-    groups = [df[df['DayOfWeek'] == day]['TotalDistance'] for day in day_order]
-    h_stat, p_value = kruskal(*groups)
-    print(f"Kruskal-Wallis H-statistic: {h_stat}, p-value: {p_value}")
 
     return fig
