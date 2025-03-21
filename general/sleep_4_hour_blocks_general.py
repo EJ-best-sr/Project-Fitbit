@@ -58,7 +58,8 @@ def plot_sleep_per_4_hour_block():
         bargap=0.4,
         showlegend=False,
         xaxis_title='Time Block', 
-        yaxis_title='Average Minutes Asleep'
+        yaxis_title='Average Minutes Asleep',
+        margin=dict(l=0, r=0, t=0, b=0)
     )
 
     hour_block_order = ["0-4am", "4-8am", "8-12pm", "12-4pm", "4-8pm", "8-0am"]

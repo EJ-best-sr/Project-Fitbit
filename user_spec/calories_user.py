@@ -35,7 +35,8 @@ def plot_calories_burnt(data, user_id, start_date, end_date):
     fig.update_layout(
         xaxis_title='Date',
         yaxis_title='Calories Burnt',
-        bargap=0.2
+        bargap=0.2,
+        margin=dict(l=0, r=0, t=0, b=0)
     )
 
     return fig

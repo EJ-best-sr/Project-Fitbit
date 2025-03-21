@@ -208,9 +208,12 @@ if st.session_state.page == "General":
         td_num = pd.read_sql_query(query_hr, conn)['Id'].nunique()
         sl_num = df_sleep['Id'].nunique()
         sed_num = df_sleep_sed['Id'].nunique()
+        wei_hei_num = weight_log_df['Id'].nunique()
         td_info = f"Sample size: {td_num}"
         sl_info = f"A sleep of less than 3 hours in 24 hours is not taken into the average over all available users in the sample (erroneous data). Sample size: {sl_num}"
         sed_info = f"Sample size: {sed_num}"
+        wei_info = f"Sample size: {wei_hei_num}"
+        hei_info = f"Sample size: {wei_hei_num}"
 
         sl_min, a = calculate_user_statistics_sleep(df_sleep)
         sed_min, b = calculate_user_statistics_sedentary(df_sleep_sed)
@@ -238,12 +241,11 @@ if st.session_state.page == "General":
             #     calculate_user_statistics_sedentary(df_sleep_sed)), unsafe_allow_html=True)
             st.metric("Average Sedentary Minutes", f"{sed_min} min", help=sed_info)
         with col6:
-            st.markdown('<div class="metric-box">Average Weight<br><b>{:.1f} kg</b></div>'.format(
-                weight_log_df['WeightKg'].mean()), unsafe_allow_html=True)
+            st.metric("Average Weight", f"{weight_log_df['WeightKg'].mean():.1f} kg", help=wei_info)
+        
         with col7:
-            st.markdown('<div class="metric-box">Average Height<br><b>{:.2f} m</b></div>'.format(
-                weight_log_df['Height'].mean()), unsafe_allow_html=True)
-            
+            st.metric("Average Height", f"{weight_log_df['Height'].mean():.2f} m", help=hei_info)
+        
 
         # Plots
         st.header("Overall Graphical Analysis")
@@ -368,18 +370,27 @@ elif st.session_state.page == "User-Specific":
         # st.markdown('<div class="metric-box">Average Sedentary Minutes<br><b>{} min</b></div>'.format(
         #     calculate_user_statistics_sedentary(df_sleep_sed, selected_user, start_date, end_date)), unsafe_allow_html=True)
         st.metric("Average Sedentary Minutes", f"{sed_min} min", help=sed_info)
-
     with col5:
-        if pd.isna(weight_log_df[weight_log_df.index == selected_user]['WeightKg'].mean()):
-            st.markdown('<div class="metric-box" style="color:red;">No Weight data</div>', unsafe_allow_html=True)
+        # if pd.isna(weight_log_df[weight_log_df.index == selected_user]['WeightKg'].mean()):
+        #     st.markdown('<div class="metric-box" style="color:red;">No Weight data</div>', unsafe_allow_html=True)
+        # else:
+        #     st.markdown('<div class="metric-box">Average Weight<br><b>{:.1f} kg</b></div>'.format(weight_log_df[weight_log_df.index == selected_user]['WeightKg'].mean()), unsafe_allow_html=True)
+        last_weight = weight_log_df[weight_log_df['Id'] == selected_user]['WeightKg'].iloc[-1] if not weight_log_df[weight_log_df['Id'] == selected_user].empty else None
+        if pd.isna(last_weight):
+            st.metric("Last Weight", "No data", help="No weight data available for the selected user.")
         else:
-            st.markdown('<div class="metric-box">Average Weight<br><b>{:.1f} kg</b></div>'.format(weight_log_df[weight_log_df.index == selected_user]['WeightKg'].mean()), unsafe_allow_html=True)
+            st.metric("Last Weight", f"{last_weight:.1f} kg", help="Most recent weight of the selected user.")
+
     with col6:
-        if pd.isna(weight_log_df[weight_log_df.index == selected_user]['Height'].mean()):
-            st.markdown('<div class="metric-box" style="color:red;">No Height data</div>', unsafe_allow_html=True)
+        # if pd.isna(weight_log_df[weight_log_df.index == selected_user]['Height'].mean()):
+        #     st.markdown('<div class="metric-box" style="color:red;">No Height data</div>', unsafe_allow_html=True)
+        # else:
+        #     st.markdown('<div class="metric-box">Average Height<br><b>{:.2f} m</b></div>'.format(weight_log_df[weight_log_df.index == selected_user]['Height'].mean()), unsafe_allow_html=True)
+        last_height = weight_log_df[weight_log_df['Id'] == selected_user]['Height'].iloc[-1] if not weight_log_df[weight_log_df['Id'] == selected_user].empty else None
+        if pd.isna(last_height):
+            st.metric("Last Height", "No data", help="No height data available for the selected user.")
         else:
-            st.markdown('<div class="metric-box">Average Height<br><b>{:.2f} m</b></div>'.format(weight_log_df[weight_log_df.index == selected_user]['Height'].mean()), unsafe_allow_html=True)
-    
+            st.metric("Last Height", f"{last_height:.2f} m", help="Most recent height of the selected user.")
 
     # Plots
 

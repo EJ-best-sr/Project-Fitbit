@@ -50,7 +50,7 @@ def heart_rate_analysis(user_id):
     results_df = pd.DataFrame({
         "Metric": ["RMSSD", "SDNN", "PNN50"],
         "User Value": [rmssd, sdnn, pnn50],
-        "Average Value": [avg_rmssd, avg_sdnn, avg_pnn50]
+        "Average Value*": [avg_rmssd, avg_sdnn, avg_pnn50]
     })
 
     return results_df

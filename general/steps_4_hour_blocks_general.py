@@ -50,7 +50,8 @@ def plot_steps_per_4_hour_block():
         bargap=0.4,  # Adjust bar gap
         showlegend=False,  # Hide the legend
         xaxis_title='Time Block', 
-        yaxis_title='Average Steps'
+        yaxis_title='Average Steps',
+        margin=dict(l=0, r=0, t=0, b=0)
     )
 
     # Optional: Ensure the x-axis is ordered correctly
