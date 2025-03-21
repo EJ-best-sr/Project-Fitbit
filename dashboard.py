@@ -17,7 +17,6 @@ from sleep_vs_activity.sleep_vs_sedentary import calculate_user_statistics_seden
 from sleep_vs_activity.sleep_vs_sedentary import load_and_process_data
 from sleep_vs_activity.sleep_vs_sedentary import load_and_process_sleepdata
 from user_spec.calories_steps_regression import plot_regression_line
-from general.plot_workout_frequency_by_day import plot_workout_frequency_by_day
 from general.sleep_regression_analysis import perform_regression_analysis
 from general.calories_vs_steps import calories_vs_steps_regression
 from general.avg_calories_per_step_bins import avg_calories_per_step_bins
@@ -265,9 +264,9 @@ if st.session_state.page == "General":
             st.plotly_chart(fig)
 
         with col2:
-            st.subheader("Workout Frequency by Day")
-            fig = plot_workout_frequency_by_day(data)
-            st.plotly_chart(fig)
+            # st.subheader("Workout Frequency by Day")
+            # fig = plot_workout_frequency_by_day(data)
+            # st.plotly_chart(fig)
         
             st.subheader("Average Calories Burned per Total Steps: Box Plot")
             st.plotly_chart(fig_box)
