@@ -35,6 +35,7 @@ from general.height_and_weight_metrics import replace_missing_values_weight_log
 from general.distances_kruskal import test_distances
 from general.sedentary_plot_per_day import investigate_sedentary_minutes_days
 from general.sedentary_kruskal import test_sedentary
+from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
 #from general.plot_BMI_distribution import plot_bmi_distribution
 # New
 from general.plot_bmi_pie_chart import plot_bmi_pie_chart
@@ -460,6 +461,10 @@ elif st.session_state.page == "User-Specific":
 
         st.subheader("Very Active, Fairly Active, and Lightly Active Minutes Proportions")
         fig = plot_activity_distribution(user_data)
+        st.plotly_chart(fig)
+
+        st.subheader("Total Active Minutes versus Sedentary Activity")
+        fig = plot_active_sedentary_minutes_daily(conn, selected_user, start_date.strftime("%m/%d/%Y"), end_date.strftime("%m/%d/%Y"))
         st.plotly_chart(fig)
 
 
