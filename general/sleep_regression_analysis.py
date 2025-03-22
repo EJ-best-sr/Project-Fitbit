@@ -151,12 +151,12 @@ def perform_regression_analysis(df_merged):
     )
 
     p_value = model.pvalues['TotalSedentaryMinutes'] 
-    alpha = 0.01
+    alpha = 0.05
     if p_value < alpha:
-        msg = "There is a statistically significant relationship between TotalSedentaryMinutes and TotalSleepDuration"
+        msg = "There is some statistically significant relationship between TotalSedentaryMinutes and TotalSleepDuration"
     else:
         msg = "There is NO statistically significant relationship between TotalSedentaryMinutes and TotalSleepDuration"
-    info = f"R-squared value is {model.rsquared:.4f} and p-value is {p_value:.4f}. *The model explains {model.rsquared*100:.2f}% of the variation** in TotalSleepDuration based on TotalSedentaryMinutes.\n {msg} (significance level is 0.01)."
+    info = f"R-squared value is {model.rsquared:.4f} and p-value is {p_value:.4f}. **The model explains {model.rsquared*100:.2f}% of the variation** in TotalSleepDuration based on TotalSedentaryMinutes. {msg} (significance level is {alpha})."
 
 
     return regression_fig, residuals_histogram, qq_fig, info
