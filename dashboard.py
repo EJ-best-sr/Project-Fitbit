@@ -232,13 +232,14 @@ if st.session_state.page == "General":
         wei_info = f"Sample size: {wei_hei_num}"
         hei_info = f"Sample size: {wei_hei_num}"
         bmi_info = f"Sample size: {wei_hei_num}"
+        step_info = f"Sample size: {steps_num}"
 
         sl_min, a = calculate_user_statistics_sleep(df_sleep)
         sed_min, b = calculate_user_statistics_sedentary(df_sleep_sed)
 
         # Metrics
         st.header("Overall Statistics")
-        col1, col2, col3, col4, col5, col6, col7,col8 = st.columns(8)
+        col1, col2, col3, col4, col5, col6, col7,col8, col9 = st.columns(9)
         with col1:
             st.metric("Number of Users", f"{data['Id'].nunique()}", help= "Total number of unique users in the database.")
         with col2:
@@ -254,7 +255,12 @@ if st.session_state.page == "General":
         
         with col7:
             st.metric("Average Height", f"{weight_log_df['Height'].mean():.2f} m", help=hei_info)
+        
         with col8:
+            avg_steps = data['TotalSteps'].mean()
+            st.metric("Average Steps", f"{avg_steps:.0f} steps", help=step_info)
+        
+        with col9:
             st.metric("Average BMI:", f"{weight_log_df['BMI'].mean():.2f} kg/m²", help=bmi_info)
 
 
