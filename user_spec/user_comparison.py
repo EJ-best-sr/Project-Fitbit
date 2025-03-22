@@ -1,4 +1,5 @@
 import pandas as pd
+import streamlit as st
 
 def compare_user_to_database_averages(user_data, data, start_date, end_date):
     """
@@ -20,11 +21,11 @@ def compare_user_to_database_averages(user_data, data, start_date, end_date):
 
     def compare_metric(user_avg, total_avg, metric_name):
         if user_avg > total_avg:
-            return f"• {metric_name.capitalize()}: Average {metric_name} is higher than the database average of {total_avg:.1f}."
+            return f"• <b>Average</b> <b>{metric_name}</b> is <b>higher</b> than the database average of <b>{total_avg:.1f}</b>."
         elif user_avg < total_avg:
-            return f"• {metric_name.capitalize()}: Average {metric_name} is lower than the database average of {total_avg:.1f}."
+            return f"• <b>Average</b> <b>{metric_name}</b> is <b>lower</b> than the database average of <b>{total_avg:.1f}</b>."
         else:
-            return f"• {metric_name.capitalize()}: Average {metric_name} is equal to the database average of {total_avg:.1f}."
+            return f"• <b>Average</b> <b>{metric_name}</b> is equal to the database average of <b>{total_avg:.1f}</b>."
 
     step_message = compare_metric(avg_user_steps, avg_total_steps, "steps")
     distance_message = compare_metric(avg_user_distance, avg_total_distance, "distance")
@@ -32,12 +33,15 @@ def compare_user_to_database_averages(user_data, data, start_date, end_date):
     calories_message = compare_metric(avg_user_calories, avg_calories_burned, "calories burned")
 
     comparison_message = f"""
-    Comparison for this date range:
+    <p style="font-size: 24px;">
+    <b>Comparison for this date range:</b><br>
     
-    {step_message} \n
-    {distance_message} \n
-    {sedentary_message} \n
-    {calories_message} \n
+    {step_message} <br><br>
+    {distance_message} <br><br>
+    {sedentary_message} <br><br>
+    {calories_message} <br><br>
+    </p>
     """
     
     return comparison_message
+
