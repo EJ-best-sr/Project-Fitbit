@@ -36,7 +36,7 @@ from general.distances_kruskal import test_distances
 from general.sedentary_plot_per_day import investigate_sedentary_minutes_days
 from general.sedentary_kruskal import test_sedentary
 from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
-#from general.plot_BMI_distribution import plot_bmi_distribution
+from general.plot_bmi_distribution import plot_bmi_distribution
 # New
 from general.plot_bmi_pie_chart import plot_bmi_pie_chart
 from general.variation_BMI_boxplot import plot_bmi_weight_boxplots
@@ -234,7 +234,7 @@ if st.session_state.page == "General":
 
         # Metrics
         st.header("Overall Statistics")
-        col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+        col1, col2, col3, col4, col5, col6, col7,col8 = st.columns(8)
         with col1:
             #st.markdown('<div class="metric-box">Total users<br><b>{}</b></div>'.format(data['Id'].nunique()), unsafe_allow_html=True)
             st.metric("Number of Users", f"{data['Id'].nunique()}", help= "Total number of unique users in the database.")
@@ -259,7 +259,9 @@ if st.session_state.page == "General":
         
         with col7:
             st.metric("Average Height", f"{weight_log_df['Height'].mean():.2f} m", help=hei_info)
-        
+        with col8:
+            st.metric("Average BMI:", f"{weight_log_df['BMI'].mean():.2f} kg/m²", help=bmi_info)
+
 
         # Plots
         st.header("Overall Graphical Analysis")
@@ -303,9 +305,9 @@ if st.session_state.page == "General":
             fig = investigate_total_distance_days(conn)
             st.plotly_chart(fig)
 
-            # st.subheader("BMI Distribution")
-            # fig = plot_bmi_distribution(db_path)
-            # st.plotly_chart(fig)
+            st.subheader("BMI Distribution")
+            fig = plot_bmi_distribution(db_path)
+            st.plotly_chart(fig)
 
             st.subheader("Box plot: Sedentary Activity per Day of the Week") 
             with st.expander("Test for significant difference in Sedentary Minutes across different days of the week "):
