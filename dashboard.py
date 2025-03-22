@@ -389,7 +389,7 @@ elif st.session_state.page == "User-Specific":
 
     # Metrics (numerical summary)
     st.subheader("Numerical Summary")
-    col1, col2, col3, col4, col5, col6 = st.columns(6)
+    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
     # ------
     # calculate the sample sizes for the given averages
     # ------
@@ -439,7 +439,12 @@ elif st.session_state.page == "User-Specific":
             st.metric("Last Height", "No data", help="No height data available for the selected user.")
         else:
             st.metric("Last Height", f"{last_height:.2f} m", help="Most recent height of the selected user.")
-
+    
+    with col7:
+        avg_steps = user_data['TotalSteps'].mean()
+        st.metric("Average Steps", f"{avg_steps:.0f} steps")
+    
+    
     # Plots
 
     col1, col2 = st.columns(2) 
