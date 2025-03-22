@@ -281,32 +281,29 @@ if st.session_state.page == "General":
             st.subheader("Total Distance per User")
             fig1 = plot_distances(data)
             st.plotly_chart(fig1, use_container_width=True)
+
+        with col2:
+            fig_bar, fig_box = avg_calories_per_step_bins(db_path)
+            # st.plotly_chart(fig_box)
+            st.subheader("Average Calories Burned per Total Steps")
+            st.plotly_chart(fig_bar)
+
+            # st.subheader("Sleep Duration vs. Weight")
+            # fig = plot_sleep_vs_weight(db_path)
+            # st.plotly_chart(fig)
+
+
+        with col3: 
             st.subheader("Weight vs. Calories Burned")
             fig = plot_weight_vs_activity(db_path)
             st.plotly_chart(fig)
 
             
+        
 
-
-        with col2:
-            st.subheader("Average Calories Burned per Total Steps: Box Plot")
-            fig_bar, fig_box = avg_calories_per_step_bins(db_path)
-            st.plotly_chart(fig_box)
-            st.subheader("Sleep Duration vs. Weight")
-            fig = plot_sleep_vs_weight(db_path)
-            st.plotly_chart(fig)
-
-
-
-          
-
-
-
-        with col3: 
-            st.subheader("Average Calories Burned per Total Steps")
-            st.plotly_chart(fig_bar)
         st.header("Overview of User Health and Activity Patterns:")
         col10, col20, col30 = st.columns(3)
+
         with col10:
             st.subheader("Number of Days Using Fitbit")
             fig_usage = plot_fitbit_usage_pie(db_path)
