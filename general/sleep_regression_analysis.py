@@ -22,15 +22,9 @@ def perform_regression_analysis(df_merged):
 
     X = df_merged_filtered['TotalSedentaryMinutes']  # Independent variable
     y = df_merged_filtered['TotalSleepDuration']  # Dependent variable
-
-    # Add a constant to the independent variable
     X = sm.add_constant(X)
-
-    # Fit the OLS model
     model = sm.OLS(y, X).fit()
-    print(model.summary())
 
-    # Calculate predicted values and residuals
     predicted = model.predict(X)
     residuals = model.resid
 
@@ -156,4 +150,13 @@ def perform_regression_analysis(df_merged):
         ) 
     )
 
-    return regression_fig, residuals_histogram, qq_fig
+    p_value = model.pvalues['TotalSedentaryMinutes'] 
+    alpha = 0.01
+    if p_value < alpha:
+        msg = "There is a statistically significant relationship between TotalSedentaryMinutes and TotalSleepDuration"
+    else:
+        msg = "There is NO statistically significant relationship between TotalSedentaryMinutes and TotalSleepDuration"
+    info = f"R-squared value is {model.rsquared:.4f} and p-value is {p_value:.4f}. *The model explains {model.rsquared*100:.2f}% of the variation** in TotalSleepDuration based on TotalSedentaryMinutes.\n {msg} (significance level is 0.01)."
+
+
+    return regression_fig, residuals_histogram, qq_fig, info
