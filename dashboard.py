@@ -228,6 +228,7 @@ if st.session_state.page == "General":
         sed_info = f"Sample size: {sed_num}"
         wei_info = f"Sample size: {wei_hei_num}"
         hei_info = f"Sample size: {wei_hei_num}"
+        bmi_info = f"Sample size: {wei_hei_num}"
 
         sl_min, a = calculate_user_statistics_sleep(df_sleep)
         sed_min, b = calculate_user_statistics_sedentary(df_sleep_sed)
