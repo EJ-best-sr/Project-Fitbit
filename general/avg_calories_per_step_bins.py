@@ -4,15 +4,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 def avg_calories_per_step_bins(db_path):
-    """
-    Creates interactive bar and box plots for average calories burned by steps bins.
-    
-    Args:
-        db_path (str): Path to the SQLite database.
-        
-    Returns:
-        tuple: A tuple containing the bar plot figure and the box plot figure.
-    """
     conn = sqlite3.connect(db_path)
     query_steps = '''
     SELECT Id, 
@@ -29,16 +20,22 @@ def avg_calories_per_step_bins(db_path):
     )
 
     df_grouped = df.groupby('StepsBins')['Calories'].mean().reset_index()
-    df_grouped['Calories'] = df_grouped['Calories'].round(0) 
+    df_grouped['CaloriesRounded'] = df_grouped['Calories'].round(0).astype(int)
 
     fig_bar = px.bar(
         df_grouped,
         x='StepsBins',
         y='Calories',
         labels={'StepsBins': 'Total Steps In a Day', 'Calories': 'Average Calories Burned'},
-        text='Calories', 
+        text=df_grouped['CaloriesRounded'],
     )
-    fig_bar.update_traces(marker_color='steelblue', textfont_size=14)
+
+    fig_bar.update_traces(
+        marker_color='steelblue', 
+        textfont_size=14, 
+        hovertemplate='<b>Steps Bin:</b> %{x}<br><b>Avg Calories:</b> %{y:.2f}'
+    )
+
     fig_bar.add_trace(
         go.Scatter(
             x=df_grouped['StepsBins'],
@@ -46,14 +43,15 @@ def avg_calories_per_step_bins(db_path):
             mode='lines+markers',
             name='Trend Line',
             line=dict(color='black', width=3),
-            marker=dict(color='black', size=10)  
+            marker=dict(color='black', size=10),
+            hovertemplate='<b>Steps Bin:</b> %{x}<br><b>Avg Calories:</b> %{y:.2f}'
         )
     )
     fig_bar.update_layout(
         showlegend=True,
         xaxis_title='Total Steps In a Day',
         yaxis_title='Average Calories Burned',
-        template='plotly_white'  
+        template='plotly_white'
     )
     fig_box = px.box(
         df,
@@ -67,7 +65,7 @@ def avg_calories_per_step_bins(db_path):
     fig_box.update_layout(
         xaxis_title='Total Steps Bins',
         yaxis_title='Calories Burned',
-        template='plotly_white' 
+        template='plotly_white'
     )
 
     return fig_bar, fig_box
