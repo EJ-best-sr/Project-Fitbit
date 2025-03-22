@@ -223,6 +223,7 @@ if st.session_state.page == "General":
         sl_num = df_sleep['Id'].nunique()
         sed_num = df_sleep_sed['Id'].nunique()
         wei_hei_num = weight_log_df['Id'].nunique()
+        steps_num = pd.read_sql_query(query_hr, conn)['Id'].nunique()
         td_info = f"Sample size: {td_num}"
         sl_info = f"A sleep of less than 3 hours in 24 hours is not taken into the average over all available users in the sample (erroneous data). Sample size: {sl_num}"
         sed_info = f"Sample size: {sed_num}"
