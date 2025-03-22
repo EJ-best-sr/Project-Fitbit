@@ -206,13 +206,22 @@ if st.session_state.page == "General":
     st.title("Fitbit Data Analytics")
 
     # Sub-page navigation buttons
-    col1, col2 = st.columns(2)
+    col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
         if st.button("Home"):
             st.session_state.sub_page = "Home"
     with col2:
         if st.button("Regression Analysis"):
             st.session_state.sub_page = "Regression Analysis"
+    with col3:
+        if st.button("Weekday Analysis"):
+            st.session_state.sub_page = "Weekday Analysis"
+    with col4:
+        if st.button("4-Hour Block Analysis"):
+            st.session_state.sub_page = "4-Hour Block Analysis"
+    with col5:
+        if st.button("Weather Analysis"):
+            st.session_state.sub_page = "Weather Analysis"
 
     # Home Sub-page
     if st.session_state.sub_page == "Home":
@@ -371,6 +380,18 @@ if st.session_state.page == "General":
         st.subheader("Calories Burned vs Steps")
         fig = calories_vs_steps_regression(db_path)
         st.plotly_chart(fig)
+
+    elif st.session_state.sub_page == "Weekday Analysis":
+        st.write("add here") # remove this when adding
+
+    elif st.session_state.sub_page == "4-Hour Block Analysis":
+        st.write("add here") # remove this when adding
+
+    elif st.session_state.sub_page == "Weather Analysis":
+        st.write("add here") # remove this when adding
+
+
+    
 
 
 #---------------------------
