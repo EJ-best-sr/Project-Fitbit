@@ -21,11 +21,15 @@ def plot_distances(df):
     fig.update_traces(marker_color='steelblue')
     
     fig.update_layout(
-        xaxis_title='', 
+        xaxis_title='Users', 
         yaxis_title='Total Distance',
         showlegend=False,
         template='plotly_white',
-        xaxis_showticklabels=False 
+        xaxis_showticklabels=False,
+        width=800,  
+        height=400, 
+        margin=dict(l=0, r=40, t=0, b=0),
+        autosize=False, 
     )
     
     return fig

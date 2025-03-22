@@ -13,10 +13,8 @@ def plot_weight_vs_activity(db_path):
     Returns:
     - fig (plotly.graph_objs.Figure): The interactive scatter plot
     """
-    # Connect to the database
     conn = sqlite3.connect(db_path)
 
-    # Load data from tables
     weight_query = "SELECT Id, Date, WeightKg FROM weight_log"
     activity_query = "SELECT Id, ActivityDate, TotalSteps, Calories FROM daily_activity"
 
@@ -25,11 +23,9 @@ def plot_weight_vs_activity(db_path):
 
     conn.close()
 
-    # Convert date formats for merging
     weight_data["Date"] = pd.to_datetime(weight_data["Date"]).dt.date
     activity_data["ActivityDate"] = pd.to_datetime(activity_data["ActivityDate"]).dt.date
 
-    # Merge on Id and date
     merged_data = weight_data.merge(
         activity_data,
         left_on=["Id", "Date"],
@@ -37,10 +33,9 @@ def plot_weight_vs_activity(db_path):
         how="inner"
     )
 
-    # Drop missing values
     merged_data.dropna(subset=["WeightKg", "TotalSteps", "Calories"], inplace=True)
+    custom_scale = ['lightblue', 'steelblue', 'navy']
 
-    # Plotly scatter plot with bubble size & color for calories
     fig = px.scatter(
         merged_data,
         x="TotalSteps",
@@ -54,7 +49,31 @@ def plot_weight_vs_activity(db_path):
             "Calories": "Calories Burned"
         },
         template="plotly_white",
-        color_continuous_scale="Viridis",
+        color_continuous_scale=custom_scale,
     )
+
+    fig.update_traces(
+        marker=dict(
+            opacity=1,
+            line=dict(width=0.5)
+        )
+    )
+
+    fig.update_layout(
+        width=800,  
+        height=400, 
+        margin=dict(l=0, r=40, t=0, b=0),
+        autosize=False, 
+        legend=dict(
+            x=0.05,  
+            y=0.90, 
+            xanchor='left',
+            yanchor='top', 
+            bgcolor='rgba(255, 255, 255, 0.5)',
+            bordercolor='rgba(0, 0, 0, 0.5)',
+            borderwidth=1 
+        )
+    )
+
 
     return fig
