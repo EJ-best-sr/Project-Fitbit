@@ -31,21 +31,17 @@ def plot_activity_distribution(user_data):
     )])
 
     fig.update_layout(
-        showlegend=True,
-        template='plotly_white',
-        width=800,  
-        height=400, 
-        margin=dict(l=0, r=0, t=0, b=0),
-        autosize=False, 
-        legend=dict(
-            x=0.98,  
-            y=0.90, 
-            xanchor='right',
-            yanchor='top', 
-            bgcolor='rgba(255, 255, 255, 0.5)',
-            bordercolor='rgba(0, 0, 0, 0.5)',
-            borderwidth=1 
-        )
+    showlegend=True,
+    template='plotly_white',
+    legend=dict(
+        title="Activity Levels",
+        font=dict(size=14),         
+        bgcolor='rgba(240, 240, 240, 0.8)', 
+        bordercolor='gray',          
+        borderwidth=1,               
+        x=1,                        
+        y=0.5,                       
     )
+)
 
     return fig
