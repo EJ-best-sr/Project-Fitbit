@@ -38,6 +38,7 @@ from general.sedentary_kruskal import test_sedentary
 from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
 from general.plot_bmi_distribution import plot_bmi_distribution
 from user_spec.average_steps_records import count_user_total_steps_records
+from user_spec.user_comparison import compare_user_to_database_averages
 #from general.plot_BMI_distribution import plot_bmi_distribution
 # New
 from general.plot_bmi_pie_chart import plot_bmi_pie_chart
@@ -416,6 +417,8 @@ elif st.session_state.page == "User-Specific":
     st.title(f"Analysis for User: {selected_user}")
     st.write(f"Date Range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
 
+    comparison_result = compare_user_to_database_averages(user_data, data, start_date, end_date)
+
     # Metrics (numerical summary)
     st.subheader("Numerical Summary")
     col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
@@ -435,6 +438,8 @@ elif st.session_state.page == "User-Specific":
     td_info = f"Number of records: {td_num}"
     sl_info = f"Number of records: {sl_num}"
     sed_info = f"Number of records: {sed_num}"
+
+    st.write(comparison_result)
 
     with col1:
         # st.markdown('<div class="metric-box">Average Distance<br><b>{:.2f} km</b></div>'.format(
