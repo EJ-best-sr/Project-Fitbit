@@ -89,8 +89,8 @@ def analyze_sleep_activity(db_path):
         margin=dict(l=0, r=0, t=50, b=0),
         autosize=False,
         legend=dict(
-            x=0.02,
-            y=0.98,
+            x=0.80,
+            y=0.85,
             xanchor='left',
             yanchor='top',
             bgcolor='rgba(255, 255, 255, 0.5)',
@@ -104,12 +104,12 @@ def analyze_sleep_activity(db_path):
     conn.close()
 
     p_value = model.pvalues['TotalActiveMinutes'] 
-    alpha = 0.01
+    alpha = 0.05
     if p_value < alpha:
-        msg = "There is a statistically significant relationship between TotalActiveMinutes and TotalSleepDuration"
+        msg = "There is some statistically significant relationship between TotalActiveMinutes and TotalSleepDuration"
     else:
         msg = "There is NO statistically significant relationship between TotalActiveMinutes and TotalSleepDuration"
-    info = f"R-squared value is {model.rsquared:.4f} and p-value is {p_value:.4f}. \n**The model explains {model.rsquared*100:.2f}% of the variation** in TotalSleepDuration based on TotalActiveMinutes.\n {msg} (significance level is 0.01)."
+    info = f"R-squared value is {model.rsquared:.4f} and p-value is {p_value:.4f}. **The model explains {model.rsquared*100:.2f}% of the variation** in TotalSleepDuration based on TotalActiveMinutes. {msg} (significance level is {alpha})."
 
 
     return regression_fig, info
