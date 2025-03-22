@@ -298,41 +298,8 @@ if st.session_state.page == "General":
 
 
         with col3: 
-            st.subheader("Box plot: Total Distance per Day of the Week")
-            with st.expander("Test for significant difference in total distance across different days of the week"):
-                stat, p_value = test_distances(conn)
-
-                if stat is None:
-                    st.warning("No data available for analysis.")
-                else:
-                    st.info(f"Kruskal-Wallis Test Result:\n\n- Statistic: {stat:.2f}\n- p-value:{p_value:.4f}")
-
-                    if p_value < 0.05:
-                        st.success("There is a significant difference in total distance across different days of the week.")
-                    else:
-                        st.warning("No significant difference found in total distance across different days of the week.")
-
-            fig = investigate_total_distance_days(conn)
-            st.plotly_chart(fig)
-
             st.subheader("BMI Distribution")
             fig = plot_bmi_distribution(db_path)
-            st.plotly_chart(fig)
-
-            st.subheader("Box plot: Sedentary Activity per Day of the Week") 
-            with st.expander("Test for significant difference in Sedentary Minutes across different days of the week "):
-                stat, p_value = test_sedentary(conn)
-
-                if stat is None:
-                    st.warning("No data available for analysis.")
-                else:
-                    st.info(f"Kruskal-Wallis Test Result:\n\n- Statistic: {stat:.2f}\n- p-value: {p_value:.4f}")
-
-                    if p_value < 0.05:
-                        st.success("There is a significant difference in sedentary minutes across different days of the week.")
-                    else:
-                        st.warning("No significant difference found in sedentary minutes across different days of the week.")
-            fig = investigate_sedentary_minutes_days(conn)
             st.plotly_chart(fig)
 
         st.subheader("Sample Data")
@@ -360,7 +327,44 @@ if st.session_state.page == "General":
         st.plotly_chart(fig)
 
     elif st.session_state.sub_page == "Weekday Analysis":
-        st.write("add here") # remove this when adding
+        st.title("Weekday Analysis")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.subheader("Box plot: Total Distance per Day of the Week")
+            with st.expander("Test for significant difference in total distance across different days of the week"):
+                stat, p_value = test_distances(conn)
+
+                if stat is None:
+                    st.warning("No data available for analysis.")
+                else:
+                    st.info(f"Kruskal-Wallis Test Result:\n\n- Statistic: {stat:.2f}\n- p-value:{p_value:.4f}")
+
+                    if p_value < 0.05:
+                        st.success("There is a significant difference in total distance across different days of the week.")
+                    else:
+                        st.warning("No significant difference found in total distance across different days of the week.")
+
+            fig = investigate_total_distance_days(conn)
+            st.plotly_chart(fig)
+        
+        with col2:
+            st.subheader("Box plot: Sedentary Activity per Day of the Week") 
+            with st.expander("Test for significant difference in Sedentary Minutes across different days of the week "):
+                stat, p_value = test_sedentary(conn)
+
+                if stat is None:
+                    st.warning("No data available for analysis.")
+                else:
+                    st.info(f"Kruskal-Wallis Test Result:\n\n- Statistic: {stat:.2f}\n- p-value: {p_value:.4f}")
+
+                    if p_value < 0.05:
+                        st.success("There is a significant difference in sedentary minutes across different days of the week.")
+                    else:
+                        st.warning("No significant difference found in sedentary minutes across different days of the week.")
+            fig = investigate_sedentary_minutes_days(conn)
+            st.plotly_chart(fig)
 
     elif st.session_state.sub_page == "4-Hour Block Analysis":
         st.title("4-Hour Block Analysis")
