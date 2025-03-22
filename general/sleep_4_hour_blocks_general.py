@@ -43,14 +43,14 @@ def plot_sleep_per_4_hour_block():
 
 
     max_sleep = sleep_avg["value"].max()
-    sleep_avg["Color"] = np.where(sleep_avg["value"] == max_sleep, "darkblue", "lightblue")
+    sleep_avg["Color"] = np.where(sleep_avg["value"] == max_sleep, "slategray", "steelblue")
 
     fig = px.bar(
         sleep_avg,
         x="HourBlock",
         y="value",
         color="Color",
-        color_discrete_map={"darkblue": "darkblue", "lightblue": "lightblue"},
+        color_discrete_map={"slategray": "slategray", "steelblue": "steelblue"},
         labels={"value": "Average Minutes Asleep", "HourBlock": "Time Block"}
     )
 

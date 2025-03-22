@@ -37,6 +37,8 @@ from general.sedentary_plot_per_day import investigate_sedentary_minutes_days
 from general.sedentary_kruskal import test_sedentary
 from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
 from general.plot_bmi_distribution import plot_bmi_distribution
+from user_spec.average_steps_records import count_user_total_steps_records
+#from general.plot_BMI_distribution import plot_bmi_distribution
 # New
 from general.plot_bmi_pie_chart import plot_bmi_pie_chart
 from general.variation_BMI_boxplot import plot_bmi_weight_boxplots
@@ -204,13 +206,22 @@ if st.session_state.page == "General":
     st.title("Fitbit Data Analytics")
 
     # Sub-page navigation buttons
-    col1, col2 = st.columns(2)
+    col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
         if st.button("Home"):
             st.session_state.sub_page = "Home"
     with col2:
         if st.button("Regression Analysis"):
             st.session_state.sub_page = "Regression Analysis"
+    with col3:
+        if st.button("Weekday Analysis"):
+            st.session_state.sub_page = "Weekday Analysis"
+    with col4:
+        if st.button("4-Hour Block Analysis"):
+            st.session_state.sub_page = "4-Hour Block Analysis"
+    with col5:
+        if st.button("Weather Analysis"):
+            st.session_state.sub_page = "Weather Analysis"
 
     # Home Sub-page
     if st.session_state.sub_page == "Home":
@@ -223,19 +234,21 @@ if st.session_state.page == "General":
         sl_num = df_sleep['Id'].nunique()
         sed_num = df_sleep_sed['Id'].nunique()
         wei_hei_num = weight_log_df['Id'].nunique()
+        steps_num = pd.read_sql_query(query_hr, conn)['Id'].nunique()
         td_info = f"Sample size: {td_num}"
         sl_info = f"A sleep of less than 3 hours in 24 hours is not taken into the average over all available users in the sample (erroneous data). Sample size: {sl_num}"
         sed_info = f"Sample size: {sed_num}"
         wei_info = f"Sample size: {wei_hei_num}"
         hei_info = f"Sample size: {wei_hei_num}"
         bmi_info = f"Sample size: {wei_hei_num}"
+        step_info = f"Sample size: {steps_num}"
 
         sl_min, a = calculate_user_statistics_sleep(df_sleep)
         sed_min, b = calculate_user_statistics_sedentary(df_sleep_sed)
 
         # Metrics
         st.header("Overall Statistics")
-        col1, col2, col3, col4, col5, col6, col7,col8 = st.columns(8)
+        col1, col2, col3, col4, col5, col6, col7,col8, col9 = st.columns(9)
         with col1:
             st.metric("Number of Users", f"{data['Id'].nunique()}", help= "Total number of unique users in the database.")
         with col2:
@@ -251,7 +264,12 @@ if st.session_state.page == "General":
         
         with col7:
             st.metric("Average Height", f"{weight_log_df['Height'].mean():.2f} m", help=hei_info)
+        
         with col8:
+            avg_steps = data['TotalSteps'].mean()
+            st.metric("Average Steps", f"{avg_steps:.0f} steps", help=step_info)
+        
+        with col9:
             st.metric("Average BMI:", f"{weight_log_df['BMI'].mean():.2f} kg/m²", help=bmi_info)
 
 
@@ -280,64 +298,9 @@ if st.session_state.page == "General":
 
 
         with col3: 
-            st.subheader("Box plot: Total Distance per Day of the Week")
-            with st.expander("Test for significant difference in total distance across different days of the week"):
-                stat, p_value = test_distances(conn)
-
-                if stat is None:
-                    st.warning("No data available for analysis.")
-                else:
-                    st.info(f"Kruskal-Wallis Test Result:\n\n- Statistic: {stat:.2f}\n- p-value:{p_value:.4f}")
-
-                    if p_value < 0.05:
-                        st.success("There is a significant difference in total distance across different days of the week.")
-                    else:
-                        st.warning("No significant difference found in total distance across different days of the week.")
-
-            fig = investigate_total_distance_days(conn)
-            st.plotly_chart(fig)
-
             st.subheader("BMI Distribution")
             fig = plot_bmi_distribution(db_path)
             st.plotly_chart(fig)
-
-            st.subheader("Box plot: Sedentary Activity per Day of the Week") 
-            with st.expander("Test for significant difference in Sedentary Minutes across different days of the week "):
-                stat, p_value = test_sedentary(conn)
-
-                if stat is None:
-                    st.warning("No data available for analysis.")
-                else:
-                    st.info(f"Kruskal-Wallis Test Result:\n\n- Statistic: {stat:.2f}\n- p-value: {p_value:.4f}")
-
-                    if p_value < 0.05:
-                        st.success("There is a significant difference in sedentary minutes across different days of the week.")
-                    else:
-                        st.warning("No significant difference found in sedentary minutes across different days of the week.")
-            fig = investigate_sedentary_minutes_days(conn)
-            st.plotly_chart(fig)
-
-            
-
-        st.header("4-Hour Block Distributions")
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            st.subheader("Average Calories Burnt per 4-Hour Block")
-            fig = plot_calories_per_4_hour_block()
-            st.plotly_chart(fig)
-        with col2:
-            st.subheader("Average Minutes of Sleep per 4-Hour Block")
-            fig = plot_sleep_per_4_hour_block()
-            st.plotly_chart(fig)
-        with col3:
-            st.subheader("Average Steps per 4-Hour Block")
-            fig = plot_steps_per_4_hour_block()
-            st.plotly_chart(fig)
-
-
-
-
 
         st.subheader("Sample Data")
         st.dataframe(data.head())
@@ -362,6 +325,72 @@ if st.session_state.page == "General":
         st.subheader("Calories Burned vs Steps")
         fig = calories_vs_steps_regression(db_path)
         st.plotly_chart(fig)
+
+    elif st.session_state.sub_page == "Weekday Analysis":
+        st.title("Weekday Analysis")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.subheader("Box plot: Total Distance per Day of the Week")
+            with st.expander("Test for significant difference in total distance across different days of the week"):
+                stat, p_value = test_distances(conn)
+
+                if stat is None:
+                    st.warning("No data available for analysis.")
+                else:
+                    st.info(f"Kruskal-Wallis Test Result:\n\n- Statistic: {stat:.2f}\n- p-value:{p_value:.4f}")
+
+                    if p_value < 0.05:
+                        st.success("There is a significant difference in total distance across different days of the week.")
+                    else:
+                        st.warning("No significant difference found in total distance across different days of the week.")
+
+            fig = investigate_total_distance_days(conn)
+            st.plotly_chart(fig)
+        
+        with col2:
+            st.subheader("Box plot: Sedentary Activity per Day of the Week") 
+            with st.expander("Test for significant difference in Sedentary Minutes across different days of the week "):
+                stat, p_value = test_sedentary(conn)
+
+                if stat is None:
+                    st.warning("No data available for analysis.")
+                else:
+                    st.info(f"Kruskal-Wallis Test Result:\n\n- Statistic: {stat:.2f}\n- p-value: {p_value:.4f}")
+
+                    if p_value < 0.05:
+                        st.success("There is a significant difference in sedentary minutes across different days of the week.")
+                    else:
+                        st.warning("No significant difference found in sedentary minutes across different days of the week.")
+            fig = investigate_sedentary_minutes_days(conn)
+            st.plotly_chart(fig)
+
+    elif st.session_state.sub_page == "4-Hour Block Analysis":
+        st.title("4-Hour Block Analysis")
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.subheader("Average Calories Burnt per 4-Hour Block")
+            fig = plot_calories_per_4_hour_block()
+            st.plotly_chart(fig)
+        with col2:
+            st.subheader("Average Minutes of Sleep per 4-Hour Block")
+            fig = plot_sleep_per_4_hour_block()
+            st.plotly_chart(fig)
+        with col3:
+            st.subheader("Average Steps per 4-Hour Block")
+            fig = plot_steps_per_4_hour_block()
+            st.plotly_chart(fig)
+
+
+
+
+    elif st.session_state.sub_page == "Weather Analysis":
+        st.write("add here") # remove this when adding
+
+
+    
 
 
 #---------------------------
@@ -389,14 +418,20 @@ elif st.session_state.page == "User-Specific":
 
     # Metrics (numerical summary)
     st.subheader("Numerical Summary")
-    col1, col2, col3, col4, col5, col6 = st.columns(6)
+    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
     # ------
     # calculate the sample sizes for the given averages
     # ------
     td_num = user_data['TotalDistance'].count()
     sl_min, sl_num = calculate_user_statistics_sleep(df_sleep, selected_user, start_date, end_date)
     sed_min, sed_num = calculate_user_statistics_sedentary(df_sleep_sed, selected_user, start_date, end_date)
-
+    
+    query_steps = "SELECT Id, ActivityDate, TotalSteps FROM daily_activity"
+    df_me = pd.read_sql(query_steps, conn)
+    df_me['ActivityDate'] = pd.to_datetime(df_me['ActivityDate'])  
+    num_records = count_user_total_steps_records(df_me, selected_user)
+    
+    steps_info = f"Number of records: {num_records}"
     td_info = f"Number of records: {td_num}"
     sl_info = f"Number of records: {sl_num}"
     sed_info = f"Number of records: {sed_num}"
@@ -439,7 +474,12 @@ elif st.session_state.page == "User-Specific":
             st.metric("Last Height", "No data", help="No height data available for the selected user.")
         else:
             st.metric("Last Height", f"{last_height:.2f} m", help="Most recent height of the selected user.")
-
+    
+    with col7:
+        avg_steps = user_data['TotalSteps'].mean()
+        st.metric("Average Steps", f"{avg_steps:.0f} steps",  help=steps_info)
+    
+    
     # Plots
 
     col1, col2 = st.columns(2) 
