@@ -39,16 +39,15 @@ from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active
 from general.plot_bmi_distribution import plot_bmi_distribution
 from user_spec.average_steps_records import count_user_total_steps_records
 from user_spec.user_comparison import compare_user_to_database_averages
-#from general.plot_BMI_distribution import plot_bmi_distribution
 # New
 from general.plot_bmi_pie_chart import plot_bmi_pie_chart
 from general.variation_BMI_boxplot import plot_bmi_weight_boxplots
-# from general.plot_KDE_BMI_and_weight import plot_kde_bmi_weight
-# from general.plot_weight_activity import plot_weight_vs_activity
+from general.plot_weight_activity import plot_weight_vs_activity
 # from general.plot_weight_vs_factors import plot_weight_vs_factors
 # from general.plot_steps_rainy_vs_non_rainy import plot_steps_rainy_vs_nonrainy_function
 from general.plot_corr_weather_vs_steps import plot_corr_weather_vs_steps
-
+from general.plot_fitbit_usage import plot_fitbit_usage_pie
+from general.plot_weight_vs_sleep_scatterplot import plot_sleep_vs_weight
 
 st.set_page_config(layout="wide")
 
@@ -255,7 +254,7 @@ if st.session_state.page == "General":
         with col2:
             st.metric("Average Distance", f"{data['TotalDistance'].mean():.2f} km", help=td_info)
         with col3:
-            st.metric("Average Calories", f"{data['Calories'].mean():.0f} km", help=td_info)
+            st.metric("Average Calories", f"{data['Calories'].mean():.0f} kcal", help=td_info)
         with col4:
             st.metric("Average Sleep Duration", f"{sl_min} min", help=sl_info)
         with col5:
@@ -282,29 +281,45 @@ if st.session_state.page == "General":
             st.subheader("Total Distance per User")
             fig1 = plot_distances(data)
             st.plotly_chart(fig1, use_container_width=True)
+            st.subheader("Weight vs. Calories Burned")
+            fig = plot_weight_vs_activity(db_path)
+            st.plotly_chart(fig)
 
-            st.subheader("Average Calories Burned per Total Steps")
-            fig_bar, fig_box = avg_calories_per_step_bins(db_path)
-            st.plotly_chart(fig_bar)
+            
 
 
         with col2:
             st.subheader("Average Calories Burned per Total Steps: Box Plot")
+            fig_bar, fig_box = avg_calories_per_step_bins(db_path)
             st.plotly_chart(fig_box)
-
-            st.subheader("Very Active, Fairly Active, and Lightly Active Minutes Proportions")
-            fig = plot_activity_distribution(data)
+            st.subheader("Sleep Duration vs. Weight")
+            fig = plot_sleep_vs_weight(db_path)
             st.plotly_chart(fig)
+
+
+
+          
 
 
 
         with col3: 
-            st.subheader("BMI Distribution")
-            fig = plot_bmi_distribution(db_path)
+            st.subheader("Average Calories Burned per Total Steps")
+            st.plotly_chart(fig_bar)
+        st.header("Overview of User Health and Activity Patterns:")
+        col10, col20, col30 = st.columns(3)
+        with col10:
+            st.subheader("Number of Days Using Fitbit")
+            fig_usage = plot_fitbit_usage_pie(db_path)
+            st.plotly_chart(fig_usage)
+        with col20:
+            st.subheader("Active Minutes by Intensity")
+            fig = plot_activity_distribution(data)
             st.plotly_chart(fig)
-
-        st.subheader("Sample Data")
-        st.dataframe(data.head())
+        with col30:
+            st.subheader("BMI Classification")
+            fig_bmi = plot_bmi_pie_chart(db_path)
+            st.plotly_chart(fig_bmi)
+            
 
     # Regression Analysis Sub-page
     elif st.session_state.sub_page == "Regression Analysis":
@@ -449,7 +464,7 @@ elif st.session_state.page == "User-Specific":
     with col2:
         # st.markdown('<div class="metric-box">Average Calories<br><b>{:.0f} kcal</b></div>'.format(
         #     user_data['Calories'].mean()), unsafe_allow_html=True)
-        st.metric("Average Calories", f"{user_data['Calories'].mean():.0f} km", help=td_info)
+        st.metric("Average Calories", f"{user_data['Calories'].mean():.0f} kcal", help=td_info)
     with col3:
         # st.markdown('<div class="metric-box">Average Sleep Duration<br><b>{} min</b></div>'.format(
         #     calculate_user_statistics_sleep(df_sleep, selected_user, start_date, end_date)), unsafe_allow_html=True)
