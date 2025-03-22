@@ -32,14 +32,21 @@ def plot_bmi_pie_chart(db_path):
         bmi_counts,
         values="Count",
         names="BMI Category",
-        title="BMI Distribution of Fitbit Users",
         color_discrete_sequence=px.colors.qualitative.Pastel  # Nice soft palette
     )
 
     fig.update_traces(textinfo='percent+label')
     fig.update_layout(
-        showlegend=True,
-        template="plotly_white"
+    showlegend=True,
+    template='plotly_white',
+    legend=dict(
+        title="Classification",
+        font=dict(size=14),          
+        bgcolor='rgba(240, 240, 240, 0.8)',  
+        bordercolor='gray',          
+        borderwidth=1,              
+        x=1,                        
+        y=0.5,                     
     )
-
+)
     return fig
