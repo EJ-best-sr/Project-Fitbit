@@ -27,7 +27,7 @@ def avg_calories_per_step_bins(db_path):
         x='StepsBins',
         y='Calories',
         labels={'StepsBins': 'Total Steps In a Day', 'Calories': 'Average Calories Burned'},
-        text=df_grouped['CaloriesRounded'],
+        # text=df_grouped['CaloriesRounded'],
     )
 
     fig_bar.update_traces(
@@ -50,8 +50,21 @@ def avg_calories_per_step_bins(db_path):
     fig_bar.update_layout(
         showlegend=True,
         xaxis_title='Total Steps In a Day',
-        yaxis_title='Average Calories Burned',
-        template='plotly_white'
+        yaxis_title='Average Calories Burned (kcal)',
+        template='plotly_white',
+        width=800,  
+        height=400, 
+        margin=dict(l=0, r=40, t=0, b=0),
+        autosize=False, 
+        legend=dict(
+            x=0.05,  
+            y=0.90, 
+            xanchor='left',
+            yanchor='top', 
+            bgcolor='rgba(255, 255, 255, 0.5)',
+            bordercolor='rgba(0, 0, 0, 0.5)',
+            borderwidth=1 
+        )
     )
     fig_box = px.box(
         df,

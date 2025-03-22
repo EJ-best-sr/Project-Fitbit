@@ -71,8 +71,11 @@ def plot_active_sedentary_minutes_daily(conn, user_id, start_date, end_date):
             borderwidth=1  
         ),
         template="plotly_white",
-        height=600,  
-        margin=dict(l=0, r=0, t=0, b=0) 
+        height=400, 
+        width = 800,
+        margin=dict(l=0, r=0, t=0, b=0),
+        autosize=False
+
     )
 
     return fig

@@ -32,19 +32,23 @@ def plot_fitbit_usage_pie(db_path):
         color_discrete_sequence=px.colors.qualitative.Set3
     )
     fig.update_traces(textinfo='percent+label')
+
     fig.update_layout(
-    showlegend=True,
-    template='plotly_white',
-    legend=dict(
-        title="Usage Groups",
-        font=dict(size=14),         
-        bgcolor='rgba(240, 240, 240, 0.8)',  
-        bordercolor='gray',          
-        borderwidth=1,               
-        x=1,                        
-        y=0.5,                       
-    )    
-)
+        showlegend=True,
+        template='plotly_white',
+        width=800,  
+        height=400,  
+        margin=dict(l=0, r=50, t=50, b=0), 
+        legend=dict(
+            title="Usage Groups",
+            font=dict(size=14),         
+            bgcolor='rgba(255, 255, 255, 0.5)',  
+            bordercolor='black',          
+            borderwidth=1,               
+            x=0.80,                        
+            y=0.80,                       
+        )  
+    )  
 
 
     return fig

@@ -281,32 +281,28 @@ if st.session_state.page == "General":
             st.subheader("Total Distance per User")
             fig1 = plot_distances(data)
             st.plotly_chart(fig1, use_container_width=True)
+
+        with col2:
+            fig_bar, fig_box = avg_calories_per_step_bins(db_path)
+            # st.plotly_chart(fig_box)
+            st.subheader("Average Calories Burned per Total Steps")
+            st.plotly_chart(fig_bar)
+            # st.subheader("Sleep Duration vs. Weight")
+            # fig = plot_sleep_vs_weight(db_path)
+            # st.plotly_chart(fig)
+
+
+        with col3: 
             st.subheader("Weight vs. Calories Burned")
             fig = plot_weight_vs_activity(db_path)
             st.plotly_chart(fig)
 
             
+        
 
-
-        with col2:
-            st.subheader("Average Calories Burned per Total Steps: Box Plot")
-            fig_bar, fig_box = avg_calories_per_step_bins(db_path)
-            st.plotly_chart(fig_box)
-            st.subheader("Sleep Duration vs. Weight")
-            fig = plot_sleep_vs_weight(db_path)
-            st.plotly_chart(fig)
-
-
-
-          
-
-
-
-        with col3: 
-            st.subheader("Average Calories Burned per Total Steps")
-            st.plotly_chart(fig_bar)
         st.header("Overview of User Health and Activity Patterns:")
         col10, col20, col30 = st.columns(3)
+
         with col10:
             st.subheader("Number of Days Using Fitbit")
             fig_usage = plot_fitbit_usage_pie(db_path)
@@ -509,22 +505,24 @@ elif st.session_state.page == "User-Specific":
         fig = plot_steps_and_distance(data, selected_user, start_date, end_date)
         st.plotly_chart(fig)
 
-        st.subheader("Calories vs Steps Regression")
-        fig = plot_regression_line(data, selected_user)
-        st.plotly_chart(fig)
-
         st.subheader("Very Active, Fairly Active, and Lightly Active Minutes Proportions")
         fig = plot_activity_distribution(user_data)
         st.plotly_chart(fig)
 
-        st.subheader("Total Active Minutes versus Sedentary Activity")
-        fig = plot_active_sedentary_minutes_daily(conn, selected_user, start_date.strftime("%m/%d/%Y"), end_date.strftime("%m/%d/%Y"))
+        st.subheader("Calories vs Steps Regression")
+        fig = plot_regression_line(data, selected_user)
         st.plotly_chart(fig)
+
+
 
 
     with col2:
         st.subheader("Calories Burnt per Day")
         fig = plot_calories_burnt(data, selected_user, start_date, end_date)
+        st.plotly_chart(fig)
+
+        st.subheader("Total Active Minutes versus Sedentary Activity")
+        fig = plot_active_sedentary_minutes_daily(conn, selected_user, start_date.strftime("%m/%d/%Y"), end_date.strftime("%m/%d/%Y"))
         st.plotly_chart(fig)
     
         rmssd_info = "**RMSSD (Root Mean Square of Successive Differences)**: A measure of variability between heartbeats. Higher values indicate better recovery and adaptability."
@@ -547,6 +545,7 @@ elif st.session_state.page == "User-Specific":
             df_hr = pd.read_sql_query(query_hr, conn)
             num_users = df_hr['Id'].nunique()
             st.write(f"Number of users with heart data available: {num_users}")
+
 
 
 
