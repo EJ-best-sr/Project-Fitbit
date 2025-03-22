@@ -9,6 +9,8 @@ import sqlite3
 module_dir = '/data' # this should be a directory where daily_acivity.csv is
 sys.path.append(module_dir)
 db_path = os.path.normpath("data/fitbit_database.db")
+weather_data_path = os.path.normpath("data/Chicago 2016-03-12 to 2016-04-12.csv")
+weather_data = pd.read_csv(weather_data_path)
 
 from general import steps_4_hour_blocks_general
 from script.part_1.load_data import load_data
@@ -48,6 +50,11 @@ from general.plot_weight_activity import plot_weight_vs_activity
 from general.plot_corr_weather_vs_steps import plot_corr_weather_vs_steps
 from general.plot_fitbit_usage import plot_fitbit_usage_pie
 from general.plot_weight_vs_sleep_scatterplot import plot_sleep_vs_weight
+# imports for weather stuff
+from general.weather_Chicago_charts import plot_precipitation_chart
+from general.plot_steps_rainy_or_not import plot_steps_rainy_vs_non_rainy
+from general.heatmap_for_correlation_weather import combined_weather_fitbit_heatmap
+from general.plot_linear_regression_weather import plot_steps_vs_temperature_regression
 
 st.set_page_config(layout="wide")
 
@@ -403,8 +410,28 @@ if st.session_state.page == "General":
 
 
     elif st.session_state.sub_page == "Weather Analysis":
-        st.write("add here") # remove this when adding
+        st.title("Weather Analysis: Chicago")
+        col1,col2 = st.columns(2)
+       
+        with col1:
+            st.subheader("Daily and Cumulative Precipitation:")
+            chart = plot_precipitation_chart(weather_data)
+            st.plotly_chart(chart, use_container_width=True)
+            
+            st.subheader("Box Plot: Total Steps on Rainy vs Non-Rainy Days")
+            fig = plot_steps_rainy_vs_non_rainy(db_path, weather_data)
+            st.plotly_chart(fig, use_container_width=True)
 
+            
+        with col2:
+            st.subheader("Heatmap for correlation matrix:")
+            conn = sqlite3.connect(db_path)
+            chart = combined_weather_fitbit_heatmap(weather_data, conn)
+            st.plotly_chart(chart)
+
+            st.subheader("Linear Regression: Total Steps vs Temperature")
+            fig = plot_steps_vs_temperature_regression(db_path, weather_data)
+            st.plotly_chart(fig, use_container_width=True)
 
     
 
