@@ -236,23 +236,14 @@ if st.session_state.page == "General":
         st.header("Overall Statistics")
         col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
         with col1:
-            #st.markdown('<div class="metric-box">Total users<br><b>{}</b></div>'.format(data['Id'].nunique()), unsafe_allow_html=True)
             st.metric("Number of Users", f"{data['Id'].nunique()}", help= "Total number of unique users in the database.")
         with col2:
-            # st.markdown('<div class="metric-box">Average Distance<br><b>{:.2f} km</b></div>'.format(
-            #     data['TotalDistance'].mean()), unsafe_allow_html=True)
             st.metric("Average Distance", f"{data['TotalDistance'].mean():.2f} km", help=td_info)
         with col3:
-            # st.markdown('<div class="metric-box">Average Calories<br><b>{:.0f} kcal</b></div>'.format(
-            #     data['Calories'].mean()), unsafe_allow_html=True)
             st.metric("Average Calories", f"{data['Calories'].mean():.0f} km", help=td_info)
         with col4:
-            # st.markdown('<div class="metric-box">Average Sleep Duration<br><b>{} min</b></div>'.format(
-            #     calculate_user_statistics_sleep(df_sleep)), unsafe_allow_html=True)
             st.metric("Average Sleep Duration", f"{sl_min} min", help=sl_info)
         with col5:
-            # st.markdown('<div class="metric-box">Average Sedentary Minutes<br><b>{} min</b></div>'.format(
-            #     calculate_user_statistics_sedentary(df_sleep_sed)), unsafe_allow_html=True)
             st.metric("Average Sedentary Minutes", f"{sed_min} min", help=sed_info)
         with col6:
             st.metric("Average Weight", f"{weight_log_df['WeightKg'].mean():.1f} kg", help=wei_info)
