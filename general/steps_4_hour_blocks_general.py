@@ -33,7 +33,7 @@ def plot_steps_per_4_hour_block():
 
     # Find the max value and create a color column
     max_steps = step_avg["StepTotal"].max()
-    step_avg["Color"] = np.where(step_avg["StepTotal"] == max_steps, "darkblue", "lightblue")
+    step_avg["Color"] = np.where(step_avg["StepTotal"] == max_steps, "slategray", "steelblue")
 
     # Create the plot
     fig = px.bar(
@@ -41,7 +41,7 @@ def plot_steps_per_4_hour_block():
         x="HourBlock",
         y="StepTotal",
         color="Color",  # Use the color column
-        color_discrete_map={"darkblue": "darkblue", "lightblue": "lightblue"},
+        color_discrete_map={"slategray": "slategray", "steelblue": "steelblue"},
         labels={"StepTotal": "Average Steps", "HourBlock": "Time Block"}
     )
 

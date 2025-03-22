@@ -40,7 +40,7 @@ def plot_calories_per_4_hour_block():
 
     # Find the max value and create a color column
     max_calories = calories_avg["Calories"].max()
-    calories_avg["Color"] = np.where(calories_avg["Calories"] == max_calories, "darkblue", "lightblue")
+    calories_avg["Color"] = np.where(calories_avg["Calories"] == max_calories, "slategray", "steelblue")
 
     # Plotting the figure with correct category order
     fig = px.bar(
@@ -48,7 +48,7 @@ def plot_calories_per_4_hour_block():
         x="HourBlock", 
         y="Calories", 
         color="Color",  # Use the color column
-        color_discrete_map={"darkblue": "darkblue", "lightblue": "lightblue"},
+        color_discrete_map={"slategray": "slategray", "steelblue": "steelblue"},
         labels={"Calories": "Average Calories Burnt", "HourBlock": "Time Block"},
         category_orders={"HourBlock": hour_block_order}# Set custom order for the x-axis
     )

@@ -335,28 +335,6 @@ if st.session_state.page == "General":
             fig = investigate_sedentary_minutes_days(conn)
             st.plotly_chart(fig)
 
-            
-
-        st.header("4-Hour Block Distributions")
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            st.subheader("Average Calories Burnt per 4-Hour Block")
-            fig = plot_calories_per_4_hour_block()
-            st.plotly_chart(fig)
-        with col2:
-            st.subheader("Average Minutes of Sleep per 4-Hour Block")
-            fig = plot_sleep_per_4_hour_block()
-            st.plotly_chart(fig)
-        with col3:
-            st.subheader("Average Steps per 4-Hour Block")
-            fig = plot_steps_per_4_hour_block()
-            st.plotly_chart(fig)
-
-
-
-
-
         st.subheader("Sample Data")
         st.dataframe(data.head())
 
@@ -385,7 +363,24 @@ if st.session_state.page == "General":
         st.write("add here") # remove this when adding
 
     elif st.session_state.sub_page == "4-Hour Block Analysis":
-        st.write("add here") # remove this when adding
+        st.title("4-Hour Block Analysis")
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.subheader("Average Calories Burnt per 4-Hour Block")
+            fig = plot_calories_per_4_hour_block()
+            st.plotly_chart(fig)
+        with col2:
+            st.subheader("Average Minutes of Sleep per 4-Hour Block")
+            fig = plot_sleep_per_4_hour_block()
+            st.plotly_chart(fig)
+        with col3:
+            st.subheader("Average Steps per 4-Hour Block")
+            fig = plot_steps_per_4_hour_block()
+            st.plotly_chart(fig)
+
+
+
 
     elif st.session_state.sub_page == "Weather Analysis":
         st.write("add here") # remove this when adding
