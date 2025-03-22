@@ -6,14 +6,14 @@ def count_user_total_steps_records(df_merged, user_id=None, start_date=None, end
     else:
         df_filtered = df_merged.copy()
 
-    df_filtered.loc[:, 'SleepDate'] = pd.to_datetime(df_filtered['SleepDate'])  
+    df_filtered.loc[:, 'ActivityDate'] = pd.to_datetime(df_filtered['ActivityDate'])  
     if start_date:
         start_date = pd.to_datetime(start_date)
-        df_filtered = df_filtered[df_filtered['SleepDate'] >= start_date]
+        df_filtered = df_filtered[df_filtered['ActivityDate'] >= start_date]
     if end_date:
         end_date = pd.to_datetime(end_date)
-        df_filtered = df_filtered[df_filtered['SleepDate'] <= end_date]
-        
+        df_filtered = df_filtered[df_filtered['ActivityDate'] <= end_date]
+
     num_records = df_filtered['TotalSteps'].count()
 
     return num_records
