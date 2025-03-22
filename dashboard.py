@@ -37,6 +37,8 @@ from general.sedentary_plot_per_day import investigate_sedentary_minutes_days
 from general.sedentary_kruskal import test_sedentary
 from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
 from general.plot_bmi_distribution import plot_bmi_distribution
+from user_spec.average_steps_records import count_user_total_steps_records
+#from general.plot_BMI_distribution import plot_bmi_distribution
 # New
 from general.plot_bmi_pie_chart import plot_bmi_pie_chart
 from general.variation_BMI_boxplot import plot_bmi_weight_boxplots
@@ -223,6 +225,7 @@ if st.session_state.page == "General":
         sl_num = df_sleep['Id'].nunique()
         sed_num = df_sleep_sed['Id'].nunique()
         wei_hei_num = weight_log_df['Id'].nunique()
+        steps_num = pd.read_sql_query(query_hr, conn)['Id'].nunique()
         td_info = f"Sample size: {td_num}"
         sl_info = f"A sleep of less than 3 hours in 24 hours is not taken into the average over all available users in the sample (erroneous data). Sample size: {sl_num}"
         sed_info = f"Sample size: {sed_num}"
@@ -389,14 +392,20 @@ elif st.session_state.page == "User-Specific":
 
     # Metrics (numerical summary)
     st.subheader("Numerical Summary")
-    col1, col2, col3, col4, col5, col6 = st.columns(6)
+    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
     # ------
     # calculate the sample sizes for the given averages
     # ------
     td_num = user_data['TotalDistance'].count()
     sl_min, sl_num = calculate_user_statistics_sleep(df_sleep, selected_user, start_date, end_date)
     sed_min, sed_num = calculate_user_statistics_sedentary(df_sleep_sed, selected_user, start_date, end_date)
-
+    
+    query_steps = "SELECT Id, ActivityDate, TotalSteps FROM daily_activity"
+    df_me = pd.read_sql(query_steps, conn)
+    df_me['ActivityDate'] = pd.to_datetime(df_me['ActivityDate'])  
+    num_records = count_user_total_steps_records(df_me, selected_user)
+    
+    steps_info = f"Number of records: {num_records}"
     td_info = f"Number of records: {td_num}"
     sl_info = f"Number of records: {sl_num}"
     sed_info = f"Number of records: {sed_num}"
@@ -439,7 +448,12 @@ elif st.session_state.page == "User-Specific":
             st.metric("Last Height", "No data", help="No height data available for the selected user.")
         else:
             st.metric("Last Height", f"{last_height:.2f} m", help="Most recent height of the selected user.")
-
+    
+    with col7:
+        avg_steps = user_data['TotalSteps'].mean()
+        st.metric("Average Steps", f"{avg_steps:.0f} steps",  help=steps_info)
+    
+    
     # Plots
 
     col1, col2 = st.columns(2) 
