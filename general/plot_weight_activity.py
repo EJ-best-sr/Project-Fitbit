@@ -48,7 +48,6 @@ def plot_weight_vs_activity(db_path):
         color="Calories",
         size="Calories",
         hover_data=["Id", "Date"],
-        title="Weight vs Physical Activity (Steps & Calories)",
         labels={
             "TotalSteps": "Total Steps",
             "WeightKg": "Weight (Kg)",
