@@ -439,7 +439,7 @@ elif st.session_state.page == "User-Specific":
     sl_info = f"Number of records: {sl_num}"
     sed_info = f"Number of records: {sed_num}"
 
-    st.write(comparison_result)
+    st.markdown(comparison_result, unsafe_allow_html=True)
 
     with col1:
         # st.markdown('<div class="metric-box">Average Distance<br><b>{:.2f} km</b></div>'.format(
