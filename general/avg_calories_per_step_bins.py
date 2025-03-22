@@ -35,7 +35,6 @@ def avg_calories_per_step_bins(db_path):
         df_grouped,
         x='StepsBins',
         y='Calories',
-        title='Bar Plot: Average Calories Burned by Total Steps Bins',
         labels={'StepsBins': 'Total Steps In a Day', 'Calories': 'Average Calories Burned'},
         text='Calories', 
     )
@@ -60,7 +59,6 @@ def avg_calories_per_step_bins(db_path):
         df,
         x='StepsBins',
         y='Calories',
-        title='Box Plot: Calories Burned by Total Steps Bins',
         labels={'StepsBins': 'Total Steps Bins', 'Calories': 'Calories Burned'},
     )
 
