@@ -36,9 +36,9 @@ def plot_steps_vs_temperature_regression(db_path: str, df_weather: pd.DataFrame)
         mode="markers",
         name="Data Points",
         marker=dict(
-            color="rgba(100, 149, 237, 0.6)",  
+            color="rgba(70, 130, 180, 0.7)",  
             size=8,
-            line=dict(width=0.5, color='rgba(100, 149, 237, 0.2)'),
+            line=dict(width=0.5, color='rgba(70, 130, 180, 0.7)'),
             symbol="circle"
         )
     ))
@@ -53,7 +53,7 @@ def plot_steps_vs_temperature_regression(db_path: str, df_weather: pd.DataFrame)
 
     # Layout styling
     fig.update_layout(
-        title=f"<b>Linear regression (R² = {r_squared:.5f})</sub>",
+        title=f"<b>R² = {r_squared:.5f}</sub>",
         xaxis_title="Temperature (°F)",
         yaxis_title="Total Steps",
         legend_title="",
@@ -61,7 +61,7 @@ def plot_steps_vs_temperature_regression(db_path: str, df_weather: pd.DataFrame)
         font=dict(family="Helvetica", size=14, color="black"),
         margin=dict(t=70, b=50, l=60, r=40),
         hoverlabel=dict(bgcolor="white", font_size=13),
-        legend=dict(bgcolor="rgba(240,240,240,0.8)", bordercolor="gray", borderwidth=1),
+        legend=dict(bgcolor="rgba(255,255,255,0.7)", bordercolor="rgba(0, 0, 0, 0.5)", borderwidth=1),
         width=800,               
         height=550,  
 
