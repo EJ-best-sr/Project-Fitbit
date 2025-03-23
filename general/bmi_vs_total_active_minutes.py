@@ -38,7 +38,7 @@ def plot_bmi_relationship(db_path: str):
     slope1, intercept1, r_val1, p_val1, std_err1 = stats.linregress(merged_df['SedentaryMinutes'], merged_df['BMI'])
 
     text1 = (f"R-squared value is {r_squared_1:.4f} and p-value is {p_val1:.2e}. "
-             f"The model explains {r_squared_1 * 100:.2f}% of the variation in BMI based on Sedentary Minutes. "
+             f"**The model explains {r_squared_1 * 100:.2f}% of the variation** in BMI based on Sedentary Minutes. "
              f"{'There is a statistically significant relationship' if p_val1 < 0.05 else 'There is no statistically significant relationship'} "
              f"(significance level is 0.05).")
 
@@ -70,7 +70,7 @@ def plot_bmi_relationship(db_path: str):
     slope2, intercept2, r_val2, p_val2, std_err2 = stats.linregress(merged_df['TotalActiveMinutes'], merged_df['BMI'])
 
     text2 = (f"R-squared value is {r_squared_2:.4f} and p-value is {p_val2:.2e}. "
-             f"The model explains {r_squared_2 * 100:.2f}% of the variation in BMI based on Total Active Minutes. "
+             f"**The model explains {r_squared_2 * 100:.2f}% of the variation** in BMI based on Total Active Minutes. "
              f"{'There is a statistically significant relationship' if p_val2 < 0.05 else 'There is no statistically significant relationship'} "
              f"(significance level is 0.05).")
 
