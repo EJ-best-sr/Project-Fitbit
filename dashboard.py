@@ -195,7 +195,7 @@ weight_log_df = add_height_column(replace_missing_values_weight_log(db_path))
 # Page 1: General Information
 # ---------------------------
 if st.session_state.page == "General":
-    st.title("🧠 Fitbit Data Analytics")
+    st.title("Fitbit Data Analytics")
 
     # Sub-page navigation buttons
     col1, col2, col3, col4, col5 = st.columns(5)
