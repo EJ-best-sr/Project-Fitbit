@@ -46,6 +46,26 @@ def calories_vs_steps_regression(db_path):
         )
     )
 
+    regression_fig.update_layout(
+        xaxis_title='Calories Burned',
+        yaxis_title='Steps',
+        showlegend=True,
+        template='plotly_white',
+        width=800,  
+        height=400,
+        autosize=False, 
+        margin=dict(l=100, r=100, t=50, b=0),
+        legend=dict(
+            x=0.02,  
+            y=0.98, 
+            xanchor='left',
+            yanchor='top', 
+            bgcolor='rgba(255, 255, 255, 0.5)',
+            bordercolor='rgba(0, 0, 0, 0.5)',
+            borderwidth=1 
+        )
+    )
+
     conn.close()
     
     return regression_fig
