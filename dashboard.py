@@ -1,11 +1,7 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-from datetime import datetime
-import seaborn as sns
 import sys, os
 import sqlite3
-import plotly.io as pio
 import math
 
 module_dir = '/data' # this should be a directory where daily_acivity.csv is
@@ -14,23 +10,15 @@ db_path = os.path.normpath("data/fitbit_database.db")
 weather_data_path = os.path.normpath("data/Chicago 2016-03-12 to 2016-04-12.csv")
 weather_data = pd.read_csv(weather_data_path)
 
-from general import steps_4_hour_blocks_general
-from script.part_1.load_data import load_data
+# general
+from general.load_data import load_data
 from general.total_distances import plot_distances
-from sleep_vs_activity.sleep_vs_sedentary import calculate_user_statistics_sedentary, calculate_user_statistics_sleep
-from sleep_vs_activity.sleep_vs_sedentary import load_and_process_data
-from sleep_vs_activity.sleep_vs_sedentary import load_and_process_sleepdata
-from user_spec.calories_steps_regression import plot_regression_line
 from general.sleep_regression_analysis import perform_regression_analysis
 from general.calories_vs_steps import calories_vs_steps_regression
+from general.sleep_vs_activity import analyze_sleep_activity
 from general.avg_calories_per_step_bins import avg_calories_per_step_bins
 from general.investigate_total_distance_days import investigate_total_distance_days
-from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
 from general.pie_chart_minutes import plot_activity_distribution
-from general.average_steps import calculate_average_steps
-from user_spec.calories_user import plot_calories_burnt
-from user_spec.heart_analysis_user import heart_rate_analysis
-from user_spec.steps_and_distance_user import plot_steps_and_distance
 from general.calories_4_hour_blocks_general import plot_calories_per_4_hour_block
 from general.sleep_4_hour_blocks_general import plot_sleep_per_4_hour_block
 from general.steps_4_hour_blocks_general import plot_steps_per_4_hour_block
@@ -39,31 +27,38 @@ from general.height_and_weight_metrics import replace_missing_values_weight_log
 from general.distances_kruskal import test_distances
 from general.sedentary_plot_per_day import investigate_sedentary_minutes_days
 from general.sedentary_kruskal import test_sedentary
-from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
-from general.plot_bmi_distribution import plot_bmi_distribution
-from user_spec.average_steps_records import count_user_total_steps_records
-from user_spec.user_comparison import compare_user_to_database_averages
-from user_spec.pie_chart_minutes import plot_activities
-# New
 from general.plot_bmi_pie_chart import plot_bmi_pie_chart
-from general.variation_BMI_boxplot import plot_bmi_weight_boxplots
 from general.plot_weight_activity import plot_weight_vs_activity
-# from general.plot_weight_vs_factors import plot_weight_vs_factors
-from general.plot_corr_weather_vs_steps import plot_corr_weather_vs_steps
 from general.plot_fitbit_usage import plot_fitbit_usage_pie
-from general.plot_weight_vs_sleep_scatterplot import plot_sleep_vs_weight
-# imports for weather stuff
+from general.bmi_vs_total_active_minutes import plot_bmi_relationship
+
+# imports for weather
 from general.weather_Chicago_charts import plot_precipitation_chart
 from general.plot_steps_rainy_or_not import plot_steps_rainy_vs_non_rainy
 from general.heatmap_for_correlation_weather import combined_weather_fitbit_heatmap
 from general.plot_linear_regression_weather import plot_steps_vs_temperature_regression
-# import bmi regression
-from general.bmi_vs_total_active_minutes import plot_bmi_relationship
+
+
+# user-spec
 from user_spec.heart_rate_and_intensity import plot_health_metrics
+from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
+from user_spec.average_steps_records import count_user_total_steps_records
+from user_spec.user_comparison import compare_user_to_database_averages
+from user_spec.calories_user import plot_calories_burnt
+from user_spec.heart_analysis_user import heart_rate_analysis
+from user_spec.steps_and_distance_user import plot_steps_and_distance
+from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
+from user_spec.calories_steps_regression import plot_regression_line
+from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
+
+# sleep regression
+from sleep_vs_activity.sleep_vs_sedentary import calculate_user_statistics_sedentary, calculate_user_statistics_sleep
+from sleep_vs_activity.sleep_vs_sedentary import load_and_process_data
+from sleep_vs_activity.sleep_vs_sedentary import load_and_process_sleepdata
+
+
 
 st.set_page_config(layout="wide")
-
-from general.sleep_vs_activity import analyze_sleep_activity
 
 
 # CSS
@@ -159,19 +154,8 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# def metric_box(metric_value, metric_label, tooltip_text):
-#     return f"""
-#     <div class="metric-box">
-#         {metric_label}<br>
-#         <b>{metric_value:.2f} km</b>
-#         <div class="tooltip">(?)
-#             <span class="tooltiptext">{tooltip_text}</span>
-#         </div>
-#     </div>
-#     """
-
 st.sidebar.markdown(
-    "<h2 style='text-align: center; color: #4A4A4A;'>Fitbit Data Analytics</h2>",
+    "<h2 style='text-align: center; color: #4A4A4A;'>🧠 Fitbit Data Analytics</h2>",
     unsafe_allow_html=True
 )
 
@@ -216,7 +200,7 @@ weight_log_df = add_height_column(replace_missing_values_weight_log(db_path))
 # Page 1: General Information
 # ---------------------------
 if st.session_state.page == "General":
-    st.title("Fitbit Data Analytics")
+    st.title("🧠 Fitbit Data Analytics")
 
     # Sub-page navigation buttons
     col1, col2, col3, col4, col5 = st.columns(5)
@@ -363,19 +347,14 @@ if st.session_state.page == "General":
             st.plotly_chart(fig)
 
         col7, col8 = st.columns(2)
-        bmi1, bmi2, text1, text2 = plot_bmi_relationship(db_path)
+        bmi1, bmi2 = plot_bmi_relationship(db_path)
 
         with col7:
-            st.header("Sedentary Minutes vs BMI",
-                       help="This chart shows the relationship between sedentary time and BMI.\n\n" + text1)
-
+            st.header("Sedentary Minutes vs BMI")
             st.plotly_chart(bmi1, use_container_width = True)
         
         with col8:
-            st.header("Total Active Minutes vs BMI",
-            help="This chart shows the relationship between total active time and BMI.\n\n"
-             + text2  + "\n\n"
-             + "This suggests that people who are more active tend to have lower BMI, supporting the health benefits of regular physical activity." )
+            st.header("Total Active Minutes vs BMI")
             st.plotly_chart(bmi2, use_container_width=True)
 
 
@@ -602,6 +581,8 @@ elif st.session_state.page == "User-Specific":
 
             
     
+    
+    
     # Plots
 
     col1, col2 = st.columns(2) 
@@ -612,7 +593,7 @@ elif st.session_state.page == "User-Specific":
         st.plotly_chart(fig)
 
         st.subheader("Very Active, Fairly Active, and Lightly Active Minutes Proportions")
-        fig = plot_activities(user_data)
+        fig = plot_activity_distribution(user_data)
         st.plotly_chart(fig)
 
         st.subheader("Calories vs Steps Regression")
@@ -622,7 +603,7 @@ elif st.session_state.page == "User-Specific":
 
 
     with col2:
-        st.subheader("Calories Burned per Day")
+        st.subheader("Calories Burnt per Day")
         fig = plot_calories_burnt(data, selected_user, start_date, end_date)
         st.plotly_chart(fig)
 
@@ -636,7 +617,7 @@ elif st.session_state.page == "User-Specific":
         if fig:
             st.plotly_chart(fig, use_container_width=True)
         else:
-            st.warning("No heart and intensity data found for this user in the specified date range. Number of users with this data available: 14")
+            st.warning("No heart and intensity data found for this user in the specified date range. Number of users with this data available: 14. Example Id with data available: 2347167796.")
             
 
         st.subheader(f"Heart rate analysis")
@@ -645,7 +626,12 @@ elif st.session_state.page == "User-Specific":
         sdnn_info = "**SDNN (Standard Deviation of NN intervals)**: Measures overall heart rate variability. Higher values indicate good cardiovascular health."
         pnn50_info = "**PNN50 (Percentage of NN50)**: The percentage of consecutive heartbeats that differ by more than 50 ms. Higher values indicate greater variability."
 
+        query_hr = "SELECT * FROM heart_rate"
+        df_hr = pd.read_sql_query(query_hr, conn)
+        num_users = df_hr['Id'].nunique()
+        
         result = heart_rate_analysis(selected_user)
+
         if result is not None:
             col1, col2, col3 = st.columns([3, 4, 3])
             col1.metric("RMSSD", f"{result.loc[0, 'User Value']} ms", help=rmssd_info)
@@ -653,10 +639,9 @@ elif st.session_state.page == "User-Specific":
             col3.metric("PNN50", f"{result.loc[2, 'User Value']} %", help=pnn50_info)
             st.write("Detailed Metrics:")
             st.dataframe(result)
+            st.write(f"*The sample size for the average metric is {num_users}.") 
+
 
         else:
-            query_hr = "SELECT * FROM heart_rate"
-            df_hr = pd.read_sql_query(query_hr, conn)
-            num_users = df_hr['Id'].nunique()
-            st.warning(f"No heart data found for this user in the specified date range. Number of users with heart data available: {num_users}")
+            st.warning(f"No heart data found for this user in the specified date range. Number of users with heart data available: {num_users}. Example Id with data available: 2347167796.")
 
