@@ -362,14 +362,19 @@ if st.session_state.page == "General":
             st.plotly_chart(fig)
 
         col7, col8 = st.columns(2)
-        bmi1, bmi2 = plot_bmi_relationship(db_path)
+        bmi1, bmi2, text1, text2 = plot_bmi_relationship(db_path)
 
         with col7:
-            st.header("Sedentary Minutes vs BMI")
+            st.header("Sedentary Minutes vs BMI",
+                       help="This chart shows the relationship between sedentary time and BMI.\n\n" + text1)
+
             st.plotly_chart(bmi1, use_container_width = True)
         
         with col8:
-            st.header("Total Active Minutes vs BMI")
+            st.header("Total Active Minutes vs BMI",
+            help="This chart shows the relationship between total active time and BMI.\n\n"
+             + text2  + "\n\n"
+             + "This suggests that people who are more active tend to have lower BMI, supporting the health benefits of regular physical activity." )
             st.plotly_chart(bmi2, use_container_width=True)
 
 
