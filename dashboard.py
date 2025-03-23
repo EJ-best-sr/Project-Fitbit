@@ -61,6 +61,7 @@ from general.bmi_vs_total_active_minutes import plot_bmi_relationship
 
 st.set_page_config(layout="wide",
                    page_icon=" 🧠 ")
+from general.sleep_vs_activity import analyze_sleep_activity
 
 
 # CSS
@@ -316,7 +317,6 @@ if st.session_state.page == "General":
 
             
         
-
         st.header("Overview of User Health and Activity Patterns:")
         col10, col20, col30 = st.columns(3)
 
@@ -337,11 +337,11 @@ if st.session_state.page == "General":
     # Regression Analysis Sub-page
     elif st.session_state.sub_page == "Regression Analysis":
         st.title("Regression Analysis")
+        regression_fig, residuals_histogram, qq_fig, info_r2= perform_regression_analysis(df_sleep_sed)
+        info_sl_sed = "The sleep records of less than 3 hours in 24 hours are left out. " + info_r2
 
-        st.header('Sedentary Time vs Sleep Time Analysis')
+        st.header('Sedentary Time vs Sleep Time', help=info_sl_sed)
         col4, col5, col6 = st.columns(3)
-
-        regression_fig, residuals_histogram, qq_fig = perform_regression_analysis(df_sleep_sed)
 
         with col4:
             st.plotly_chart(regression_fig)
@@ -350,9 +350,15 @@ if st.session_state.page == "General":
         with col6:
             st.plotly_chart(qq_fig)
 
-        st.header("Calories Burned vs Steps")
-        fig = calories_vs_steps_regression(db_path)
-        st.plotly_chart(fig)
+        col1, col2 = st.columns(2)
+        with col1:
+            fig, info_c_st = calories_vs_steps_regression(db_path)
+            st.header("Calories Burned vs Steps", help = info_c_st)
+            st.plotly_chart(fig)
+        with col2:
+            fig, info_sl_act = analyze_sleep_activity(db_path)
+            st.header("Sleep Time vs Activity", help= info_sl_act)
+            st.plotly_chart(fig)
 
         col7, col8 = st.columns(2)
         bmi1, bmi2 = plot_bmi_relationship(db_path)
@@ -365,7 +371,7 @@ if st.session_state.page == "General":
             st.header("Total Active Minutes vs BMI")
             st.plotly_chart(bmi2, use_container_width=True)
 
-    
+
 
 
     elif st.session_state.sub_page == "Weekday Analysis":
