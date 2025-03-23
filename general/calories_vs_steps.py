@@ -41,7 +41,7 @@ def calories_vs_steps_regression(db_path):
             x = df_steps['TotalSteps'],
             y=predicted,
             mode='lines',
-            line=dict(color='rgba(0, 0, 0)'),  # Custom line color
+            line=dict(color='rgba(0, 0, 0)'),  
             name='Regression Line'
         )
     )
@@ -67,6 +67,14 @@ def calories_vs_steps_regression(db_path):
     )
 
     conn.close()
-    
-    return regression_fig
 
+    p_value = model.pvalues['TotalSteps'] 
+    alpha = 0.05
+    if p_value < alpha:
+        msg = "There is a statistically significant relationship between TotalSteps and Calories"
+    else:
+        msg = "There is NO statistically significant relationship between TotalSteps and Calories"
+    info = f"R-squared value is {model.rsquared:.4f} and p-value is {p_value:.2e}. **The model explains {model.rsquared*100:.2f}% of the variation** in Calories (Burned) based on TotalSteps. {msg} (significance level is {alpha})."
+
+    
+    return regression_fig, info
