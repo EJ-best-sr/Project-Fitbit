@@ -44,7 +44,7 @@ def plot_steps_and_distance(data, selected_user, start_date, end_date):
         y=filtered_data['TotalDistanceMeters'],
         name='Total Distance (m)',
         mode='lines+markers',
-        marker=dict(symbol='circle', color='lightblue')
+        marker=dict(symbol='circle', color='black')
     ))
 
     # Update layout for better readability

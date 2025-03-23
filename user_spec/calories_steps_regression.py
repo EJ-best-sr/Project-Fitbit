@@ -35,7 +35,7 @@ def plot_regression_line(df, user_id):
             x=user_data['TotalSteps'],
             y=user_data['Calories'],
             mode='markers',
-            marker=dict(color='rgba(74, 55, 111, 0.8)'),  # Custom marker color
+            marker=dict(color='steelblue', size=8),
             name='Data Points'
         )
     )
@@ -46,7 +46,7 @@ def plot_regression_line(df, user_id):
             x=user_data['TotalSteps'],
             y=regression_line,
             mode='lines',
-            line=dict(color='rgba(43, 129, 126, 1)'), 
+            line=dict(color='black'), 
             name='Regression Line'
         )
     )

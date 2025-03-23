@@ -43,6 +43,7 @@ from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active
 from general.plot_bmi_distribution import plot_bmi_distribution
 from user_spec.average_steps_records import count_user_total_steps_records
 from user_spec.user_comparison import compare_user_to_database_averages
+from user_spec.pie_chart_minutes import plot_activities
 # New
 from general.plot_bmi_pie_chart import plot_bmi_pie_chart
 from general.variation_BMI_boxplot import plot_bmi_weight_boxplots
@@ -596,8 +597,6 @@ elif st.session_state.page == "User-Specific":
 
             
     
-    
-    
     # Plots
 
     col1, col2 = st.columns(2) 
@@ -608,7 +607,7 @@ elif st.session_state.page == "User-Specific":
         st.plotly_chart(fig)
 
         st.subheader("Very Active, Fairly Active, and Lightly Active Minutes Proportions")
-        fig = plot_activity_distribution(user_data)
+        fig = plot_activities(user_data)
         st.plotly_chart(fig)
 
         st.subheader("Calories vs Steps Regression")
@@ -618,7 +617,7 @@ elif st.session_state.page == "User-Specific":
 
 
     with col2:
-        st.subheader("Calories Burnt per Day")
+        st.subheader("Calories Burned per Day")
         fig = plot_calories_burnt(data, selected_user, start_date, end_date)
         st.plotly_chart(fig)
 
