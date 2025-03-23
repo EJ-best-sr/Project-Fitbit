@@ -176,15 +176,15 @@ st.sidebar.markdown(
 )
 
 st.sidebar.markdown(
-    "<p style='text-align: center; font-size: 14px; color: gray;'>Exploratory Data Analysis (EDA) for Fitbit data, along with deep diving into weather data </p>",
+    "<p style='text-align: center; font-size: 14px; color: gray;'>Fitbit Exploratory Data Analysis </p>",
     unsafe_allow_html=True
 )
 
 st.sidebar.markdown("---")
 
 page = st.sidebar.radio(
-    "📌 Choose a page:",
-    ["📈 General Information", "🧍‍♂️ User-Specific Analysis"]
+    "Choose a page:",
+    ["General Information", "User-Specific Analysis"]
 )
 
 # Set page state
