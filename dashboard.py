@@ -446,14 +446,14 @@ if st.session_state.page == "General":
         col1,col2 = st.columns(2)
        
         with col1:
-            st.subheader("Daily and Cumulative Precipitation:")
+            st.subheader("Daily and Cumulative Precipitation")
             chart = plot_precipitation_chart(weather_data)
             st.plotly_chart(chart, use_container_width=True)
             
             
             
         with col2:
-            st.subheader("Heatmap for correlation matrix:")
+            st.subheader("Heatmap for correlation matrix")
             conn = sqlite3.connect(db_path)
             chart = combined_weather_fitbit_heatmap(weather_data, conn)
             st.plotly_chart(chart)
