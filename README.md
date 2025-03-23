@@ -7,6 +7,7 @@
 ![plotly](https://img.shields.io/badge/plotly-5.17.0-9cf?logo=plotly)
 ![seaborn](https://img.shields.io/badge/seaborn-0.12.2-lightblue?logo=seaborn)
 ![statsmodels](https://img.shields.io/badge/statsmodels-0.14.0-brown?logo=python)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-%3E%3D1.3.2-blue?logo=scikit-learn)
 ## 📋 Project Overview:
 This project focuses on analyzing Fitbit data collected from 35 participants in a 2016 Amazon survey. The goal is to develop an interactive Streamlit dashboard that presents various key metrics such as:
 - Daily steps, distance, and calories burned
