@@ -175,3 +175,201 @@ Analyzes heart rate variability metrics (RMSSD, SDNN, PNN50) for a given user ID
 - `pandas.DataFrame`: A DataFrame containing the user ID and the calculated heart rate variability metrics (RMSSD, SDNN, PNN50).
 
 change
+
+---------------------------------------------------------------------
+
+## General Information 
+
+### Home 
+
+#### Overall Statistics 
+
+##### Number of Users
+
+---
+
+##### Average Distance
+
+----
+
+##### Average Calories
+
+----
+
+##### Average Sleep Duration 
+
+----
+
+##### Average Sedentary Minutes
+
+----
+
+##### Average Weight
+
+The preprocessing function for this numerical calculation can be found in the `general` folder, in the file: `height_and_weight_metrics.py`.
+
+##### Average Height
+
+The preprocessing function for this numerical calculation can be found in the `general` folder, in the file: `height_and_weight_metrics.py`.
+
+##### Average Steps
+
+----
+
+##### Average BMI
+
+----
+
+#### Overall Graphical Analysis
+
+##### Total Distance per User
+
+----
+
+##### Average Calories Burned per Total Steps
+
+----
+
+##### Weight vs. Calories Burned
+
+----
+
+#### Overview of User Health and Activity Patterns
+
+##### Number of Days Using Fitbit
+
+----
+
+##### Active Minutes by Intensity
+
+-----
+
+##### BMI Classification
+
+----
+
+### Regression Analysis
+
+#### Sedentary Time vs Sleep Time Analysis
+
+##### Regression: Sedentary Time vs Sleep Time
+
+----
+
+##### Histogram of Residuals (Density-Scaled)
+
+-----
+
+##### Q-Q Plot of Residuals
+
+-----
+
+#### Calories Burned vs Steps
+
+##### Calories Burned vs Steps
+
+-----
+
+### Weekday Analysis
+
+##### Box plot: Total Distance per Day of the Week
+
+----
+
+##### Box plot: Sedentary Activity per Day of the Week
+
+----
+
+### 4-Hour Block Analysis
+
+##### Average Calories Burnt per 4-Hour Block
+
+The function for this figure can be found in the `general` folder, in the file: `calories_4_hour_blocks_general.py`.
+
+##### Average Minutes of Sleep per 4-Hour Block
+
+The function for this figure can be found in the `general` folder, in the file: `sleep_4_hour_blocks_general.py`.
+
+##### Average Steps per 4-Hour Block
+
+The function for this figure can be found in the `general` folder, in the file: `steps_4_hour_blocks_general.py`.
+
+### Weather Analysis
+
+##### Daily and Cumulative Precipitation:
+
+----
+
+##### Heatmap for correlation matrix:
+
+----
+
+##### Box Plot: Total Steps on Rainy vs Non-Rainy Days
+
+----
+
+##### Linear Regression: Total Steps vs Temperature
+
+----
+
+## User-Specific Analysis
+
+#### Numerical Summary
+
+##### Average Distance
+
+---
+
+##### Average Calories
+
+---
+
+##### Average Sleep Duration
+
+---
+
+##### Average Sedentary Minutes
+
+---
+
+##### Last Weight 
+
+The preprocessing function for this numerical calculation can be found in the `general` folder, in the file: `height_and_weight_metrics.py`.
+
+##### Last Height 
+
+The preprocessing function for this numerical calculation can be found in the `general` folder, in the file: `height_and_weight_metrics.py`.
+
+##### Average Steps
+
+---
+
+##### Comparison for this date range:
+
+----
+
+##### Total Steps and Total Distance per Day
+
+The function for this figure can be found in the `user_spec` folder, in the file:
+`steps_and_distance_user.py`.
+
+##### Calories Burnt per Day
+
+The function for this figure can be found in the `user_spec` folder, in the file:
+`calories_user.py`.
+
+##### Very Active, Fairly Active, and Lightly Active Minutes Proportions
+
+-----
+
+##### Total Active Minutes versus Sedentary Activity
+
+-----
+
+##### Calories vs Steps Regression
+
+-----
+
+##### Heart rate analysis
+
+The function for these numerical calculations can be found in the `user_spec` folder, in the file: `heart_analysis_user.py`.
