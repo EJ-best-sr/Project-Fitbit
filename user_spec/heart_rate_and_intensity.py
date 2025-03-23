@@ -136,9 +136,6 @@ def plot_health_metrics(conn, user_id, start_date, end_date):
         title_x=0.5,  # Centers the title
         xaxis_title='Date',
         yaxis_title='Average Heart Rate / Total Intensity',
-        xaxis=dict(
-            tickformat='%m/%d',
-        ),
         legend=dict(
             title="Metrics",
             x=1.02,
