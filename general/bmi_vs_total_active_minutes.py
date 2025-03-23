@@ -39,7 +39,7 @@ def plot_bmi_relationship(db_path: str):
         y=merged_df['BMI'],
         mode='markers',
         name='Data Points',
-        marker=dict(color='darkblue', size=6, opacity=0.7)
+        marker=dict(color='steelblue', size=6, opacity=1)
     ))
     fig1.add_trace(go.Scatter(
         x=merged_df['SedentaryMinutes'],
@@ -49,7 +49,16 @@ def plot_bmi_relationship(db_path: str):
         line=dict(color='black', width=2)
     ))
     fig1.update_layout(xaxis_title='Sedentary Minutes',
-                       yaxis_title='BMI')
+                       yaxis_title='BMI',
+                       legend=dict(
+                        x=0.98,  
+                        y=0.98, 
+                        xanchor='right',
+                        yanchor='top', 
+                        bgcolor='rgba(255, 255, 255, 0.5)',
+                        bordercolor='rgba(0, 0, 0, 0.5)',
+                        borderwidth=1 
+                    ) )
 
     # --- Plot 2: Total Active Minutes vs BMI ---
     x2 = merged_df['TotalActiveMinutes'].values.reshape(-1, 1)
@@ -63,7 +72,7 @@ def plot_bmi_relationship(db_path: str):
         y=merged_df['BMI'],
         mode='markers',
         name='Data Points',
-        marker=dict(color='darkblue', size=6, opacity=0.7)
+        marker=dict(color='steelblue', size=6, opacity=1)
     ))
     fig2.add_trace(go.Scatter(
         x=merged_df['TotalActiveMinutes'],
@@ -73,6 +82,15 @@ def plot_bmi_relationship(db_path: str):
         line=dict(color='black', width=2)
     ))
     fig2.update_layout(xaxis_title='Total Active Minutes',
-                       yaxis_title='BMI')
+                       yaxis_title='BMI',
+                       legend=dict(
+                        x=0.98,  
+                        y=0.98, 
+                        xanchor='right',
+                        yanchor='top', 
+                        bgcolor='rgba(255, 255, 255, 0.5)',
+                        bordercolor='rgba(0, 0, 0, 0.5)',
+                        borderwidth=1 
+                    ) )
 
     return fig1, fig2

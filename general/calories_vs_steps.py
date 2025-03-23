@@ -32,7 +32,7 @@ def calories_vs_steps_regression(db_path):
             y = df_steps['Calories'],
             mode='markers',
             name ='Data Points',
-            marker=dict(color='rgba(69, 86, 128, 0.8)', line=dict(color='rgba(69, 86, 128, 0.8)', width=1)),
+            marker=dict(color='steelblue', line=dict(color='steelblue', width=1)),
         )
     )
 
@@ -43,6 +43,26 @@ def calories_vs_steps_regression(db_path):
             mode='lines',
             line=dict(color='rgba(0, 0, 0)'),  # Custom line color
             name='Regression Line'
+        )
+    )
+
+    regression_fig.update_layout(
+        xaxis_title='Calories Burned',
+        yaxis_title='Steps',
+        showlegend=True,
+        template='plotly_white',
+        width=800,  
+        height=400,
+        autosize=False, 
+        margin=dict(l=100, r=100, t=50, b=0),
+        legend=dict(
+            x=0.02,  
+            y=0.98, 
+            xanchor='left',
+            yanchor='top', 
+            bgcolor='rgba(255, 255, 255, 0.5)',
+            bordercolor='rgba(0, 0, 0, 0.5)',
+            borderwidth=1 
         )
     )
 

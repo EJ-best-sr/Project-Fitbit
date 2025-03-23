@@ -358,7 +358,6 @@ if st.session_state.page == "General":
             st.plotly_chart(qq_fig)
 
         st.header("Calories Burned vs Steps")
-        st.subheader("Calories Burned vs Steps")
         fig = calories_vs_steps_regression(db_path)
         st.plotly_chart(fig)
 
@@ -366,11 +365,11 @@ if st.session_state.page == "General":
         bmi1, bmi2 = plot_bmi_relationship(db_path)
 
         with col7:
-            st.subheader("Sedentary Minutes vs BMI")
+            st.header("Sedentary Minutes vs BMI")
             st.plotly_chart(bmi1, use_container_width = True)
         
         with col8:
-            st.subheader("Total Active Minutes vs BMI")
+            st.header("Total Active Minutes vs BMI")
             st.plotly_chart(bmi2, use_container_width=True)
 
     
