@@ -58,6 +58,7 @@ from general.heatmap_for_correlation_weather import combined_weather_fitbit_heat
 from general.plot_linear_regression_weather import plot_steps_vs_temperature_regression
 # import bmi regression
 from general.bmi_vs_total_active_minutes import plot_bmi_relationship
+from user_spec.heart_rate_and_intensity import plot_health_metrics
 
 st.set_page_config(layout="wide",
                    page_icon=" 🧠 ")
@@ -532,7 +533,7 @@ elif st.session_state.page == "User-Specific":
     sl_info = f"Number of records: {sl_num}"
     sed_info = f"Number of records: {sed_num}"
 
-    st.markdown(comparison_result, unsafe_allow_html=True)
+    st.write(comparison_result, unsafe_allow_html=True)
 
     with col1:
         avg = user_data['TotalDistance'].mean()
@@ -616,7 +617,6 @@ elif st.session_state.page == "User-Specific":
 
 
 
-
     with col2:
         st.subheader("Calories Burnt per Day")
         fig = plot_calories_burnt(data, selected_user, start_date, end_date)
@@ -625,14 +625,24 @@ elif st.session_state.page == "User-Specific":
         st.subheader("Total Active Minutes versus Sedentary Activity")
         fig = plot_active_sedentary_minutes_daily(conn, selected_user, start_date.strftime("%m/%d/%Y"), end_date.strftime("%m/%d/%Y"))
         st.plotly_chart(fig)
-    
+
+        st.subheader("Average Heart Rate and Total Intensity per Day")
+        fig = plot_health_metrics(conn, selected_user, start_date, end_date)
+
+        if fig:
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.warning("No heart and intensity data found for this user in the specified date range. Number of users with this data available: 14")
+            
+
+        st.subheader(f"Heart rate analysis")
+
         rmssd_info = "**RMSSD (Root Mean Square of Successive Differences)**: A measure of variability between heartbeats. Higher values indicate better recovery and adaptability."
         sdnn_info = "**SDNN (Standard Deviation of NN intervals)**: Measures overall heart rate variability. Higher values indicate good cardiovascular health."
         pnn50_info = "**PNN50 (Percentage of NN50)**: The percentage of consecutive heartbeats that differ by more than 50 ms. Higher values indicate greater variability."
 
         result = heart_rate_analysis(selected_user)
         if result is not None:
-            st.subheader(f"Heart rate analysis")
             col1, col2, col3 = st.columns([3, 4, 3])
             col1.metric("RMSSD", f"{result.loc[0, 'User Value']} ms", help=rmssd_info)
             col2.metric("SDNN", f"{result.loc[1, 'User Value']} ms", help=sdnn_info)
@@ -641,9 +651,8 @@ elif st.session_state.page == "User-Specific":
             st.dataframe(result)
 
         else:
-            st.write("No heart data found for this user.")
             query_hr = "SELECT * FROM heart_rate"
             df_hr = pd.read_sql_query(query_hr, conn)
             num_users = df_hr['Id'].nunique()
-            st.write(f"Number of users with heart data available: {num_users}")
+            st.warning(f"No heart data found for this user in the specified date range. Number of users with heart data available: {num_users}")
 
