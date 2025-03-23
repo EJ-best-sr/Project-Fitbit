@@ -589,16 +589,23 @@ elif st.session_state.page == "User-Specific":
 
     with col1:
         st.subheader("Total Steps and Total Distance per Day")
-        fig = plot_steps_and_distance(data, selected_user, start_date, end_date)
-        st.plotly_chart(fig)
+        if user_data['TotalDistance'].mean()==0:
+            st.warning("No distance data to plot.")
+        else:
+            fig = plot_steps_and_distance(data, selected_user, start_date, end_date)
+            st.plotly_chart(fig)
 
         st.subheader("Very Active, Fairly Active, and Lightly Active Minutes Proportions")
         fig = plot_activity_distribution(user_data)
-        st.plotly_chart(fig)
+        if fig is not None:
+            st.plotly_chart(fig)
 
         st.subheader("Calories vs Steps Regression")
-        fig = plot_regression_line(data, selected_user)
-        st.plotly_chart(fig)
+        if (user_data['TotalSteps'].mean() == 0 or user_data['Calories'].mean()==0):
+            st.warning("No enough data to perform regression.")
+        else:
+            fig = plot_regression_line(data, selected_user)
+            st.plotly_chart(fig)
 
 
 
