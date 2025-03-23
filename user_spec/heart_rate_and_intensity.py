@@ -113,7 +113,7 @@ def plot_health_metrics(conn, user_id, start_date, end_date):
             y=heart_rate_avg['Value'],
             mode='lines+markers',
             name="Average Heart Rate",
-            line=dict(color='steelblue', width=4),
+            line=dict(color='rgba(0, 128, 128, 0.65)', width=4),
             marker=dict(symbol='circle', size=8)
         )
     )
@@ -125,7 +125,7 @@ def plot_health_metrics(conn, user_id, start_date, end_date):
             y=intensity_avg['TotalIntensity'],
             mode='lines+markers',
             name="Total Intensity",
-            line=dict(color='slategray', width=4),
+            line=dict(color='rgba(11, 97, 107, 0.9)', width=4),
             marker=dict(symbol='circle', size=8)
         )
     )

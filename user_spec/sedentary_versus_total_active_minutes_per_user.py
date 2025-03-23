@@ -41,7 +41,7 @@ def plot_active_sedentary_minutes_daily(conn, user_id, start_date, end_date):
         y=df_filtered['TotalActiveMinutes'],
         mode='lines+markers',
         name='Total Active Minutes',
-        line=dict(color="steelblue", width=4),
+        line=dict(color="rgba(147, 112, 219, 0.8)", width=4),
         marker=dict(symbol='circle', size=8)
     ))
 
@@ -50,7 +50,7 @@ def plot_active_sedentary_minutes_daily(conn, user_id, start_date, end_date):
         y=df_filtered['SedentaryMinutes'],
         mode='lines+markers',
         name='Sedentary Minutes',
-        line=dict(color="slategray", width=4),
+        line=dict(color="rgba(72, 61, 139, 0.8)", width=4),
         marker=dict(symbol='circle', size=8)
     ))
 
