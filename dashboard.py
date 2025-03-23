@@ -350,9 +350,15 @@ if st.session_state.page == "General":
         with col6:
             st.plotly_chart(qq_fig)
 
-        st.header("Calories Burned vs Steps")
-        fig = calories_vs_steps_regression(db_path)
-        st.plotly_chart(fig)
+        col1, col2 = st.columns(2)
+        with col1:
+            fig, info_c_st = calories_vs_steps_regression(db_path)
+            st.header("Calories Burned vs Steps", help = info_c_st)
+            st.plotly_chart(fig)
+        with col2:
+            fig, info_sl_act = analyze_sleep_activity(db_path)
+            st.header("Sleep Time vs Activity", help= info_sl_act)
+            st.plotly_chart(fig)
 
         col7, col8 = st.columns(2)
         bmi1, bmi2 = plot_bmi_relationship(db_path)
@@ -365,17 +371,7 @@ if st.session_state.page == "General":
             st.header("Total Active Minutes vs BMI")
             st.plotly_chart(bmi2, use_container_width=True)
 
-    
 
-        col1, col2 = st.columns(2)
-        with col1:
-            fig, info_c_st = calories_vs_steps_regression(db_path)
-            st.header("Calories Burned vs Steps", help = info_c_st)
-            st.plotly_chart(fig)
-        with col2:
-            fig, info_sl_act = analyze_sleep_activity(db_path)
-            st.header("Sleep Time vs Activity", help= info_sl_act)
-            st.plotly_chart(fig)
 
 
     elif st.session_state.sub_page == "Weekday Analysis":
