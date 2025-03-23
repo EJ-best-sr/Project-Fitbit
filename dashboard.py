@@ -47,7 +47,6 @@ from general.plot_bmi_pie_chart import plot_bmi_pie_chart
 from general.variation_BMI_boxplot import plot_bmi_weight_boxplots
 from general.plot_weight_activity import plot_weight_vs_activity
 # from general.plot_weight_vs_factors import plot_weight_vs_factors
-# from general.plot_steps_rainy_vs_non_rainy import plot_steps_rainy_vs_nonrainy_function
 from general.plot_corr_weather_vs_steps import plot_corr_weather_vs_steps
 from general.plot_fitbit_usage import plot_fitbit_usage_pie
 from general.plot_weight_vs_sleep_scatterplot import plot_sleep_vs_weight
@@ -56,6 +55,8 @@ from general.weather_Chicago_charts import plot_precipitation_chart
 from general.plot_steps_rainy_or_not import plot_steps_rainy_vs_non_rainy
 from general.heatmap_for_correlation_weather import combined_weather_fitbit_heatmap
 from general.plot_linear_regression_weather import plot_steps_vs_temperature_regression
+# import bmi regression
+from general.bmi_vs_total_active_minutes import plot_bmi_relationship
 
 st.set_page_config(layout="wide",
                    page_icon=" 🧠 ")
@@ -360,6 +361,20 @@ if st.session_state.page == "General":
         st.subheader("Calories Burned vs Steps")
         fig = calories_vs_steps_regression(db_path)
         st.plotly_chart(fig)
+
+        col7, col8 = st.columns(2)
+        bmi1, bmi2 = plot_bmi_relationship(db_path)
+
+        with col7:
+            st.subheader("Sedentary Minutes vs BMI")
+            st.plotly_chart(bmi1, use_container_width = True)
+        
+        with col8:
+            st.subheader("Total Active Minutes vs BMI")
+            st.plotly_chart(bmi2, use_container_width=True)
+
+    
+
 
     elif st.session_state.sub_page == "Weekday Analysis":
         st.title("Weekday Analysis")
