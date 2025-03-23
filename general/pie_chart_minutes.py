@@ -41,7 +41,7 @@ def plot_activity_distribution(user_data):
         height=400,  
         margin=dict(l=0, r=50, t=50, b=0), 
         legend=dict(
-            title="Usage Groups",
+            title="Activity Levels",
             font=dict(size=14),         
             bgcolor='rgba(255, 255, 255, 0.5)',  
             bordercolor='black',          
