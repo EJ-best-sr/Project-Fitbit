@@ -3,12 +3,10 @@ import plotly.express as px
 import sqlite3
 def plot_steps_rainy_vs_non_rainy(db_path: str, df_weather: pd.DataFrame):
     try:
-        # Load Fitbit data
         conn = sqlite3.connect(db_path)
         df_fitbit = pd.read_sql_query("SELECT ActivityDate AS date, TotalSteps FROM daily_activity", conn)
         df_fitbit["date"] = pd.to_datetime(df_fitbit["date"]).dt.date
 
-        # Format weather
         df_weather = df_weather.copy()
         if "datetime" in df_weather.columns:
             df_weather["date"] = pd.to_datetime(df_weather["datetime"]).dt.date
@@ -25,12 +23,13 @@ def plot_steps_rainy_vs_non_rainy(db_path: str, df_weather: pd.DataFrame):
         if "TotalSteps" not in df_merged.columns:
             raise ValueError("Missing 'TotalSteps' in merged DataFrame.")
 
-        # Plot
         fig = px.box(
             df_merged,
             x="Rainy",
             y="TotalSteps",
             labels={"Rainy": "Rainy Day (True/False)", "TotalSteps": "Total Steps"},
+            width=800,               
+            height=550,  
         )
         return fig
     
