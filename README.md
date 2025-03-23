@@ -148,4 +148,5 @@ This section outlines each component of the dashboard and where its logic is imp
 - **Calories Burned:** `user_spec/calories_user.py`  
 - **Activity Type Proportions:** `user_spec/pie_chart_minutes.py`  
 - **Calories vs Steps Regression:** `user_spec/calories_steps_regression.py`  
-- **Active vs Sedentary Minutes:** `user_spec/sedentary_versus_tot
+- **Active vs Sedentary Minutes:** `user_spec/sedentary_versus_total_active_minutes_per_user.py`  
+- **Heart Rate Analysis:** `user_spec/heart_analysis_user.py`, `user_spec/heart_rate_and_intensity.py`
