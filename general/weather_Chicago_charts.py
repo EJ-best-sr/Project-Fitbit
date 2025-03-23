@@ -33,8 +33,8 @@ def plot_precipitation_chart(data: pd.DataFrame):
     name="Cumulative",
     mode="lines",
     fill="tozeroy",
-    line=dict(color="rgba(100, 149, 237, 0.6)", width=3),
-    fillcolor="rgba(100, 149, 237, 0.2)"  # same color, lighter fill
+    line=dict(color="rgba(70, 130, 180, 0.7)", width=3),
+    fillcolor="rgba(70, 130, 180, 0.2)"  # same color, lighter fill
     ))
 
     # Layout styling
@@ -44,8 +44,8 @@ def plot_precipitation_chart(data: pd.DataFrame):
         legend_title="Legend",
         legend = dict(
             font= dict(size=15),
-            bgcolor="rgba(240,240,240,0.8)", 
-            bordercolor="gray", 
+            bgcolor="rgba(255,255,255,0.7)", 
+            bordercolor='rgba(0, 0, 0, 0.5)',
             borderwidth=1),
         template="plotly_white",
         width=800,               

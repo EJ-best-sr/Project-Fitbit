@@ -64,7 +64,7 @@ def analyze_sleep_activity(db_path):
             y=df_merged_filtered['TotalSleepDuration'],
             mode='markers',
             name='Data Points',
-            marker=dict(color='rgba(69, 86, 128, 0.8)', line=dict(color='rgba(69, 86, 128, 0.8)', width=1)),
+            marker=dict(color='steelblue', line=dict(color='steelblue', width=1)),
         )
     )
 

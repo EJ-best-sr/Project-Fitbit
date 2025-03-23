@@ -78,7 +78,7 @@ def perform_regression_analysis(df_merged):
         nbins=30,
         labels={'x': 'Residuals', 'y': 'Density'},
         title='Histogram of Residuals (Density-Scaled)',
-        color_discrete_sequence=['rgba(70, 130, 180, 0.8)'], 
+        color_discrete_sequence=['rgba(70, 130, 180, 0.7)'], 
         histnorm='density',
         marginal='rug', 
     )
@@ -97,6 +97,15 @@ def perform_regression_analysis(df_merged):
             name='KDE'
         )
     )
+
+    residuals_histogram.update_traces(
+    marker=dict(
+        line=dict(
+            color='rgba(70, 130, 180, 0.9)',  # Black border for bins
+            width=1  # Border width
+        )
+    )
+)
 
     residuals_histogram.update_layout(
         template='plotly_white',

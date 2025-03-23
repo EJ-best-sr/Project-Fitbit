@@ -1,5 +1,5 @@
 import seaborn as sns
-from load_data import load_data
+from general.load_data import load_data
 from plot_distance_per_user import plot_distance_per_user
 from plot_workout_frequency_by_day import plot_workout_frequency_by_day
 from plot_regression_line import plot_regression_line
