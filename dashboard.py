@@ -6,6 +6,7 @@ import seaborn as sns
 import sys, os
 import sqlite3
 import plotly.io as pio
+import math
 
 module_dir = '/data' # this should be a directory where daily_acivity.csv is
 sys.path.append(module_dir)
@@ -145,21 +146,27 @@ st.markdown(
         visibility: visible;
         opacity: 1;
     }
+    .custom-delta {
+        color: black; /* Change to any color you want */
+        font-size: 18px !important; 
+        margin-top: -20px !important; 
+    }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-def metric_box(metric_value, metric_label, tooltip_text):
-    return f"""
-    <div class="metric-box">
-        {metric_label}<br>
-        <b>{metric_value:.2f} km</b>
-        <div class="tooltip">(?)
-            <span class="tooltiptext">{tooltip_text}</span>
-        </div>
-    </div>
-    """
+# def metric_box(metric_value, metric_label, tooltip_text):
+#     return f"""
+#     <div class="metric-box">
+#         {metric_label}<br>
+#         <b>{metric_value:.2f} km</b>
+#         <div class="tooltip">(?)
+#             <span class="tooltiptext">{tooltip_text}</span>
+#         </div>
+#     </div>
+#     """
+
 st.sidebar.markdown(
     "<h2 style='text-align: center; color: #4A4A4A;'>🧠 Fitbit Data Analytics</h2>",
     unsafe_allow_html=True
@@ -200,28 +207,7 @@ df_sleep = load_and_process_sleepdata(db_path)
 conn = sqlite3.connect(db_path)
 weight_log_df = add_height_column(replace_missing_values_weight_log(db_path))
 
-
-# Custom CSS for metric boxes
-st.markdown(
-    """
-    <style>
-    .metric-box {
-        border: 1px solid #0068C9;  /* Border color matches Plotly blue */
-        border-radius: 5px;
-        padding: 10px;
-        background-color: #0068C9;  /* Default Plotly blue for background */
-        text-align: center;
-        margin: 5px;
-        color: white;  /* White text */
-        font-weight: bold;
-    }
-    .metric-box b {
-        color: white;  /* White text for bold values */
-    }
-    </style>     
-    """,
-    unsafe_allow_html=True,
-)    
+   
 
 # ---------------------------
 # Page 1: General Information
@@ -267,34 +253,44 @@ if st.session_state.page == "General":
         bmi_info = f"Sample size: {wei_hei_num}"
         step_info = f"Sample size: {steps_num}"
 
-        sl_min, a = calculate_user_statistics_sleep(df_sleep)
-        sed_min, b = calculate_user_statistics_sedentary(df_sleep_sed)
+        sl_min, sl_sd, num = calculate_user_statistics_sleep(df_sleep)
+        sed_min, sed_sd, num = calculate_user_statistics_sedentary(df_sleep_sed)
 
+        # --------
         # Metrics
+        # --------
         st.header("Overall Statistics")
         col1, col2, col3, col4, col5, col6, col7,col8, col9 = st.columns(9)
         with col1:
-            st.metric("Number of Users", f"{data['Id'].nunique()}", help= "Total number of unique users in the database.")
+            st.metric("Number of Users", f"{data['Id'].nunique()}",
+                      help= "Total number of unique users in the database.")
         with col2:
             st.metric("Average Distance", f"{data['TotalDistance'].mean():.2f} km", help=td_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {data['TotalDistance'].std():.2f} km</p>', unsafe_allow_html=True)
         with col3:
-            st.metric("Average Calories", f"{data['Calories'].mean():.0f} kcal", help=td_info)
+            st.metric("Average Steps", f"{data['TotalSteps'].mean():.0f} steps", help=step_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {data['TotalSteps'].std():.0f} steps</p>', unsafe_allow_html=True)
         with col4:
-            st.metric("Average Sleep Duration", f"{sl_min} min", help=sl_info)
+            st.metric("Average Calories", f"{data['Calories'].mean():.0f} kcal", help=td_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {data['Calories'].std():.0f} kcal</p>', unsafe_allow_html=True)
         with col5:
-            st.metric("Average Sedentary Minutes", f"{sed_min} min", help=sed_info)
+            st.metric("Average Sleep Duration", f"{sl_min} min", help=sl_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {sl_sd:.0f} min</p>', unsafe_allow_html=True)
         with col6:
-            st.metric("Average Weight", f"{weight_log_df['WeightKg'].mean():.1f} kg", help=wei_info)
-        
+            st.metric("Average Sedentary Minutes", f"{sed_min} min", help=sed_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {sed_sd:.0f} min</p>', unsafe_allow_html=True)
         with col7:
-            st.metric("Average Height", f"{weight_log_df['Height'].mean():.2f} m", help=hei_info)
-        
+            st.metric("Average Weight", f"{weight_log_df['WeightKg'].mean():.1f} kg", help=wei_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {weight_log_df['WeightKg'].std():.1f} kg</p>', unsafe_allow_html=True)
         with col8:
-            avg_steps = data['TotalSteps'].mean()
-            st.metric("Average Steps", f"{avg_steps:.0f} steps", help=step_info)
-        
+            st.metric("Average Height", f"{weight_log_df['Height'].mean():.2f} m", help=hei_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {weight_log_df['Height'].std():.1f} m</p>', unsafe_allow_html=True)
         with col9:
             st.metric("Average BMI:", f"{weight_log_df['BMI'].mean():.2f} kg/m²", help=bmi_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {weight_log_df['BMI'].std():.1f} kg/m²</p>', unsafe_allow_html=True)
+
+        st.dataframe(weight_log_df.head())
+
 
 
         # Plots
@@ -481,6 +477,7 @@ elif st.session_state.page == "User-Specific":
     selected_user = st.sidebar.selectbox("Select a User", unique_users)
     # Date selection
     st.sidebar.header("Date Range Selection")
+
     min_date = data['ActivityDate'].min().to_pydatetime()
     max_date = data['ActivityDate'].max().to_pydatetime()
     start_date = st.sidebar.date_input("Start Date", min_date, min_value=min_date, max_value=max_date)
@@ -495,15 +492,20 @@ elif st.session_state.page == "User-Specific":
 
     comparison_result = compare_user_to_database_averages(user_data, data, start_date, end_date)
 
-    # Metrics (numerical summary)
+
+    # -------
+    # Metrics 
+    # -------
+
     st.subheader("Numerical Summary")
-    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+    col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+
     # ------
     # calculate the sample sizes for the given averages
     # ------
     td_num = user_data['TotalDistance'].count()
-    sl_min, sl_num = calculate_user_statistics_sleep(df_sleep, selected_user, start_date, end_date)
-    sed_min, sed_num = calculate_user_statistics_sedentary(df_sleep_sed, selected_user, start_date, end_date)
+    sl_min, sl_sd, sl_num = calculate_user_statistics_sleep(df_sleep, selected_user, start_date, end_date)
+    sed_min, sed_sd, sed_num = calculate_user_statistics_sedentary(df_sleep_sed, selected_user, start_date, end_date)
     
     query_steps = "SELECT Id, ActivityDate, TotalSteps FROM daily_activity"
     df_me = pd.read_sql(query_steps, conn)
@@ -518,47 +520,66 @@ elif st.session_state.page == "User-Specific":
     st.markdown(comparison_result, unsafe_allow_html=True)
 
     with col1:
-        # st.markdown('<div class="metric-box">Average Distance<br><b>{:.2f} km</b></div>'.format(
-        #     user_data['TotalDistance'].mean()), unsafe_allow_html=True, help=td_info)
-        # st.markdown(metric_box(user_data['TotalDistance'].mean(), "Average Distance", td_info), unsafe_allow_html=True)
-        st.metric("Average Distance", f"{user_data['TotalDistance'].mean():.2f} km", help=td_info)
-    with col2:
-        # st.markdown('<div class="metric-box">Average Calories<br><b>{:.0f} kcal</b></div>'.format(
-        #     user_data['Calories'].mean()), unsafe_allow_html=True)
-        st.metric("Average Calories", f"{user_data['Calories'].mean():.0f} kcal", help=td_info)
-    with col3:
-        # st.markdown('<div class="metric-box">Average Sleep Duration<br><b>{} min</b></div>'.format(
-        #     calculate_user_statistics_sleep(df_sleep, selected_user, start_date, end_date)), unsafe_allow_html=True)
-        st.metric("Average Sleep Duration", f"{sl_min} min", help=sl_info)
-    with col4:
-        # st.markdown('<div class="metric-box">Average Sedentary Minutes<br><b>{} min</b></div>'.format(
-        #     calculate_user_statistics_sedentary(df_sleep_sed, selected_user, start_date, end_date)), unsafe_allow_html=True)
-        st.metric("Average Sedentary Minutes", f"{sed_min} min", help=sed_info)
-    with col5:
-        # if pd.isna(weight_log_df[weight_log_df.index == selected_user]['WeightKg'].mean()):
-        #     st.markdown('<div class="metric-box" style="color:red;">No Weight data</div>', unsafe_allow_html=True)
-        # else:
-        #     st.markdown('<div class="metric-box">Average Weight<br><b>{:.1f} kg</b></div>'.format(weight_log_df[weight_log_df.index == selected_user]['WeightKg'].mean()), unsafe_allow_html=True)
-        last_weight = weight_log_df[weight_log_df['Id'] == selected_user]['WeightKg'].iloc[-1] if not weight_log_df[weight_log_df['Id'] == selected_user].empty else None
-        if pd.isna(last_weight):
-            st.metric("Last Weight", "No data", help="No weight data available for the selected user.")
+        avg = user_data['TotalDistance'].mean()
+        sd = user_data['TotalDistance'].std()
+        if math.isnan(avg):
+            st.metric("Average Distance", "No data", help=td_info)
         else:
-            st.metric("Last Weight", f"{last_weight:.1f} kg", help="Most recent weight of the selected user.")
-
-    with col6:
-        # if pd.isna(weight_log_df[weight_log_df.index == selected_user]['Height'].mean()):
-        #     st.markdown('<div class="metric-box" style="color:red;">No Height data</div>', unsafe_allow_html=True)
-        # else:
-        #     st.markdown('<div class="metric-box">Average Height<br><b>{:.2f} m</b></div>'.format(weight_log_df[weight_log_df.index == selected_user]['Height'].mean()), unsafe_allow_html=True)
-        last_height = weight_log_df[weight_log_df['Id'] == selected_user]['Height'].iloc[-1] if not weight_log_df[weight_log_df['Id'] == selected_user].empty else None
-        if pd.isna(last_height):
-            st.metric("Last Height", "No data", help="No height data available for the selected user.")
-        else:
-            st.metric("Last Height", f"{last_height:.2f} m", help="Most recent height of the selected user.")
+            st.metric("Average Distance", f"{avg:.2f} km", help=td_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {sd:.2f} km</p>', unsafe_allow_html=True)
     
-    with col7:
+    with col2:
         avg_steps = user_data['TotalSteps'].mean()
         st.metric("Average Steps", f"{avg_steps:.0f} steps",  help=steps_info)
+        st.markdown(f'<p class="custom-delta">Standard Deviation: {user_data['TotalSteps'].std():.0f} steps</p>', unsafe_allow_html=True)
+
+
+    with col3:
+        avg = user_data['Calories'].mean()
+        sd = user_data['Calories'].std()
+        if math.isnan(avg):
+            st.metric("Average Calories", "No data", help=td_info)
+        else:
+            st.metric("Average Calories", f"{avg:.0f} kcal", help=td_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {sd:.0f} kcal</p>', unsafe_allow_html=True)
+
+    with col4:
+        if sl_min is None:
+            st.metric("Average Sleep Duration", "No data", help=sl_info)
+        else:
+            st.metric("Average Sleep Duration", f"{sl_min} min", help=sl_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {sl_sd:.0f} min</p>', unsafe_allow_html=True)
+
+    
+    with col5:
+        if sl_min is None:
+            st.metric("Average Sedentary Duration", "No data", help=sl_info)
+        else:
+            st.metric("Average Sedentary Duration", f"{sl_min} min", help=sl_info)
+            st.markdown(f'<p class="custom-delta">Standard Deviation: {sed_sd:.0f} min</p>', unsafe_allow_html=True)
+
+    with col6:
+        last_weight = weight_log_df[weight_log_df['Id'] == selected_user]['WeightKg'].iloc[-1] if not weight_log_df[weight_log_df['Id'] == selected_user].empty else None
+        if pd.isna(last_weight):
+            st.metric("Weight", "No data", help="No weight data available for the selected user.")
+        else:
+            st.metric("Weight", f"{last_weight:.1f} kg", help="Most recent weight of the selected user.")
+
+    with col7:
+        last_height = weight_log_df[weight_log_df['Id'] == selected_user]['Height'].iloc[-1] if not weight_log_df[weight_log_df['Id'] == selected_user].empty else None
+        if pd.isna(last_height):
+            st.metric("Height", "No data", help="No height data available for the selected user.")
+        else:
+            st.metric("Height", f"{last_height:.2f} m")
+
+    # with col8:
+    #     if last_bmi is None:
+    #         st.metric("BMI", "No data", help="No BMI data available for the selected user.")
+    #     else:
+    #         st.metric("BMI", f"{last_bmi:.2f} kg/m²", help="Last available BMI for the selected user.")
+
+            
+    
     
     
     # Plots
@@ -610,7 +631,4 @@ elif st.session_state.page == "User-Specific":
             df_hr = pd.read_sql_query(query_hr, conn)
             num_users = df_hr['Id'].nunique()
             st.write(f"Number of users with heart data available: {num_users}")
-
-
-
 
