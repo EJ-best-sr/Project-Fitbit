@@ -57,9 +57,6 @@ def plot_active_sedentary_minutes_daily(conn, user_id, start_date, end_date):
     fig.update_layout(
         xaxis_title='Date',
         yaxis_title='Minutes',
-        xaxis=dict(
-            tickformat='%m/%d',  
-        ),
         legend=dict(
             title="Metrics",
             x=1.02,  
