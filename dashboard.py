@@ -289,9 +289,6 @@ if st.session_state.page == "General":
             st.metric("Average BMI:", f"{weight_log_df['BMI'].mean():.2f} kg/m²", help=bmi_info)
             st.markdown(f'<p class="custom-delta">Standard Deviation: {weight_log_df['BMI'].std():.1f} kg/m²</p>', unsafe_allow_html=True)
 
-        st.dataframe(weight_log_df.head())
-
-
 
         # Plots
         st.header("Overall Graphical Analysis")
@@ -492,6 +489,16 @@ elif st.session_state.page == "User-Specific":
 
     comparison_result = compare_user_to_database_averages(user_data, data, start_date, end_date)
 
+    weight_log_df['Date'] = pd.to_datetime(weight_log_df['Date'])
+    user_weight_log_df = weight_log_df[(weight_log_df['Id'] == selected_user) & 
+                                       (weight_log_df['Date'] >= start_date) & (weight_log_df['Date'] <= end_date)]
+    weight_data_sorted = user_weight_log_df.sort_values(by='Date', ascending=False)
+    if not weight_data_sorted.empty:
+        last_bmi = weight_data_sorted.iloc[0]['BMI']
+    else:
+        user_weight_log_df = weight_log_df[(weight_log_df['Id'] == selected_user)]
+        weight_data_sorted = user_weight_log_df.sort_values(by='Date', ascending=False)
+        last_bmi = weight_data_sorted.iloc[0]['BMI']
 
     # -------
     # Metrics 
@@ -572,11 +579,11 @@ elif st.session_state.page == "User-Specific":
         else:
             st.metric("Height", f"{last_height:.2f} m")
 
-    # with col8:
-    #     if last_bmi is None:
-    #         st.metric("BMI", "No data", help="No BMI data available for the selected user.")
-    #     else:
-    #         st.metric("BMI", f"{last_bmi:.2f} kg/m²", help="Last available BMI for the selected user.")
+    with col8:
+        if last_bmi is None:
+            st.metric("BMI", "No data", help="No BMI data available for the selected user.")
+        else:
+            st.metric("BMI", f"{last_bmi:.2f} kg/m²", help="Last available BMI for the selected user.")
 
             
     
