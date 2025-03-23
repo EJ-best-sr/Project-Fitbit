@@ -53,7 +53,6 @@ def plot_steps_vs_temperature_regression(db_path: str, df_weather: pd.DataFrame)
 
     # Layout styling
     fig.update_layout(
-        title=f"<b>Linear regression (R² = {r_squared:.5f})</sub>",
         xaxis_title="Temperature (°F)",
         yaxis_title="Total Steps",
         legend_title="",
@@ -66,4 +65,4 @@ def plot_steps_vs_temperature_regression(db_path: str, df_weather: pd.DataFrame)
         height=550,  
 
     )
-    return fig
+    return fig, r_squared

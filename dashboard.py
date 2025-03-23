@@ -466,8 +466,12 @@ if st.session_state.page == "General":
             fig = plot_steps_rainy_vs_non_rainy(db_path, weather_data)
             st.plotly_chart(fig, use_container_width=True)
         with col20:
-            st.subheader("Linear Regression: Total Steps vs Temperature")
-            fig = plot_steps_vs_temperature_regression(db_path, weather_data)
+            fig, r_squared = plot_steps_vs_temperature_regression(db_path, weather_data)
+
+            st.subheader("Linear Regression: Total Steps vs Temperature",
+                         help=f"This chart displays a linear regression between daily total steps and recorded temperature.\n\n"
+                         f"R-squared value is {r_squared:.5f}. It shows how much variation in step count is explained by temperature.\n\n"
+                         f" Interpretation: A higher R² suggests that temperature influences activity. If low, other factors likely play a bigger role.")
             st.plotly_chart(fig, use_container_width=True)
              
 
