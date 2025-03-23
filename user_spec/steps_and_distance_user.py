@@ -35,6 +35,7 @@ def plot_steps_and_distance(data, selected_user, start_date, end_date):
         x=filtered_data['ActivityDate'],
         y=filtered_data['TotalSteps'],
         name='Total Steps',
+        marker_color='steelblue'
     ))
 
     # Add the line plot for total distance
@@ -43,9 +44,8 @@ def plot_steps_and_distance(data, selected_user, start_date, end_date):
         y=filtered_data['TotalDistanceMeters'],
         name='Total Distance (m)',
         mode='lines+markers',
-        marker=dict(symbol='circle')
+        marker=dict(symbol='circle', color='lightblue')
     ))
-
 
     # Update layout for better readability
     fig.update_layout(
@@ -53,17 +53,16 @@ def plot_steps_and_distance(data, selected_user, start_date, end_date):
         yaxis_title='Total Steps / Distance (m)',
         barmode='group',
         legend_title="Metrics",
-        margin=dict(l=0, r=0, t=0, b=0), # update here the margins (especially the top one!)
-        legend=dict( # legend inside of the plot
-            x=0.98,  
-            y=0.92, 
+        margin=dict(l=0, r=0, t=0, b=0),  # update here the margins (especially the top one!)
+        legend=dict(  # legend inside of the plot
+            x=0.98,
+            y=0.92,
             xanchor='right',
-            yanchor='top', 
+            yanchor='top',
             bgcolor='rgba(255, 255, 255, 0.5)',
             bordercolor='rgba(0, 0, 0, 0.5)',
             borderwidth=0.5
         )
     )
-    
-    return fig
 
+    return fig

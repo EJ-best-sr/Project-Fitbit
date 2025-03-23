@@ -26,10 +26,11 @@ def plot_calories_burnt(data, user_id, start_date, end_date):
 
     # Create the bar chart using Plotly
     fig = px.bar(
-        daily_calories, 
-        x='ActivityDate', 
-        y='Calories', 
-        labels={'Calories': 'Calories Burnt', 'ActivityDate': 'Date'}
+        daily_calories,
+        x='ActivityDate',
+        y='Calories',
+        labels={'Calories': 'Calories Burnt', 'ActivityDate': 'Date'},
+        color_discrete_sequence=['steelblue']  # Set bar color to steelblue
     )
 
     fig.update_layout(
