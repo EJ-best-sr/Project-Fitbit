@@ -171,12 +171,7 @@ st.markdown(
 #     """
 
 st.sidebar.markdown(
-    "<h2 style='text-align: center; color: #4A4A4A;'>Fitbit Data Analytics</h2>",
-    unsafe_allow_html=True
-)
-
-st.sidebar.markdown(
-    "<p style='text-align: center; font-size: 14px; color: gray;'>Fitbit Exploratory Data Analysis </p>",
+    "<h2 style='text-align: center; color: #4A4A4A;'>Fitbit Data Analysis</h2>",
     unsafe_allow_html=True
 )
 
@@ -319,7 +314,6 @@ if st.session_state.page == "General":
 
             
         
-        st.header("Overview of User Health and Activity Patterns:")
         col10, col20, col30 = st.columns(3)
 
         with col10:
