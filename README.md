@@ -185,15 +185,7 @@ change
 
 #### Overall Statistics 
 
-##### Number of Users
-
----
-
-##### Average Distance
-
-----
-
-##### Average Calories
+##### Number of Users, Average Distance, Average Calories:
 
 ----
 
@@ -205,19 +197,16 @@ change
 
 ----
 
-##### Average Weight
+##### Average Weight, Height and BMI
 
 The preprocessing function for this numerical calculation can be found in the `general` folder, in the file: `height_and_weight_metrics.py`.
 
-##### Average Height
-
-The preprocessing function for this numerical calculation can be found in the `general` folder, in the file: `height_and_weight_metrics.py`.
-
+----
 ##### Average Steps
 
 ----
 
-##### Average BMI
+
 
 ----
 
@@ -264,6 +253,7 @@ The preprocessing function for this numerical calculation can be found in the `g
 ##### Q-Q Plot of Residuals
 
 -----
+##### Sedentary Minutes vs BMI and Total Active Minutes vs BMI
 
 #### Calories Burned vs Steps
 
