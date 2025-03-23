@@ -33,15 +33,16 @@ def compare_user_to_database_averages(user_data, data, start_date, end_date):
     calories_message = compare_metric(avg_user_calories, avg_calories_burned, "calories burned")
 
     comparison_message = f"""
-    <p style="font-size: 24px;">
+    <p style="font-size: 28px;">
     <b>Comparison for this date range:</b><br>
-    
-    {step_message} <br><br>
-    {distance_message} <br><br>
-    {sedentary_message} <br><br>
-    {calories_message} <br><br>
+
+    <span style="font-size: 25px;">{step_message}</span> <br><br>
+    <span style="font-size: 25px;">{distance_message}</span> <br><br>
+    <span style="font-size: 25px;">{sedentary_message}</span> <br><br>
+    <span style="font-size: 25px;">{calories_message}</span> <br><br>
     </p>
     """
+
     
     return comparison_message
 
