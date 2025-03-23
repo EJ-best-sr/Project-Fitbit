@@ -31,6 +31,9 @@ def plot_steps_rainy_vs_non_rainy(db_path: str, df_weather: pd.DataFrame):
             width=800,               
             height=550,  
         )
+
+        fig.update_traces(marker_color='steelblue')
+        
         return fig
     
     except Exception as e:
