@@ -58,7 +58,23 @@ def plot_bmi_relationship(db_path: str):
         line=dict(color='black', width=2)
     ))
    
-    fig1.update_layout(xaxis_title='Sedentary Minutes', yaxis_title='BMI')
+    fig1.update_layout(
+        xaxis_title='Sedentary Minutes', 
+        yaxis_title='BMI',
+        width=800,  
+        height=400, 
+        margin=dict(l=0, r=0, t=50, b=0),
+        autosize=False, 
+        legend=dict(
+            x=0.98,  
+            y=0.98, 
+            xanchor='right',
+            yanchor='top', 
+            bgcolor='rgba(255, 255, 255, 0.5)',
+            bordercolor='rgba(0, 0, 0, 0.5)',
+            borderwidth=1 
+        )
+    )
 
     # --- Plot 2: Total Active Minutes vs BMI ---
     x2 = merged_df['TotalActiveMinutes'].values.reshape(-1, 1)
@@ -90,6 +106,22 @@ def plot_bmi_relationship(db_path: str):
         line=dict(color='black', width=2)
     ))
    
-    fig2.update_layout(xaxis_title='Total Active Minutes', yaxis_title='BMI')
+    fig2.update_layout(
+        xaxis_title='Total Active Minutes', 
+        yaxis_title='BMI',
+        width=800,  
+        height=400, 
+        margin=dict(l=0, r=0, t=50, b=0),
+        autosize=False, 
+        legend=dict(
+            x=0.98,  
+            y=0.98, 
+            xanchor='right',
+            yanchor='top', 
+            bgcolor='rgba(255, 255, 255, 0.5)',
+            bordercolor='rgba(0, 0, 0, 0.5)',
+            borderwidth=1 
+        )
+    )
 
     return fig1, fig2, text1, text2
