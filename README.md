@@ -1,16 +1,47 @@
 # Project-Fitbit
+[![Made with Streamlit](https://img.shields.io/badge/Made%20with-Streamlit-red?logo=streamlit&labelColor=black)](https://streamlit.io/)
+![pandas](https://img.shields.io/badge/pandas-2.2.3-lightgrey?logo=pandas)
+![numpy](https://img.shields.io/badge/numpy-2.2.4-blue?logo=numpy)
+![scipy](https://img.shields.io/badge/scipy-1.11.2-blue?logo=scipy)
+![matplotlib](https://img.shields.io/badge/matplotlib-3.8.0-orange?logo=matplotlib)
+![plotly](https://img.shields.io/badge/plotly-5.17.0-9cf?logo=plotly)
+![seaborn](https://img.shields.io/badge/seaborn-0.12.2-lightblue?logo=seaborn)
+![statsmodels](https://img.shields.io/badge/statsmodels-0.14.0-brown?logo=python)
 ## 📋 Project Overview:
 This project focuses on analyzing Fitbit data collected from 35 participants in a 2016 Amazon survey. The goal is to develop an interactive Streamlit dashboard that presents various key metrics such as:
 - Daily steps, distance, and calories burned
 - Sleep patterns and duration
 - Sedentary activity
 - Weight and BMI insights
+- Weather correlation with Fitbit activity data
+
 The dashboard is designed for studying Fitbit data trends, participants who want to explore their activity statistics, and people in general who want to understand what insights can be derived from Fitbit data.
-## Dependencies
-This project relies on several libraries for data processing and visualization, which are listed in the `requirements.txt` file.
+## 📦 Dependencies
+This project relies on several python libraries for data processing and visualization, which are listed in the `requirements.txt` file.
 ## 📁 Project Structure
 The main files and directories in this repository are:
-Project-Fitbit/ ├── .devcontainer/ # Development container setup ├── data/ # all data for the project ├── general/ # Chart and Analysis in "General Page" ├── sleep_vs_activity/ # Sleep and activity comparison in subpage "Regression Analysis" in "General" ├── user_spec/ # User-specific plots for page User-Specific Analysis ├── dashboard.py # Main Fitbit dashboard  ├── image.png # Dashboard preview image (if applicable) ├── legacy/ # All working tasks from part 1->4 ├── requirements.txt # Python dependencies └── README.md # Project overview
+<pre>   Project-Fitbit/
+├── .devcontainer/ # Development container setup
+├── data/ # All data for the project
+├── general/ # Chart and Analysis in "General Page"
+├── sleep_vs_activity/ # Sleep and activity comparison
+├── user_spec/ # User-specific plots
+├── dashboard.py # Main Fitbit dashboard
+├── image.png # Dashboard preview image (if applicable)
+├── legacy/ # All working tasks from part 1 -> 4
+├── requirements.txt # Python dependencies
+├── README.md # Project overview   </pre>
+### Clarification of Project Structure
+- The `general/` folder contains all the plots used for the **General Information** page, including its subpages: [`Home`, `Regression Analysis`, `Weekday Analysis`, and `Weather Analysis`].
+- The `sleep_vs_activity/` folder provides an additional plot specifically for the `Regression Analysis` subpage.
+- The `user_spec/` folder includes all plots related to the **User-Specific** page. Each plot generally takes three parameters: `start date`, `end date`, and `Id`, allowing users to filter results by user and time range.
+- The `dashboard.py` file serves as the main entry point of the Fitbit dashboard. It imports and integrates all functions and plots from the folders mentioned above.
+- The `legacy/` folder contains exploratory data analysis work from Parts 1 to 4, which formed the foundation for developing the dashboard.
+- Finally, the `README.md` file gives a clean and clear description of the project and its structure.
+
+
+### Dashboard example:
+
 
 ## Part 1
 
