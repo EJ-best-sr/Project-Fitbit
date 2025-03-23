@@ -13,10 +13,10 @@ def plot_activities(user_data):
 
     labels = ["Lightly Active", "Fairly Active", "Very Active"]
     colors = [
-        'rgba(100, 149, 237, 0.7)',  # cornflowerblue with 60% opacity
-        'rgba(65, 105, 225, 0.9)',    # royalblue with 80% opacity
-        'rgba(0, 0, 139, 0.7)'     # steelblue with 100% opacity
-    ]
+        'rgba(173, 216, 230, 0.9)',  # light blue with 60% opacity
+        'rgba(70, 130, 180, 0.7)',   # steelblue with 80% opacity
+        'rgba(112, 128, 144, 0.8)'   # slategray with 100% opacity
+]
 
     if sum(active_minutes) == 0:
         st.warning("No activity data found.")
@@ -41,7 +41,7 @@ def plot_activities(user_data):
         height=400,  
         margin=dict(l=0, r=50, t=50, b=0), 
         legend=dict(
-            title="Usage Groups",
+            title="Activity Levels",
             font=dict(size=14),         
             bgcolor='rgba(255, 255, 255, 0.5)',  
             bordercolor='black',          
