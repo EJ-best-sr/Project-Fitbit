@@ -47,7 +47,9 @@ def combined_weather_fitbit_heatmap(weather_df: pd.DataFrame, conn: sqlite3.Conn
     fig.update_layout(
         xaxis_title="Fitbit Metrics",
         yaxis_title="Weather Metrics",
-        template="plotly_white"
+        template="plotly_white",
+        width=800,               
+        height=550,             
     )
 
     return fig

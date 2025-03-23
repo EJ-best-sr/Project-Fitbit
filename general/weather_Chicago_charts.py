@@ -23,17 +23,18 @@ def plot_precipitation_chart(data: pd.DataFrame):
         x=df["datetime"],
         y=df["precip"],
         name="Precipitation",
-        marker_color="darkblue"
+        marker_color="rgba(70, 130, 180, 0.8)"
     ))
 
     # Area chart: cumulative precipitation
     fig.add_trace(go.Scatter(
-        x=df["datetime"],
-        y=df["precip_cumulative"],
-        name="Total",
-        mode="lines",
-        fill="tozeroy",
-        line=dict(color="lightgreen")
+    x=df["datetime"],
+    y=df["precip_cumulative"],
+    name="Cumulative",
+    mode="lines",
+    fill="tozeroy",
+    line=dict(color="rgba(100, 149, 237, 0.6)", width=3),
+    fillcolor="rgba(100, 149, 237, 0.2)"  # same color, lighter fill
     ))
 
     # Layout styling
@@ -42,8 +43,12 @@ def plot_precipitation_chart(data: pd.DataFrame):
         yaxis_title="Precipitation (inches)",
         legend_title="Legend",
         legend = dict(
-            font= dict(size=15)
-        ),
-        template="plotly_white"
+            font= dict(size=15),
+            bgcolor="rgba(240,240,240,0.8)", 
+            bordercolor="gray", 
+            borderwidth=1),
+        template="plotly_white",
+        width=800,               
+        height=550,  
     )
     return fig

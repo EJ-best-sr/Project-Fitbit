@@ -5,6 +5,7 @@ from datetime import datetime
 import seaborn as sns
 import sys, os
 import sqlite3
+import plotly.io as pio
 
 module_dir = '/data' # this should be a directory where daily_acivity.csv is
 sys.path.append(module_dir)
@@ -56,7 +57,9 @@ from general.plot_steps_rainy_or_not import plot_steps_rainy_vs_non_rainy
 from general.heatmap_for_correlation_weather import combined_weather_fitbit_heatmap
 from general.plot_linear_regression_weather import plot_steps_vs_temperature_regression
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide",
+                   page_icon=" 🧠 ")
+
 
 # CSS
 st.markdown(
@@ -156,19 +159,32 @@ def metric_box(metric_value, metric_label, tooltip_text):
         </div>
     </div>
     """
+st.sidebar.markdown(
+    "<h2 style='text-align: center; color: #4A4A4A;'>🧠 Fitbit Data Analytics</h2>",
+    unsafe_allow_html=True
+)
 
+st.sidebar.markdown(
+    "<p style='text-align: center; font-size: 14px; color: gray;'>Exploratory Data Analysis (EDA) for Fitbit data, along with deep diving into weather data </p>",
+    unsafe_allow_html=True
+)
 
-# Initialize session state for page navigation
+st.sidebar.markdown("---")
+
+page = st.sidebar.radio(
+    "📌 Choose a page:",
+    ["📈 General Information", "🧍‍♂️ User-Specific Analysis"]
+)
+
+# Set page state
 if "page" not in st.session_state:
     st.session_state.page = "General"
 
 if "sub_page" not in st.session_state:
     st.session_state.sub_page = "Home"
 
-# Navigation in the sidebar
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Choose a page", ["General Information", "User-Specific Analysis"])
-if page == "General Information":
+# Update page state based on selection
+if "General" in page:
     st.session_state.page = "General"
 else:
     st.session_state.page = "User-Specific"
@@ -210,7 +226,7 @@ st.markdown(
 # Page 1: General Information
 # ---------------------------
 if st.session_state.page == "General":
-    st.title("Fitbit Data Analytics")
+    st.title("🧠 Fitbit Data Analytics")
 
     # Sub-page navigation buttons
     col1, col2, col3, col4, col5 = st.columns(5)
@@ -414,10 +430,7 @@ if st.session_state.page == "General":
             chart = plot_precipitation_chart(weather_data)
             st.plotly_chart(chart, use_container_width=True)
             
-            st.subheader("Box Plot: Total Steps on Rainy vs Non-Rainy Days")
-            fig = plot_steps_rainy_vs_non_rainy(db_path, weather_data)
-            st.plotly_chart(fig, use_container_width=True)
-
+            
             
         with col2:
             st.subheader("Heatmap for correlation matrix:")
@@ -425,9 +438,19 @@ if st.session_state.page == "General":
             chart = combined_weather_fitbit_heatmap(weather_data, conn)
             st.plotly_chart(chart)
 
+            
+        col10, col20 = st.columns(2)
+
+        with col10:
+            st.subheader("Box Plot: Total Steps on Rainy vs Non-Rainy Days")
+            fig = plot_steps_rainy_vs_non_rainy(db_path, weather_data)
+            st.plotly_chart(fig, use_container_width=True)
+        with col20:
             st.subheader("Linear Regression: Total Steps vs Temperature")
             fig = plot_steps_vs_temperature_regression(db_path, weather_data)
             st.plotly_chart(fig, use_container_width=True)
+             
+
 
     
 
