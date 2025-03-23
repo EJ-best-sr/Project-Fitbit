@@ -21,18 +21,18 @@ def plot_activity_distribution(user_data):
     if sum(active_minutes) == 0:
         st.warning("No activity data found.")
         return None
+    else:
+        font_sizes = [40 if label == "Lightly Active" else 16 for label in labels]
 
-    font_sizes = [40 if label == "Lightly Active" else 16 for label in labels]
-
-    fig = go.Figure(data=[go.Pie(
-        labels=labels, 
-        values=active_minutes, 
-        hoverinfo="label+percent", 
-        textinfo="percent", 
-        insidetextorientation="horizontal",  
-        textfont=dict(color="white", size=font_sizes), 
-        marker=dict(colors=colors)
-    )])
+        fig = go.Figure(data=[go.Pie(
+            labels=labels, 
+            values=active_minutes, 
+            hoverinfo="label+percent", 
+            textinfo="percent", 
+            insidetextorientation="horizontal",  
+            textfont=dict(color="white", size=font_sizes), 
+            marker=dict(colors=colors)
+        )])
 
     fig.update_layout(
     showlegend=True,

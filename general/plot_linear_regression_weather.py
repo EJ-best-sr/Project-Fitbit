@@ -66,4 +66,4 @@ def plot_steps_vs_temperature_regression(db_path: str, df_weather: pd.DataFrame)
         height=550,  
 
     )
-    return fig
+    return fig, r_squared
