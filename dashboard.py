@@ -503,7 +503,10 @@ elif st.session_state.page == "User-Specific":
     else:
         user_weight_log_df = weight_log_df[(weight_log_df['Id'] == selected_user)]
         weight_data_sorted = user_weight_log_df.sort_values(by='Date', ascending=False)
-        last_bmi = weight_data_sorted.iloc[0]['BMI']
+        if not weight_data_sorted.empty:
+            last_bmi = weight_data_sorted.iloc[0]['BMI']
+        else:
+            last_bmi = None
 
     # -------
     # Metrics 
