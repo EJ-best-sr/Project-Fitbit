@@ -21,17 +21,16 @@ The dashboard is designed for studying Fitbit data trends, participants who want
 This project relies on several python libraries for data processing and visualization, which are listed in the `requirements.txt` file.
 ## 📁 Project Structure
 The main files and directories in this repository are:
-<pre>   Project-Fitbit/
-├── .devcontainer/ # Development container setup
-├── data/ # All data for the project
-├── general/ # Chart and Analysis in "General Page"
-├── sleep_vs_activity/ # Sleep and activity comparison
-├── user_spec/ # User-specific plots
-├── dashboard.py # Main Fitbit dashboard
-├── image.png # Dashboard preview image (if applicable)
-├── legacy/ # All working tasks from part 1 -> 4
-├── requirements.txt # Python dependencies
-├── README.md # Project overview   </pre>
+<pre>   Project-Fitbit/ ├── .devcontainer/ # Dev container setup for reproducibility
+├── .streamlit/ # Streamlit configuration and background tweaks
+├── data/ # Fitbit and weather data files
+├── general/ # Shared plots (e.g., BMI, calories, steps) and regressions
+├── sleep_vs_activity/ # Sleep duration vs activity analysis
+├── user_spec/ # User-specific charts, regressions, and metrics
+├── legacy/ # Scripts from earlier phases (Part 1–4)
+├── dashboard.py # 💻 Main Streamlit app — ties everything together
+├── requirements.txt # Python dependencies (Plotly, Pandas, etc.)
+├── README.md # Project documentation  </pre>
 ### Clarification of Project Structure
 - The `general/` folder contains all the plots used for the **General Information** page, including its subpages: [`Home`, `Regression Analysis`, `Weekday Analysis`, and `Weather Analysis`].
 - The `sleep_vs_activity/` folder provides an additional plot specifically for the `Regression Analysis` subpage.
@@ -40,327 +39,113 @@ The main files and directories in this repository are:
 - The `legacy/` folder contains exploratory data analysis work from Parts 1 to 4, which formed the foundation for developing the dashboard.
 - Finally, the `README.md` file gives a clean and clear description of the project and its structure.
 
+## 🚀 Dashboard feature:
+- 📌 **Two Main Views**:  
+  - **General Information**: Overview of all users with aggregated stats and visuals.  
+  - **User-Specific Analysis**: Interactive filters for personalized insights by user and date.
 
-### Dashboard example:
+- 📈 **Regression Analysis**:  
+  - Multiple linear regressions (e.g., Calories vs Steps, Sleep vs Activity, BMI vs Activity).  
+  - Includes R² values, p-values, and statistical interpretation via tooltips:`?` icon at the right of all linear regression plots
 
+- 🗓️ **Weekday & Time-Block Breakdown**:  
+  - Box plots and bar charts showing variation across days and 4-hour time blocks.  
+  - Built-in significance testing (Kruskal-Wallis) for group comparisons.
 
-## Part 1
+- 🌦️ **Weather Impact Analysis**:  
+  - Integrates Fitbit data with Chicago weather data. 
+  - Compares steps on rainy vs. non-rainy days, and performs temperature-step regression.  
+  - Correlation heatmap between weather and health metrics.
 
-Below you can find the description of each function written for Part 1. The example of usage can be found in the `example_main.py` file.
+- 🧍‍♂️ **User-Centric Visualizations**:  
+  - Tracks individual trends in activity, calories, heart rate, BMI, etc.  
+  - Dynamic summaries and comparisons to population averages.
 
-#### `def plot_workout_frequency_by_day(df)`:
-Plots the frequency of workouts by day of the week for all the users in the database by creating a barplot with bins for each day of the week.
-
-**Parameters:**
-- `df`: The Pandas dataframe of the `daily_activity` table.
-
-#### `plot_distance_per_user`:
-Visualizes the total distance traveled by each user from a given dataset by creating a bar plot with bins corresponding to the unique users in the database. 
-
-**Parameters:**
-- `df`: The Pandas dataframe of the `daily_activity` table. It must include the following columns:
-  - `Id`: Unique identifier for each user.
-  - `TotalDistance`: The total distance traveled by the user.
-
-#### `load_data`:
-Loads activity data from a CSV file and converts the 'ActivityDate' column to datetime format.
-
-**Parameters:**
-- `file_path` (str): The path to the CSV file containing activity data.
-
-**Returns:**
-- `pd.DataFrame`: A DataFrame containing the loaded activity data with 'ActivityDate' as a datetime object.
-
-#### `plot_calories_per_day`:
-Plots the daily calories burnt for a specific user within an optional date range.
-
-**Parameters:**
-- `df` (pd.DataFrame): The DataFrame containing user activity data.
-- `user_id` (int): The ID of the user whose calories will be plotted.
-- `start_date` (str, optional): The start date for filtering data (YYYY-MM-DD format).
-- `end_date` (str, optional): The end date for filtering data (YYYY-MM-DD format).
-
-**Returns:**
-- `None`: Displays a matplotlib line chart.
-
-## Part 3
-
-
-#### `plot_calories_per_4_hour_block`:
-Plots the average calories burnt per 4-hour time block.
-
-**Parameters:**
-- `None`
-
-**Returns:**
-- `None`: Displays a matplotlib bar chart.
-
-#### `visualize_heart_rate_and_intensity`:
-Visualizes heart rate and activity intensity for a given user over 8-hour intervals.
-
-**Parameters:**
-- `user_id` (int): The ID of the user whose heart rate and activity data will be analyzed.
-
-**Returns:**
-- `None`: Displays a matplotlib line chart comparing heart rate and activity intensity.
-
-#### `plot_sleep_per_4_hour_block`:
-Plots the average minutes of sleep per 4-hour time block.
-
-**Parameters:**
-- `None`
-
-**Returns:**
-- `None`: Displays a matplotlib bar chart.
-
-#### `plot_steps_per_4_hour_block`:
-Plots the average steps taken per 4-hour time block.
-
-**Parameters:**
-- `None`
-
-**Returns:**
-- `None`: Displays a matplotlib bar chart.
-
-## Part 4
-
-
-#### `plot_total_distance_per_day`:
-Plots total distance per day for a given user within a specified date range.
-
-**Parameters:**
-- `user_id` (int): The ID of the user.
-- `start_date` (str): The start date in the format 'MM/DD/YYYY'.
-- `end_date` (str): The end date in the format 'MM/DD/YYYY'.
-
-**Returns:**
-- `None`: Displays a bar plot of total distance per day for the user.
-
-#### `plot_total_steps_per_day`:
-Plots total steps per day for a given user within a specified date range.
-
-**Parameters:**
-- `user_id` (int): The ID of the user.
-- `start_date` (str): The start date in the format 'MM/DD/YYYY'.
-- `end_date` (str): The end date in the format 'MM/DD/YYYY'.
-
-**Returns:**
-- `None`: Displays a bar plot of total steps per day for the user.
-
-#### `replace_missing_values_weight_log`:
-Retrieves the 'weight_log' table from the database, replaces missing values in the 'WeightKg' column with the equivalent weight in kilograms based on the 'WeightPounds' column, and returns a copy of the modified data without altering the original database.
-
-**Parameters:**
-- `None`
-
-**Returns:**
-- `pd.DataFrame`: A copy of the 'weight_log' table with updated 'WeightKg' values where NaN values are replaced by the conversion from 'WeightPounds' to 'WeightKg'.
-
-#### `get_4_hour_sleep_blocks`
-Retrieves and plots the user's sleep data in 4-hour blocks (0-4 AM, 4-8 AM, 8-12 PM, 12-4 PM, etc.) for a specific date.
-
-**Parameters:**
-- `user_id (float)`: The user's ID.
-- `date (str)`: The date in "MM/DD/YYYY" format.
-
-**Returns:**
-- `pandas.DataFrame`: A DataFrame with 4-hour blocks and the total sleep minutes in each block.
-
-#### `heart_rate_analysis`
-Analyzes heart rate variability metrics (RMSSD, SDNN, PNN50) for a given user ID. This function calculates and returns various heart rate statistics based on the user's heart rate data.
-
-**Parameters:**
-- `user_id (int)`: The ID of the user whose heart rate data will be analyzed.
-
-**Returns:**
-- `pandas.DataFrame`: A DataFrame containing the user ID and the calculated heart rate variability metrics (RMSSD, SDNN, PNN50).
-
-change
-
----------------------------------------------------------------------
-
-## General Information 
-
-### Home 
-
-#### Overall Statistics 
-
-##### Number of Users, Average Distance, Average Calories:
-
-----
-
-##### Average Sleep Duration 
-
-----
-
-##### Average Sedentary Minutes
-
-----
-
-##### Average Weight, Height and BMI
-
-The preprocessing function for this numerical calculation can be found in the `general` folder, in the file: `height_and_weight_metrics.py`.
-
-----
-##### Average Steps
-
-----
+- 🎨 **Modern UI**:  
+  - Clean layout with responsive columns.  
+  - Expandable insights, interactive charts (Plotly), and helpful tooltips.  
 
 
 
-----
+
+## 🧩 Dashboard Components Reference
+
+This section outlines each component of the dashboard and where its logic is implemented in the codebase.
+
+---
+
+### General Information
+
+####  Overall Statistics
+
+- **Number of Users, Average Distance, Calories, Sleep, Weight, Height, BMI, Steps**
+  - Source: `dashboard.py` – under the `"Home"` section
+  - BMI/Height/Weight preprocessed in: `general/height_and_weight_metrics.py`
 
 #### Overall Graphical Analysis
 
-##### Total Distance per User
+- **Total Distance per User**
+  - `general/total_distances.py`
+- **Average Calories Burned per Total Steps**
+  - `general/avg_calories_per_step_bins.py`
+- **Weight vs Calories Burned**
+  - `general/plot_weight_activity.py`
 
-----
+#### User Health and Activity Patterns
 
-##### Average Calories Burned per Total Steps
-
-----
-
-##### Weight vs. Calories Burned
-
-----
-
-#### Overview of User Health and Activity Patterns
-
-##### Number of Days Using Fitbit
-
-----
-
-##### Active Minutes by Intensity
-
------
-
-##### BMI Classification
-
-----
-
-### Regression Analysis
-
-#### Sedentary Time vs Sleep Time Analysis
-
-##### Regression: Sedentary Time vs Sleep Time
-
-----
-
-##### Histogram of Residuals (Density-Scaled)
-
------
-
-##### Q-Q Plot of Residuals
-
------
-##### Sedentary Minutes vs BMI and Total Active Minutes vs BMI
-
-#### Calories Burned vs Steps
-
-##### Calories Burned vs Steps
-
------
-
-### Weekday Analysis
-
-##### Box plot: Total Distance per Day of the Week
-
-----
-
-##### Box plot: Sedentary Activity per Day of the Week
-
-----
-
-### 4-Hour Block Analysis
-
-##### Average Calories Burnt per 4-Hour Block
-
-The function for this figure can be found in the `general` folder, in the file: `calories_4_hour_blocks_general.py`.
-
-##### Average Minutes of Sleep per 4-Hour Block
-
-The function for this figure can be found in the `general` folder, in the file: `sleep_4_hour_blocks_general.py`.
-
-##### Average Steps per 4-Hour Block
-
-The function for this figure can be found in the `general` folder, in the file: `steps_4_hour_blocks_general.py`.
-
-### Weather Analysis
-
-##### Daily and Cumulative Precipitation:
-
-----
-
-##### Heatmap for correlation matrix:
-
-----
-
-##### Box Plot: Total Steps on Rainy vs Non-Rainy Days
-
-----
-
-##### Linear Regression: Total Steps vs Temperature
-
-----
-
-## User-Specific Analysis
-
-#### Numerical Summary
-
-##### Average Distance
+- **Days of Fitbit Usage**
+  - `general/plot_fitbit_usage.py`
+- **Active Minutes by Intensity**
+  - `general/pie_chart_minutes.py`
+- **BMI Classification**
+  - `general/plot_bmi_pie_chart.py`
 
 ---
 
-##### Average Calories
+###  Regression Analysis
+
+- **Sedentary Time vs Sleep Time Regression**
+  - `general/sleep_regression_analysis.py`
+- **Calories Burned vs Steps**
+  - `general/calories_vs_steps.py`
+- **Sleep vs Activity**
+  - `general/sleep_vs_activity.py`
+- **BMI vs Sedentary/Active Minutes**
+  - `general/bmi_vs_total_active_minutes.py`
 
 ---
 
-##### Average Sleep Duration
+###  Weekday Analysis
+
+- **Total Distance & Sedentary Minutes by Weekday**
+  - Distance: `general/investigate_total_distance_days.py`
+  - Sedentary: `general/sedentary_plot_per_day.py`
+- **Statistical Testing**
+  - `general/distances_kruskal.py` and `general/sedentary_kruskal.py`
 
 ---
 
-##### Average Sedentary Minutes
+###  4-Hour Block Analysis
+
+- **Calories Burnt:** `general/calories_4_hour_blocks_general.py`  
+- **Sleep:** `general/sleep_4_hour_blocks_general.py`  
+- **Steps:** `general/steps_4_hour_blocks_general.py`
 
 ---
 
-##### Last Weight 
+###  Weather Analysis
 
-The preprocessing function for this numerical calculation can be found in the `general` folder, in the file: `height_and_weight_metrics.py`.
-
-##### Last Height 
-
-The preprocessing function for this numerical calculation can be found in the `general` folder, in the file: `height_and_weight_metrics.py`.
-
-##### Average Steps
+- **Precipitation Chart:** `general/weather_Chicago_charts.py`  
+- **Steps on Rainy vs Non-Rainy Days:** `general/plot_steps_rainy_or_not.py`  
+- **Weather Correlation Heatmap:** `general/heatmap_for_correlation_weather.py`  
+- **Regression: Temperature vs Steps:** `general/plot_linear_regression_weather.py`
 
 ---
 
-##### Comparison for this date range:
+###  User-Specific Analysis
 
-----
-
-##### Total Steps and Total Distance per Day
-
-The function for this figure can be found in the `user_spec` folder, in the file:
-`steps_and_distance_user.py`.
-
-##### Calories Burnt per Day
-
-The function for this figure can be found in the `user_spec` folder, in the file:
-`calories_user.py`.
-
-##### Very Active, Fairly Active, and Lightly Active Minutes Proportions
-
------
-
-##### Total Active Minutes versus Sedentary Activity
-
------
-
-##### Calories vs Steps Regression
-
------
-
-##### Heart rate analysis
-
-The function for these numerical calculations can be found in the `user_spec` folder, in the file: `heart_analysis_user.py`.
+- **Steps/Distance Charts:** `user_spec/steps_and_distance_user.py`  
+- **Calories Burned:** `user_spec/calories_user.py`  
+- **Activity Type Proportions:** `user_spec/pie_chart_minutes.py`  
+- **Calories vs Steps Regression:** `user_spec/calories_steps_regression.py`  
+- **Active vs Sedentary Minutes:** `user_spec/sedentary_versus_tot
