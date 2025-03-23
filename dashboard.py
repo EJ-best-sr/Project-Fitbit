@@ -50,6 +50,7 @@ from user_spec.steps_and_distance_user import plot_steps_and_distance
 from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
 from user_spec.calories_steps_regression import plot_regression_line
 from user_spec.sedentary_versus_total_active_minutes_per_user import plot_active_sedentary_minutes_daily
+from user_spec.pie_chart_minutes import plot_activities
 
 # sleep regression
 from sleep_vs_activity.sleep_vs_sedentary import calculate_user_statistics_sedentary, calculate_user_statistics_sleep
@@ -594,7 +595,7 @@ elif st.session_state.page == "User-Specific":
             st.plotly_chart(fig)
 
         st.subheader("Very Active, Fairly Active, and Lightly Active Minutes Proportions")
-        fig = plot_activity_distribution(user_data)
+        fig = plot_activities(user_data)
         if fig is not None:
             st.plotly_chart(fig)
 
