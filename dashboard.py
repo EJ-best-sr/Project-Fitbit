@@ -553,10 +553,10 @@ elif st.session_state.page == "User-Specific":
 
     
     with col5:
-        if sl_min is None:
+        if sed_min is None:
             st.metric("Average Sedentary Duration", "No data", help=sl_info)
         else:
-            st.metric("Average Sedentary Duration", f"{sl_min} min", help=sl_info)
+            st.metric("Average Sedentary Duration", f"{sed_min} min", help=sl_info)
             st.markdown(f'<p class="custom-delta">Standard Deviation: {sed_sd:.0f} min</p>', unsafe_allow_html=True)
 
     with col6:
