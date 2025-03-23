@@ -217,17 +217,15 @@ def calculate_user_statistics_sedentary(df_merged, user_id=None, start_date=None
     Returns:
         dict: A dictionary containing the average sleep minutes and average activity minutes, rounded to integers.
     """
-    # Filter by user_id if specified
     if user_id is not None:
-        df_filtered = df_merged[df_merged['Id'] == user_id].copy()  # Use .copy() to avoid the warning
+        df_filtered = df_merged[df_merged['Id'] == user_id].copy() 
     else:
         # For the entire database, exclude sleep records with less than 180 minutes
-        df_filtered = df_merged[df_merged['TotalSleepDuration'] >= 180].copy()  # Use .copy() to avoid the warning
+        df_filtered = df_merged[df_merged['TotalSleepDuration'] >= 180].copy()  
 
     # Convert SleepDate to datetime for filtering
-    df_filtered.loc[:, 'SleepDate'] = pd.to_datetime(df_filtered['SleepDate'])  # Use .loc to avoid the warning
+    df_filtered.loc[:, 'SleepDate'] = pd.to_datetime(df_filtered['SleepDate']) 
 
-    # Apply date filtering if start_date and/or end_date are provided
     if start_date:
         start_date = pd.to_datetime(start_date)
         df_filtered = df_filtered[df_filtered['SleepDate'] >= start_date]
@@ -235,13 +233,14 @@ def calculate_user_statistics_sedentary(df_merged, user_id=None, start_date=None
         end_date = pd.to_datetime(end_date)
         df_filtered = df_filtered[df_filtered['SleepDate'] <= end_date]
 
-    # Calculate average sleep minutes and average activity minutes
+
     avg_activity_minutes = df_filtered['TotalSedentaryMinutes'].mean()
     num_records = df_filtered['TotalSedentaryMinutes'].count()
     avg_activity_minutes = round(avg_activity_minutes) if not pd.isna(avg_activity_minutes) else None
+    sd_activity_minutes = df_filtered['TotalSedentaryMinutes'].std()
 
-    # Return the results as a dictionary
-    return avg_activity_minutes, num_records
+
+    return avg_activity_minutes, sd_activity_minutes, num_records
     
     
 def calculate_user_statistics_sleep(df_merged, user_id=None, start_date=None, end_date=None):
@@ -259,15 +258,14 @@ def calculate_user_statistics_sleep(df_merged, user_id=None, start_date=None, en
     """
     # Filter by user_id if specified
     if user_id is not None:
-        df_filtered = df_merged[df_merged['Id'] == user_id].copy()  # Use .copy() to avoid the warning
+        df_filtered = df_merged[df_merged['Id'] == user_id].copy()  
     else:
         # For the entire database, exclude sleep records with less than 180 minutes
-        df_filtered = df_merged[df_merged['TotalSleepDuration'] >= 180].copy()  # Use .copy() to avoid the warning
+        df_filtered = df_merged[df_merged['TotalSleepDuration'] >= 180].copy() 
 
-    # Convert SleepDate to datetime for filtering
-    df_filtered.loc[:, 'SleepDate'] = pd.to_datetime(df_filtered['SleepDate'])  # Use .loc to avoid the warning
+    df_filtered.loc[:, 'SleepDate'] = pd.to_datetime(df_filtered['SleepDate']) 
 
-    # Apply date filtering if start_date and/or end_date are provided
+
     if start_date:
         start_date = pd.to_datetime(start_date)
         df_filtered = df_filtered[df_filtered['SleepDate'] >= start_date]
@@ -275,27 +273,12 @@ def calculate_user_statistics_sleep(df_merged, user_id=None, start_date=None, en
         end_date = pd.to_datetime(end_date)
         df_filtered = df_filtered[df_filtered['SleepDate'] <= end_date]
 
-    # Calculate average sleep minutes and average activity minutes
     avg_sleep_minutes = df_filtered['TotalSleepDuration'].mean()
     num_records = df_filtered['TotalSleepDuration'].count()
+    sd_sleep_minutes = df_filtered['TotalSleepDuration'].std()
 
-    # Round the averages to integers
+
     avg_sleep_minutes = round(avg_sleep_minutes) if not pd.isna(avg_sleep_minutes) else None
 
-    # Return the results as a dictionary
-    return avg_sleep_minutes, num_records
+    return avg_sleep_minutes, sd_sleep_minutes, num_records
     
-
-# Example usage
-if __name__ == "__main__":
-    database_name = "/Users/kseniapiven/DEpython/fitbit/final/fitbit_database.db"
-    df_merged = load_and_process_data(database_name)
-    perform_regression_analysis(df_merged)
-
-    df_sleep = load_and_process_sleepdata(database_name)
-
-    stats_user = calculate_user_statistics_sedentary(df_merged, 1503960366, "2016-03-12", "2016-04-08")
-    print("Statistics for User 1:", stats_user)
-
-    stats_all = calculate_user_statistics_sleep(df_merged)
-    print("Statistics for All Users:", stats_all)
