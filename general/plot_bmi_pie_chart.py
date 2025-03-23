@@ -28,7 +28,12 @@ def plot_bmi_pie_chart(db_path):
 
     labels = bmi_counts["BMI Category"].tolist()
     values = bmi_counts["Count"].tolist()
-    colors = ['mediumpurple', 'slateblue', 'darkslateblue', 'thisle']  
+    colors = [
+    'rgba(147, 112, 219, 0.8)',  # mediumpurple with 60% opacity
+    'rgba(106, 90, 205, 0.9)',   # slateblue with 80% opacity
+    'rgba(72, 61, 139, 1.0)',    # darkslateblue with 100% opacity
+    'rgba(216, 191, 216, 0.7)'   # thistle with 70% opacity
+]
 
     font_sizes = [40 if label == "Normal Weight" else 16 for label in labels]
 
