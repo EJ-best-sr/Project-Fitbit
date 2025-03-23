@@ -1,6 +1,16 @@
 # Project-Fitbit
-## Overview
-This project is created to analyze the Fitbit database containg the records of physical activity, sleep, sedentary activity, weight and BMI etc of the users.
+## 📋 Project Overview:
+This project focuses on analyzing Fitbit data collected from 35 participants in a 2016 Amazon survey. The goal is to develop an interactive Streamlit dashboard that presents various key metrics such as:
+- Daily steps, distance, and calories burned
+- Sleep patterns and duration
+- Sedentary activity
+- Weight and BMI insights
+The dashboard is designed for studying Fitbit data trends, participants who want to explore their activity statistics, and people in general who want to understand what insights can be derived from Fitbit data.
+## Dependencies
+This project relies on several libraries for data processing and visualization, which are listed in the `requirements.txt` file.
+## 📁 Project Structure
+The main files and directories in this repository are:
+Project-Fitbit/ ├── .devcontainer/ # Development container setup ├── data/ # all data for the project ├── general/ # Chart and Analysis in "General Page" ├── sleep_vs_activity/ # Sleep and activity comparison in subpage "Regression Analysis" in "General" ├── user_spec/ # User-specific plots for page User-Specific Analysis ├── dashboard.py # Main Fitbit dashboard  ├── image.png # Dashboard preview image (if applicable) ├── legacy/ # All working tasks from part 1->4 ├── requirements.txt # Python dependencies └── README.md # Project overview
 
 ## Part 1
 
