@@ -61,8 +61,8 @@ from general.plot_linear_regression_weather import plot_steps_vs_temperature_reg
 from general.bmi_vs_total_active_minutes import plot_bmi_relationship
 from user_spec.heart_rate_and_intensity import plot_health_metrics
 
-st.set_page_config(layout="wide",
-                   page_icon=" 🧠 ")
+st.set_page_config(layout="wide")
+
 from general.sleep_vs_activity import analyze_sleep_activity
 
 
@@ -171,7 +171,7 @@ st.markdown(
 #     """
 
 st.sidebar.markdown(
-    "<h2 style='text-align: center; color: #4A4A4A;'>🧠 Fitbit Data Analytics</h2>",
+    "<h2 style='text-align: center; color: #4A4A4A;'>Fitbit Data Analytics</h2>",
     unsafe_allow_html=True
 )
 
@@ -216,7 +216,7 @@ weight_log_df = add_height_column(replace_missing_values_weight_log(db_path))
 # Page 1: General Information
 # ---------------------------
 if st.session_state.page == "General":
-    st.title("🧠 Fitbit Data Analytics")
+    st.title("Fitbit Data Analytics")
 
     # Sub-page navigation buttons
     col1, col2, col3, col4, col5 = st.columns(5)
