@@ -12,7 +12,11 @@ def plot_activity_distribution(user_data):
     active_minutes = [round(value, 1) for value in active_minutes]
 
     labels = ["Lightly Active", "Fairly Active", "Very Active"]
-    colors = ['lightblue', "steelblue",  "slategray"]
+    colors = [
+        'rgba(100, 149, 237, 0.7)',  # cornflowerblue with 60% opacity
+        'rgba(65, 105, 225, 0.9)',    # royalblue with 80% opacity
+        'rgba(0, 0, 139, 0.7)'     # steelblue with 100% opacity
+    ]
 
     if sum(active_minutes) == 0:
         st.warning("No activity data found.")

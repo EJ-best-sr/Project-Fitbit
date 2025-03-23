@@ -41,7 +41,7 @@ def perform_regression_analysis(df_merged):
             y=df_merged_filtered['TotalSleepDuration'],
             mode='markers',
             name='Data Points',
-            marker=dict(color='rgba(69, 86, 128, 0.8)', line=dict(color='rgba(69, 86, 128, 0.8)', width=1)),
+            marker=dict(color='steelblue', line=dict(color='steelblue', width=1)),
 
         )
     )
@@ -68,9 +68,9 @@ def perform_regression_analysis(df_merged):
         margin=dict(l=0, r=0, t=50, b=0),
         autosize=False, 
         legend=dict(
-            x=0.02,  
+            x=0.98,  
             y=0.98, 
-            xanchor='left',
+            xanchor='right',
             yanchor='top', 
             bgcolor='rgba(255, 255, 255, 0.5)',
             bordercolor='rgba(0, 0, 0, 0.5)',
@@ -84,7 +84,7 @@ def perform_regression_analysis(df_merged):
         nbins=30,
         labels={'x': 'Residuals', 'y': 'Density'},
         title='Histogram of Residuals (Density-Scaled)',
-        color_discrete_sequence=['rgba(69, 86, 128, 0.8)'], 
+        color_discrete_sequence=['rgba(70, 130, 180, 0.8)'], 
         histnorm='density',
         marginal='rug', 
     )
@@ -120,7 +120,7 @@ def perform_regression_analysis(df_merged):
             x=theoretical_quantiles,
             y=sample_quantiles,
             mode='markers',
-            marker=dict(color='rgba(69, 86, 128, 0.8)', line=dict(color='rgba(69, 86, 128, 0.8)', width=1)),
+            marker=dict(color='steelblue', line=dict(color='steelblue', width=1)),
             name='Q-Q Points'
         )
     )
